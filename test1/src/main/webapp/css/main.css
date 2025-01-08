@@ -11,6 +11,7 @@
     font-style: normal;
 }
 
+
 /* 기본 헤더 스타일 */
 .header {
     width: 100%;
@@ -22,7 +23,7 @@
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     z-index: 1000;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     padding: 0 20px;
     box-sizing: border-box;
@@ -30,29 +31,27 @@
 
 /* 내부 레이아웃 정렬 */
 .Frame1 {
+    width: 100%;
+    max-width: 1200px;
     display: flex;
     align-items: center;
-    gap: 20px;
+    justify-content: space-between;
 }
 
+/* 카테고리 섹션 */
 .categories {
     display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    gap: 80px;
-    margin-left: 200px;
-    white-space: nowrap;
-    flex-wrap: nowrap;
+    gap: 40px;
 }
 
 .category {
     color: black;
-    font-size: 23px;
+    font-size: 18px;
     font-weight: 600;
     font-family: '프리텐다드고딕';
     text-transform: uppercase;
     letter-spacing: 1px;
-    padding: 20px 0px;
+    padding: 20px 0;
     cursor: pointer;
     transition: color 0.3s;
 }
@@ -61,22 +60,40 @@
     color: #6d211f;
 }
 
+.logo {
+    font-family: '함박눈';
+    font-size: 22px;
+    color: #730000;
+}
+.Buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+/* 회원가입 버튼 */
 .BtnSignUp {
-    width: auto;
-    height: 30px;
-    padding: 8px 20px;
+    padding: 8px 8px;
     background: rgba(217, 217, 217, 0);
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
     transition: background-color 0.3s;
-    margin-left: 900px;
 }
 
+.SignUp {
+    text-align: center;
+    color: black;
+    font-size: 18px;
+    font-weight: 700;
+    font-family: '프리텐다드고딕';
+    text-transform: uppercase;
+    line-height: 1;
+    letter-spacing: 0.6px;
+}
+
+/* 로그인 버튼 */
 .BtnLogin {
-    width: auto;
-    height: 30px;
     padding: 8px 20px;
     background: rgba(217, 217, 217, 0);
     border-radius: 50px;
@@ -86,84 +103,125 @@
     align-items: center;
     cursor: pointer;
     transition: background-color 0.3s;
-    margin-right: 20px;
-    white-space: nowrap;
 }
 
 .BtnLogin:hover {
     background-color: #f0f0f0;
 }
 
-.icon_my {
-    width: 26.25px;
-    height: 26.25px;
-    cursor: pointer;
+.Login {
+    text-align: center;
+    color: black;
+    font-size: 16px;
+    font-weight: 700;
+    font-family: '프리텐다드고딕';
+    text-transform: uppercase;
+    line-height: 1;
+    letter-spacing: 0.66px;
 }
 
-.icon_my:hover {
-    background-color: #f0f0f0;
+/* 마이 아이콘 */
+.icon_my {
+    width: 26px;
+    height: 26px;
+    margin-top: 3px;
 }
+
+/* 반응형 미디어 쿼리 */
+@media (max-width: 768px) {
+    .categories {
+        gap: 8px;
+    }
+
+    .category {
+        font-size: 8px;
+        white-space: nowrap; /* 텍스트가 줄바꿈되지 않도록 설정 */
+        flex-wrap: nowrap; /* 가로 정렬 고정 */
+    }
+
+    .logo {
+        font-size: 8px;
+        text-align: center;
+    }
+
+    .Buttons {
+        gap: 5px;
+    }
+    .BtnSignUp, .BtnLogin {
+        padding: 6px 8px;
+    }
+
+    .SignUp, .Login {
+        font-size: 8px;
+        white-space: nowrap; /* 텍스트가 줄바꿈되지 않도록 설정 */
+        flex-wrap: nowrap; /* 가로 정렬 고정 */
+    }
+
+    .icon_my {
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+    }
+
+}
+
+
+
+
+
 /* 슬라이드 영역 */
 .slide {
     margin: 80px 0;
     position: relative;
-    overflow: hidden;
+    overflow: hidden; /* 양 끝 이미지 숨김 */
     display: flex;
     justify-content: center;
     align-items: center;
     background: #ffffff;
-    width: 100%;
+    width: 100%; /* 부모 크기에 맞추기 */
     max-width: 1400px;
     height: 600px;
 }
 
 .slide-track {
     display: flex;
-    transition: transform 0.4s ease-in-out;
+    transition: transform 0.4s ease-in-out; /* 부드럽게 이동 */
 }
 
 .slide-track img {
-    flex: 0 0 240px;
+    flex: 0 0 240px; /* 이미지 크기 고정 */
     width: 380px;
     height: 460px;
     object-fit: cover;
-    transition: transform 0.3s ease-in-out;
+    transition: transform 0.3s ease-in-out; /* 이미지 확대 효과 */
 }
 
-/* 콘텐츠 리스트 */
-.content-list__items {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr); /* 5개의 열 */
-    gap: 20px; /* 항목 간 간격 */
-    padding: 20px; /* 리스트 여백 */
-    justify-content: center;
+/* 중앙 이미지 확대 */
+.slide-track img:nth-child(3) {
+    transform: scale(1.2);
 }
 
-.content-item {
-    background: #f8f8f8;
-    border: 1px solid #ddd;
-    width: 250px; /* 고정 크기 */
-    height: 300px; /* 고정 크기 */
-    padding: 10px;
-    text-align: center;
-    font-size: 18px;
-    font-family: '프리텐다드고딕';
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    cursor: pointer;
-    transition: transform 0.3s, box-shadow 0.3s;
+/* 양쪽 이미지는 반만 보이도록 */
+.slide-track img:nth-child(2),
+.slide-track img:nth-child(4) {
+    opacity: 0.5;
 }
 
-.content-item:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+/* 양쪽 끝 이미지는 숨김 */
+.slide-track img:nth-child(1),
+.slide-track img:nth-child(5) {
+    opacity: 0;
+    pointer-events: none;
 }
 
-/* 검색 프레임 */
+
+
+/* 전체목록 및 검색 영역 */
 .search_frame {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 30px 80px;
+    display: flex; /* Flexbox 활성화 */
+    align-items: center; /* 세로 중앙 정렬 */
+    gap: 10px; /* 요소 간 간격 */
+    padding: 30px 80px; /* 여백 조정 */
 }
 
 .whole_list {
@@ -171,7 +229,7 @@
     font-weight: bold;
     font-family: '프리텐다드고딕';
     cursor: pointer;
-    flex: 1;
+    flex: 1; /* 남은 공간 차지 */
 }
 
 .search {
@@ -179,5 +237,44 @@
     font-size: 14px;
     border: 1px solid #ddd;
     border-radius: 4px;
-    flex: 0.3;
+    display: flex; /* 검색창 크기 조정 */
 }
+
+
+/* 콘텐츠 리스트 */
+.content-list__items1 {
+    display: flex;
+    flex-direction: column; /* 세로 정렬 */
+    align-items: center; /* 가로 중앙 정렬 */
+    gap: 50px; /* 리스트 간 간격 */
+    padding: 10px; /* 리스트 여백 */
+}
+
+.contentList01,
+.contentList02 {
+    display: flex; /* Flexbox 활성화 */
+    justify-content: center; /* 가로 중앙 정렬 */
+    gap: 60px; /* 콘텐츠 간 간격 */
+    width: 100%; /* 부모 크기 채우기 */
+    max-width: 1200px; /* 최대 크기 제한 */
+}
+
+.content-item {
+    background: #f8f8f8; /* 배경색 */
+    border: 1px solid #ddd; /* 테두리 */
+    width: 190px; /* 콘텐츠 고정 가로 크기 */
+    height: 240px; /* 콘텐츠 고정 세로 크기 */
+    padding: 10px; /* 내부 여백 */
+    text-align: center; /* 중앙 정렬 */
+    font-size: 18px; /* 글자 크기 */
+    font-family: '프리텐다드고딕';
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s; /* Hover 효과 */
+}
+
+.content-item:hover {
+    transform: translateY(-5px); /* Hover 시 위로 살짝 이동 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Hover 시 그림자 증가 */
+}
+
