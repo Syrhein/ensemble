@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.sql.Timestamp;
-import java.sql.Clob;
 
 @Setter
 @Getter
@@ -21,5 +20,5 @@ public class Member {
     private String userEmail;   // USER_EMAIL
     private String userTel;     // USER_TEL
     private Timestamp joinedAt; // JOINED_AT
-    private Clob userImg;       // USER_IMG
+    private String userImg;       // USER_IMG
 }
