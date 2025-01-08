@@ -97,8 +97,12 @@
 .icon_my {
     width: 26.25px;
     height: 26.25px;
+    cursor: pointer;
 }
 
+.icon_my:hover {
+    background-color: #f0f0f0;
+}
 /* 슬라이드 영역 */
 .slide {
     margin: 80px 0;
