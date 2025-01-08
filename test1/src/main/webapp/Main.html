@@ -120,7 +120,11 @@
         document.querySelector('.categories .category:nth-child(3)').addEventListener('click', () => {
             window.location.href = 'Board.jsp';
         });
-
+		// 마이페이지 버튼 이벤트
+		document.querySelector('.icon_my').addEventListener('click', () => {
+            window.location.href = 'MyPage.html';
+        });
+		
         // 슬라이드 동작
         const slideTrack = document.querySelector('.slide-track');
         const slides = slideTrack.children;
