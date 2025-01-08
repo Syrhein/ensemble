@@ -6,7 +6,7 @@ import java.sql.Clob;
 public class BoardVO {
     private int postIdx;         // POST_IDX
     private String postTitle;    // POST_TITLE
-    private String postContent;    // POST_CONTENT (CLOB)
+    private Clob postContent;    // POST_CONTENT (CLOB)
     private Timestamp createdAt; // CREATED_AT (TIMESTAMP)
     private int postViews;       // POST_VIEWS
     private int postLikes;       // POST_LIKES
