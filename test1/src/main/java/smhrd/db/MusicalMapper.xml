@@ -31,7 +31,7 @@
         POST_IDX, POST_TITLE, POST_CONTENT, CREATED_AT,
         POST_VIEWS, POST_LIKES, USER_ID, POST_FILE_NAME, POST_FILE_PATH
     ) VALUES (
-        TB_POST_SEQ.NEXTVAL, #{postTitle}, #{postContent}, SYSTIMESTAMP,
+        SEQ_TB_POST.NEXTVAL, #{postTitle}, #{postContent}, SYSTIMESTAMP,
         #{postViews}, #{postLikes}, #{userId}, #{postFileName}, #{postFilePath}
     )
 </insert>
