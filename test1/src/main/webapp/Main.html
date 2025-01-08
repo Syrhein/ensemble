@@ -77,58 +77,7 @@
 </main>
 
     <script>
-        let currentPage = 1;
-        const itemsPerPage = 25;
-
-        // 콘텐츠 로드 함수
-        async function loadContent(page) {
-            try {
-                // 서버에서 뮤지컬 데이터 가져오기
-                const response = await fetch('http://localhost:8082/test1/MainCon');
-                if (!response.ok) {
-                    throw new Error(`HTTP 오류! 상태 코드: ${response.status}`);
-                }
-                const data = await response.json();
-
-                // 현재 페이지의 항목 계산
-                const startIndex = (page - 1) * itemsPerPage;
-                const endIndex = startIndex + itemsPerPage;
-                const currentItems = data.slice(startIndex, endIndex);
-
-                // 콘텐츠 리스트에 추가
-                const contentList = document.getElementById('content-list');
-                currentItems.forEach(musical => {
-                    const item = document.createElement('div');
-                    item.className = 'content-item';
-                    item.style.textAlign = 'center';
-
-                    // 동적으로 항목 생성
-                    item.innerHTML = `
-                        <a href="detail.html?musicalIdx=${musical.musicalIdx}">
-                            <img src="${musical.musicalPoster}" alt="${musical.musicalTitle}" class="musical-poster" style="width: 250px; height: 250px;">
-                            <div>${musical.musicalTitle}</div>
-                        </a>
-                    `;
-                    contentList.appendChild(item);
-                });
-
-                // 데이터가 더 이상 없으면 "더 보기" 버튼 숨기기
-                if (endIndex >= data.length) {
-                    document.getElementById('load-more').style.display = 'none';
-                }
-            } catch (error) {
-                console.error('콘텐츠 로드 중 오류 발생:', error);
-            }
-        }
-
-        // 페이지 로드 시 데이터 가져오기
-        loadContent(currentPage);
-
-        // "더 보기" 버튼 클릭 이벤트
-        document.getElementById('load-more').addEventListener('click', () => {
-            currentPage++;
-            loadContent(currentPage);
-        });
+       
 
         // 버튼 이벤트: 로그인 페이지로 이동
         document.querySelector('.BtnLogin').addEventListener('click', () => {
