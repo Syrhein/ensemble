@@ -1,17 +1,28 @@
 package smhrd.model;
 
 public class MusicalVO {
-    private String  musicalId;
-    private String musicalTitle;
-    private String musicalPoster;
+    private String musicalId;       // MUSICAL_ID
+    private String musicalTitle;    // MUSICAL_TITLE
+    private String musicalPoster;   // MUSICAL_POSTER
 
-    // Getter 및 Setter
-    public String getMusicalIdx() {
+    // 기본 생성자
+    public MusicalVO() {
+    }
+
+    // 모든 필드를 포함한 생성자
+    public MusicalVO(String musicalId, String musicalTitle, String musicalPoster) {
+        this.musicalId = musicalId;
+        this.musicalTitle = musicalTitle;
+        this.musicalPoster = musicalPoster;
+    }
+
+    // Getter and Setter
+    public String getMusicalId() {
         return musicalId;
     }
 
-    public void setMusicalIdx(String musicalIdx) {
-        this.musicalId = musicalIdx;
+    public void setMusicalId(String musicalId) {
+        this.musicalId = musicalId;
     }
 
     public String getMusicalTitle() {
@@ -32,10 +43,6 @@ public class MusicalVO {
 
     @Override
     public String toString() {
-        return "MusicalVO{" +
-                "musicalIdx=" + musicalId +
-                ", musicalTitle='" + musicalTitle + '\'' +
-                ", musicalPoster='" + musicalPoster + '\'' +
-                '}';
+        return "MusicalVO [musicalId=" + musicalId + ", musicalTitle=" + musicalTitle + ", musicalPoster=" + musicalPoster + "]";
     }
 }

@@ -89,13 +89,13 @@
 
 
 
-<!-- 뮤지컬 목록 가져오기 -->
-<select id="getMusicalList" resultType="smhrd.model.MusicalVO">
-	SELECT musical_id AS musicalId,
-	musical_title AS musicalTitle,
-	musical_poster AS musicalPoster
-	FROM TB_MUSICAL
-</select>
+	<!-- 뮤지컬 목록 가져오기 -->
+	<select id="getMusicalList" resultType="smhrd.model.MusicalVO">
+		SELECT musical_id AS musicalId,
+		musical_title AS musicalTitle,
+		musical_poster AS musicalPoster
+		FROM TB_MUSICAL
+	</select>
 
 
 
