@@ -94,7 +94,7 @@
 	SELECT musical_id AS musicalId,
 	musical_title AS musicalTitle,
 	musical_poster AS musicalPoster
-	FROM musicals
+	FROM TB_MUSICAL
 </select>
 
 
