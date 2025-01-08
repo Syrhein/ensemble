@@ -9,16 +9,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>게시판</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="./css/styles.css">
 </head>
 <body>
     <header>
         <div class="logo">Curtain Call Guide</div>
         <nav>
             <ul>
-                <li><a href="Main.jsp">홈</a></li>
-                <li><a href="#">뮤지컬</a></li>
-                <li><a href="#">카테고리</a></li>
+                <li><a href="Main.html">홈</a></li>
+                <li><a href="#">국내창작</a></li>
+                <li><a href="#">라이센스</a></li>
                 <li><a href="Board.jsp">게시판</a></li>
             </ul>
         </nav>

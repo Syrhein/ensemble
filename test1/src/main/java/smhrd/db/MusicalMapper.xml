@@ -2,82 +2,113 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="MusicalMapper">
 
-    <!-- 회원가입 -->
-    <insert id="join" parameterType="smhrd.model.Member">
-        INSERT INTO TB_USER (USER_ID, USER_PW, USER_NAME, USER_EMAIL, USER_TEL, JOINED_AT)
-        VALUES (#{userId}, #{userPw}, #{userName}, #{userEmail}, #{userTel}, SYSTIMESTAMP)
-    </insert>
+	<!-- 회원가입 -->
+	<insert id="join" parameterType="smhrd.model.Member">
+		INSERT INTO TB_USER (USER_ID, USER_PW, USER_NAME, USER_EMAIL, USER_TEL,
+		JOINED_AT)
+		VALUES (#{userId}, #{userPw}, #{userName}, #{userEmail}, #{userTel},
+		SYSTIMESTAMP)
+	</insert>
 
-    <!-- 로그인 -->
-    <select id="login" parameterType="smhrd.model.Member" resultType="smhrd.model.Member">
-        SELECT USER_ID AS userId,
-               USER_PW AS userPw,
-               USER_NAME AS userName,
-               USER_EMAIL AS userEmail,
-               USER_TEL AS userTel,
-               JOINED_AT AS joinedAt,
-               USER_IMG AS userImg
-        FROM TB_USER
-        WHERE USER_ID = #{userId} AND USER_PW = #{userPw}
-    </select>
+	<!-- 로그인 -->
+	<select id="login" parameterType="smhrd.model.Member"
+		resultType="smhrd.model.Member">
+		SELECT USER_ID AS userId,
+		USER_PW AS userPw,
+		USER_NAME AS userName,
+		USER_EMAIL AS userEmail,
+		USER_TEL AS userTel,
+		JOINED_AT AS joinedAt,
+		USER_IMG AS userImg
+		FROM TB_USER
+		WHERE USER_ID = #{userId} AND USER_PW = #{userPw}
+	</select>
 
-    <!-- 게시글 작성 -->
-    <insert id="insertBoard" parameterType="smhrd.model.BoardVO">
-        INSERT INTO Board (id, title, content, writer, created_at, views, file_name, file_path)
-        VALUES (
-            BOARD_SEQ.NEXTVAL,
-            #{title},
-            #{content},
-            #{writer},
-            SYSTIMESTAMP,
-            0,
-            NVL(#{fileName}, ''),
-            NVL(#{filePath}, '')
-        )
-    </insert>
 
-    <!-- 게시글 상세보기 -->
-    <select id="getBoardDetail" parameterType="int" resultType="smhrd.model.BoardVO">
-        SELECT id, title, content, writer, created_at AS createdAt, views,
-               file_name AS fileName, file_path AS filePath
-        FROM Board
-        WHERE id = #{id}
-    </select>
+	<!-- 게시글 등록 -->
+	<insert id="insertBoard" parameterType="smhrd.model.BoardVO">
+		INSERT INTO TB_POST (
+		POST_IDX,
+		POST_TITLE,
+		POST_CONTENT,
+		CREATED_AT,
+		POST_VIEWS,
+		POST_LIKES,
+		USER_ID,
+		POST_FILE_NAME,
+		POST_FILE_PATH
+		) VALUES (
+		TB_POST_SEQ.NEXTVAL,
+		#{postTitle},
+		#{postContent},
+		SYSTIMESTAMP,
+		#{postViews},
+		#{postLikes},
+		#{userId},
+		#{postFileName},
+		#{postFilePath}
+		)
+	</insert>
 
-    <!-- 조회수 증가 -->
-    <update id="incrementViewCount" parameterType="int">
-        UPDATE Board
-        SET views = views + 1
-        WHERE id = #{id}
-    </update>
+	<!-- 게시글 목록 가져오기 -->
+	<select id="getBoardList" resultType="smhrd.model.BoardVO">
+    SELECT POST_IDX AS postIdx,
+           POST_TITLE AS postTitle,
+           POST_CONTENT AS postContent,
+           CREATED_AT AS createdAt,
+           POST_VIEWS AS postViews,
+           POST_LIKES AS postLikes,
+           USER_ID AS userId,
+           POST_FILE_NAME AS postFileName,
+           POST_FILE_PATH AS postFilePath
+    FROM TB_POST
+</select>
 
-    <!-- 게시글 목록 가져오기 -->
-    <select id="getBoardList" resultType="smhrd.model.BoardVO">
-        SELECT id, title, writer, created_at AS createdAt, views
-        FROM Board
-        ORDER BY created_at DESC
-    </select>
+	<!-- 게시글 상세보기 -->
+	<select id="getBoardDetail" parameterType="int" resultType="smhrd.model.BoardVO">
+    SELECT POST_IDX AS postIdx,
+           POST_TITLE AS postTitle,
+           POST_CONTENT AS postContent,
+           CREATED_AT AS createdAt,
+           POST_VIEWS AS postViews,
+           POST_LIKES AS postLikes,
+           USER_ID AS userId,
+           POST_FILE_NAME AS postFileName,
+           POST_FILE_PATH AS postFilePath
+    FROM TB_POST
+    WHERE POST_IDX = #{postIdx}
+</select>
 
-    <!-- 뮤지컬 목록 가져오기 -->
-    <select id="getMusicalList" resultType="smhrd.model.MusicalVO">
-        SELECT musical_idx AS musicalIdx,
-               musical_title AS musicalTitle,
-               musical_poster AS musicalPoster
-        FROM musicals
-    </select>
+	<!-- 조회수 증가 -->
+	<update id="incrementViewCount" parameterType="int">
+		UPDATE TB_POST
+		SET POST_VIEWS = POST_VIEWS + 1
+		WHERE POST_IDX = #{postIdx}
+	</update>
 
-    <!-- 공연 상세정보 가져오기 -->
-    <select id="getPerformanceDetails" resultType="smhrd.model.PerformanceVO">
-        SELECT id, 
-               musical_idx AS musicalIdx, 
-               hall_name AS hallName, 
-               show_dt AS showDt, 
-               prfruntime AS prfRuntime, 
-               pcseguidance AS pcseGuidance, 
-               prfcast AS prfCast, 
-               styurls AS styUrls
-        FROM performances
-        WHERE musical_idx = #{musicalIdx}
-    </select>
+
+
+<!-- 뮤지컬 목록 가져오기 -->
+<select id="getMusicalList" resultType="smhrd.model.MusicalVO">
+	SELECT musical_idx AS musicalIdx,
+	musical_title AS musicalTitle,
+	musical_poster AS musicalPoster
+	FROM musicals
+</select>
+
+<!-- 공연 상세정보 가져오기 -->
+<select id="getPerformanceDetails"
+	resultType="smhrd.model.PerformanceVO">
+	SELECT id,
+	musical_idx AS musicalIdx,
+	hall_name AS hallName,
+	show_dt AS showDt,
+	prfruntime AS prfRuntime,
+	pcseguidance AS pcseGuidance,
+	prfcast AS prfCast,
+	styurls AS styUrls
+	FROM performances
+	WHERE musical_idx = #{musicalIdx}
+</select>
 
 </mapper>

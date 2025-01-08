@@ -1,48 +1,42 @@
 package smhrd.model;
 
 import java.sql.Timestamp;
+import java.sql.Clob;
 
 public class BoardVO {
-    private int id;
-    private String title;
-    private String content;
-    private String writer;
-    private Timestamp createdAt; // TIMESTAMP 타입
-    private int views;
-    private String fileName; // 업로드된 파일 이름
-    private String filePath; // 업로드된 파일 경로
+    private int postIdx;         // POST_IDX
+    private String postTitle;    // POST_TITLE
+    private Clob postContent;    // POST_CONTENT (CLOB)
+    private Timestamp createdAt; // CREATED_AT (TIMESTAMP)
+    private int postViews;       // POST_VIEWS
+    private int postLikes;       // POST_LIKES
+    private String userId;       // USER_ID
+    private String postFileName; // POST_FILE_NAME
+    private String postFilePath; // POST_FILE_PATH
 
     // Getter 및 Setter
-    public int getId() {
-        return id;
+    public int getPostIdx() {
+        return postIdx;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setPostIdx(int postIdx) {
+        this.postIdx = postIdx;
     }
 
-    public String getTitle() {
-        return title;
+    public String getPostTitle() {
+        return postTitle;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setPostTitle(String postTitle) {
+        this.postTitle = postTitle;
     }
 
-    public String getContent() {
-        return content;
+    public Clob getPostContent() {
+        return postContent;
     }
 
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public String getWriter() {
-        return writer;
-    }
-
-    public void setWriter(String writer) {
-        this.writer = writer;
+    public void setPostContent(Clob postContent) {
+        this.postContent = postContent;
     }
 
     public Timestamp getCreatedAt() {
@@ -53,27 +47,43 @@ public class BoardVO {
         this.createdAt = createdAt;
     }
 
-    public int getViews() {
-        return views;
+    public int getPostViews() {
+        return postViews;
     }
 
-    public void setViews(int views) {
-        this.views = views;
+    public void setPostViews(int postViews) {
+        this.postViews = postViews;
     }
 
-    public String getFileName() {
-        return fileName;
+    public int getPostLikes() {
+        return postLikes;
     }
 
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
+    public void setPostLikes(int postLikes) {
+        this.postLikes = postLikes;
     }
 
-    public String getFilePath() {
-        return filePath;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setFilePath(String filePath) {
-        this.filePath = filePath;
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getPostFileName() {
+        return postFileName;
+    }
+
+    public void setPostFileName(String postFileName) {
+        this.postFileName = postFileName;
+    }
+
+    public String getPostFilePath() {
+        return postFilePath;
+    }
+
+    public void setPostFilePath(String postFilePath) {
+        this.postFilePath = postFilePath;
     }
 }
