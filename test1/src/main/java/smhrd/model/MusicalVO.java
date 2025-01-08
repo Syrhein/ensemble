@@ -1,17 +1,17 @@
 package smhrd.model;
 
 public class MusicalVO {
-    private String  musicalIdx;
+    private String  musicalId;
     private String musicalTitle;
     private String musicalPoster;
 
     // Getter 및 Setter
     public String getMusicalIdx() {
-        return musicalIdx;
+        return musicalId;
     }
 
     public void setMusicalIdx(String musicalIdx) {
-        this.musicalIdx = musicalIdx;
+        this.musicalId = musicalIdx;
     }
 
     public String getMusicalTitle() {
@@ -33,7 +33,7 @@ public class MusicalVO {
     @Override
     public String toString() {
         return "MusicalVO{" +
-                "musicalIdx=" + musicalIdx +
+                "musicalIdx=" + musicalId +
                 ", musicalTitle='" + musicalTitle + '\'' +
                 ", musicalPoster='" + musicalPoster + '\'' +
                 '}';
