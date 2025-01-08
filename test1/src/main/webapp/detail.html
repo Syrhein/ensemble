@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>뮤지컬 상세 정보</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* 팝업 스타일 */
+        .popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            display: none;
+            z-index: 1000;
+            max-width: 90%;
+            max-height: 90%;
+            overflow-y: auto; /* 세로 스크롤 활성화 */
+        }
+        .popup img {
+            width: 100%; /* 가로 크기 맞춤 */
+            height: auto; /* 세로 비율 유지 */
+            margin-bottom: 10px; /* 이미지 간 간격 */
+        }
+        .popup-close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+            font-size: 20px;
+            font-weight: bold;
+            color: red;
+        }
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            z-index: 999;
+        }
+        .button-view {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #6d211f;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            text-align: center;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .button-view:hover {
+            background-color: #8b2a25;
+        }
+    </style>
+</head>
+<body>
+    <div class="detail-container">
+        <div class="performance-info" id="performance-info">
+            <!-- 동적 데이터 삽입 -->
+        </div>
+    </div>
+
+    <!-- 팝업 및 오버레이 -->
+    <div class="overlay" id="overlay"></div>
+    <div class="popup" id="popup">
+        <span class="popup-close" id="popup-close">&times;</span>
+        <div id="popup-content">
+            <!-- 동적 이미지 삽입 -->
+        </div>
+    </div>
+
+    <script>
+        async function loadDetails() {
+            const params = new URLSearchParams(window.location.search);
+            const musicalIdx = params.get('musicalIdx');
+
+            try {
+                const response = await fetch(`http://localhost:8082/test1/PerformanceCon?musicalIdx=${musicalIdx}`);
+                if (!response.ok) {
+                    throw new Error(`HTTP 오류! 상태 코드: ${response.status}`);
+                }
+
+                const data = await response.json();
+
+                const container = document.getElementById('performance-info');
+                container.innerHTML = `
+                    <h1>${data.hallName}</h1>
+                    <p><strong>공연 날짜:</strong> ${data.showDt}</p>
+                    <p><strong>공연 시간:</strong> ${data.prfRuntime}</p>
+                    <p><strong>가격 안내:</strong> ${data.pcseGuidance}</p>
+                    <p><strong>출연진:</strong> ${data.prfCast || "없음"}</p>
+                    <div>
+                        <strong>소개이미지:</strong>
+                        <button class="button-view" onclick="showPopup('${data.styUrls}')">소개이미지 보기</button>
+                    </div>
+                `;
+            } catch (error) {
+                console.error('상세 정보 로드 중 오류 발생:', error);
+            }
+        }
+
+        // 팝업 열기
+        function showPopup(urls) {
+            const popup = document.getElementById('popup');
+            const overlay = document.getElementById('overlay');
+            const popupContent = document.getElementById('popup-content');
+
+            const images = urls.split(',').map(url => `<img src="${url}" alt="상세 이미지">`).join('');
+            popupContent.innerHTML = images;
+
+            popup.style.display = 'block';
+            overlay.style.display = 'block';
+        }
+
+        // 팝업 닫기
+        function closePopup() {
+            const popup = document.getElementById('popup');
+            const overlay = document.getElementById('overlay');
+
+            popup.style.display = 'none';
+            overlay.style.display = 'none';
+        }
+
+        // 팝업 닫기 이벤트 연결
+        document.getElementById('popup-close').addEventListener('click', closePopup);
+        document.getElementById('overlay').addEventListener('click', closePopup);
+
+        loadDetails();
+    </script>
+</body>
+</html>

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.smhrd.db.BookAndBoardMapper">
+
+	<!-- 회원가입 -->
+	<insert id="join" parameterType="smhrd.model.Member">
+		INSERT INTO BOOKMEMBER (id, pw, nick, email, tell)
+		VALUES (#{id}, #{pw}, #{nick}, #{email}, #{tell})
+	</insert>
+
+	<!-- 로그인 -->
+	<select id="login" parameterType="smhrd.model.Member"
+		resultType="smhrd.model.Member">
+		SELECT * FROM BOOKMEMBER WHERE id = #{id} AND pw = #{pw}
+	</select>
+
+	<!-- 게시글 작성 -->
+	<insert id="insertBoard" parameterType="smhrd.model.BoardVO">
+		INSERT INTO Board (id, title, content, writer, created_at, views, file_name,
+		file_path)
+		VALUES (
+		BOARD_SEQ.NEXTVAL,
+		#{title},
+		#{content},
+		#{writer},
+		SYSTIMESTAMP,
+		0,
+		NVL(#{fileName}, ''),
+		NVL(#{filePath}, '')
+		)
+	</insert>
+
+	<!-- 게시글 상세보기 -->
+	<select id="getBoardDetail" parameterType="int"
+		resultType="smhrd.model.BoardVO">
+		SELECT id, title, content, writer, created_at AS createdAt, views,
+		file_name AS fileName,
+		file_path AS filePath
+		FROM Board
+		WHERE id = #{id}
+	</select>
+
+	<!-- 조회수 증가 -->
+	<update id="incrementViewCount" parameterType="int">
+		UPDATE Board
+		SET views = views + 1
+		WHERE id = #{id}
+	</update>
+
+	<!-- 게시글 목록 가져오기 -->
+	<select id="getBoardList" resultType="smhrd.model.BoardVO">
+		SELECT id, title, writer, created_at AS createdAt, views
+		FROM Board
+		ORDER BY created_at DESC
+	</select>
+
+	<!-- 뮤지컬 목록 가져오기 -->
+	<select id="getMusicalList" resultType="smhrd.model.MusicalVO">
+		SELECT musical_idx AS musicalIdx,
+		musical_title AS musicalTitle,
+		musical_poster AS musicalPoster
+		FROM musicals
+	</select>
+
+<!--  상세정보  -->	
+	<select id="getPerformanceDetails" resultType="smhrd.model.PerformanceVO">
+    SELECT id, 
+           musical_idx AS musicalIdx, 
+           hall_name AS hallName, 
+           show_dt AS showDt, 
+           prfruntime AS prfRuntime, 
+           pcseguidance AS pcseGuidance, 
+           prfcast AS prfCast, 
+           styurls AS styUrls
+    FROM performances
+    WHERE musical_idx = #{musicalIdx}
+</select>
+
+
+</mapper>
