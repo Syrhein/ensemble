@@ -1,12 +1,11 @@
 package smhrd.model;
 
 import java.sql.Timestamp;
-import java.sql.Clob;
 
 public class BoardVO {
     private int postIdx;         // POST_IDX
     private String postTitle;    // POST_TITLE
-    private Clob postContent;    // POST_CONTENT (CLOB)
+    private String postContent;    // POST_CONTENT (CLOB)
     private Timestamp createdAt; // CREATED_AT (TIMESTAMP)
     private int postViews;       // POST_VIEWS
     private int postLikes;       // POST_LIKES
@@ -31,11 +30,11 @@ public class BoardVO {
         this.postTitle = postTitle;
     }
 
-    public Clob getPostContent() {
+    public String getPostContent() {
         return postContent;
     }
 
-    public void setPostContent(Clob postContent) {
+    public void setPostContent(String postContent) {
         this.postContent = postContent;
     }
 

@@ -90,16 +90,10 @@
 
 
 <!-- 뮤지컬 목록 가져오기 -->
-<resultMap id="musicalResultMap" type="smhrd.model.MusicalVO">
-    <result property="musicalIdx" column="musical_id" />
-    <result property="musicalTitle" column="musical_title" />
-    <result property="musicalPoster" column="musical_poster" />
-</resultMap>
-
-<select id="getMusicalList" resultMap="musicalResultMap">
-	SELECT musical_id,
-	       musical_title,
-	       musical_poster
+<select id="getMusicalList" resultType="smhrd.model.MusicalVO">
+	SELECT musical_id AS musicalId,
+	musical_title AS musicalTitle,
+	musical_poster AS musicalPoster
 	FROM musicals
 </select>
 
