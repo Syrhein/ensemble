@@ -15,11 +15,11 @@
         <form action="BoardWriteCon" method="post" enctype="multipart/form-data">
             <div>
                 <label for="title">제목</label>
-                <input type="text" id="title" name="title" required>
+                <input type="text" id="title" name="postTitle" required>
             </div>
             <div>
                 <label for="content">내용</label>
-                <textarea id="content" name="content" rows="10" required></textarea>
+                <textarea id="content" name="postContent" rows="10" required></textarea>
             </div>
             <div>
                 <label for="file">파일 첨부</label>

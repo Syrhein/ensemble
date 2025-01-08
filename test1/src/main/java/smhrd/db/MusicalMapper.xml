@@ -27,28 +27,15 @@
 
 	<!-- 게시글 등록 -->
 	<insert id="insertBoard" parameterType="smhrd.model.BoardVO">
-		INSERT INTO TB_POST (
-		POST_IDX,
-		POST_TITLE,
-		POST_CONTENT,
-		CREATED_AT,
-		POST_VIEWS,
-		POST_LIKES,
-		USER_ID,
-		POST_FILE_NAME,
-		POST_FILE_PATH
-		) VALUES (
-		TB_POST_SEQ.NEXTVAL,
-		#{postTitle},
-		#{postContent},
-		SYSTIMESTAMP,
-		#{postViews},
-		#{postLikes},
-		#{userId},
-		#{postFileName},
-		#{postFilePath}
-		)
-	</insert>
+    INSERT INTO TB_POST (
+        POST_IDX, POST_TITLE, POST_CONTENT, CREATED_AT,
+        POST_VIEWS, POST_LIKES, USER_ID, POST_FILE_NAME, POST_FILE_PATH
+    ) VALUES (
+        TB_POST_SEQ.NEXTVAL, #{postTitle}, #{postContent}, SYSTIMESTAMP,
+        #{postViews}, #{postLikes}, #{userId}, #{postFileName}, #{postFilePath}
+    )
+</insert>
+
 
 	<!-- 게시글 목록 가져오기 -->
 	<select id="getBoardList" resultType="smhrd.model.BoardVO">

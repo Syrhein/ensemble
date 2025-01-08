@@ -25,9 +25,7 @@ import smhrd.model.BoardVO;
 public class BoardWriteCon extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         String uploadPath = getServletContext().getRealPath("/") + "uploads";
         File uploadDir = new File(uploadPath);
@@ -47,23 +45,22 @@ public class BoardWriteCon extends HttpServlet {
                         vo.setPostTitle(item.getString("UTF-8"));
                     }
                     if (item.getFieldName().equals("postContent")) {
-                        // String 데이터를 그대로 설정
                         vo.setPostContent(item.getString("UTF-8"));
                     }
-                } else {
-                    if (!item.getName().isEmpty()) {
-                        String uniqueFileName = UUID.randomUUID().toString() + "_" + item.getName();
-                        File uploadedFile = new File(uploadPath + File.separator + uniqueFileName);
-                        item.write(uploadedFile);
-                        vo.setPostFileName(uniqueFileName);
-                        vo.setPostFilePath("uploads/" + uniqueFileName);
-                    }
+                } else if (!item.getName().isEmpty()) {
+                    String uniqueFileName = UUID.randomUUID().toString() + "_" + item.getName();
+                    File uploadedFile = new File(uploadPath + File.separator + uniqueFileName);
+                    item.write(uploadedFile);
+                    vo.setPostFileName(uniqueFileName);
+                    vo.setPostFilePath("uploads/" + uniqueFileName);
                 }
             }
 
             HttpSession session = request.getSession();
             vo.setUserId((String) session.getAttribute("user"));
-            if (vo.getUserId() == null) vo.setUserId("Anonymous");
+            if (vo.getUserId() == null || vo.getUserId().isEmpty()) {
+                vo.setUserId("Anonymous"); // 기본값 설정
+            }
 
             vo.setPostViews(0);
             vo.setPostLikes(0);
