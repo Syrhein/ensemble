@@ -21,24 +21,35 @@
             return;
         }
         %>
-        <h2>제목: <%= board.getTitle() %></h2>
-        <p>작성자: <%= board.getWriter() %></p>
+        <h2>제목: <%= board.getPostTitle() %></h2>
+        <p>작성자: <%= board.getUserId() %></p>
         <p>작성일: <%= board.getCreatedAt() %></p>
-        <p>조회수: <%= board.getViews() %></p>
+        <p>조회수: <%= board.getPostViews() %></p>
         <div>
-            <p><%= board.getContent() %></p>
+            <%
+            if (board.getPostContent() != null) {
+                java.io.Reader contentReader = board.getPostContent().getCharacterStream();
+                char[] buffer = new char[1024];
+                int bytesRead;
+                while ((bytesRead = contentReader.read(buffer)) != -1) {
+                    out.print(new String(buffer, 0, bytesRead));
+                }
+            } else {
+                out.print("<p>내용이 없습니다.</p>");
+            }
+            %>
         </div>
         <%
-        if (board.getFileName() != null && !board.getFileName().isEmpty()) {
-            String filePath = request.getContextPath() + "/" + board.getFilePath();
-            String fileExtension = board.getFileName().substring(board.getFileName().lastIndexOf(".") + 1).toLowerCase();
+        if (board.getPostFileName() != null && !board.getPostFileName().isEmpty()) {
+            String filePath = request.getContextPath() + "/" + board.getPostFilePath();
+            String fileExtension = board.getPostFileName().substring(board.getPostFileName().lastIndexOf(".") + 1).toLowerCase();
             boolean isImage = fileExtension.equals("jpg") || fileExtension.equals("jpeg") || fileExtension.equals("png") || fileExtension.equals("gif");
         %>
             <p>첨부파일:</p>
             <% if (isImage) { %>
-                <img src="<%= filePath %>" alt="<%= board.getFileName() %>" style="max-width: 200px; max-height: 200px;">
+                <img src="<%= filePath %>" alt="<%= board.getPostFileName() %>" style="max-width: 200px; max-height: 200px;">
             <% } %>
-            <p><a href="<%= filePath %>" download><%= board.getFileName() %></a></p>
+            <p><a href="<%= filePath %>" download><%= board.getPostFileName() %></a></p>
         <%
         } else {
         %>
