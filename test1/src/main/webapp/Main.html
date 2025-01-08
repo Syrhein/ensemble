@@ -3,49 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>뮤지컬 메인 페이지</title>
-    <link rel="stylesheet" href="./css/메인.css">
+    <title>메인페이지</title>
+    <link rel="stylesheet" href="./css/main.css">
+
 </head>
 <body>
     <!-- 헤더 영역 -->
-    <header class="header">
-        <div class="Frame1">
-            <div class="categories">
-                <div class="category">국내창작</div>
-                <div class="category">라이센스</div>
-                <div class="category">게시판</div>
-            </div>
-            <div class="BtnSignUp">회원가입</div>
-            <div class="BtnLogin">로그인</div>
-            <img src="./img/icon_my.png" class="icon_my" alt="My Icon">
+<div data-layer="헤더영역 01" class="header">
+    <div data-layer="Frame1" class="Frame1">
+        <div data-layer="카테고리" class="categories">
+            <div data-layer="국내창작" class="category">국내창작</div>
+            <div data-layer="라이센스" class="category">라이센스</div>
+            <div data-layer="게시판" class="category">게시판</div>
         </div>
-    </header>
+        
+        <div data-layer="로고영역" class="logo">CURTAIN CALL GUIDE</div>
+
+        <div data-layer="buttons" class="Buttons">
+        <div data-layer="btn_sign up" class="BtnSignUp">
+            <div data-layer="SIGN UP" class="SignUp">회원가입</div>
+        </div>
+        <div data-layer="btn_login" class="BtnLogin">
+            <div data-layer="Login" class="Login">로그인</div>
+        </div>
+        <img src="./img/icon_my.png" class="icon_my" alt="My Icon">
+        </div>
+    </div>
+</div>
+
+    <!-- 타이틀 영역 -->
+
+
+
 
     <!-- 슬라이드 영역 -->
     <section class="slide-list">
         <div class="slide">
             <div class="slide-track">
-                <img src="./img/물랑루즈.JPG" alt="물랑루즈 포스터">
-                <img src="./img/tcktck 2.png" alt="다른 포스터">
-                <img src="./img/물랑루즈.JPG" alt="물랑루즈 포스터">
+                <img src="./img/물랑루즈.JPG" alt="Image 1">
+                <img src="./img/물랑루즈.JPG" alt="Image 2">
+                <img src="./img/tcktck 2.png" alt="Image 3">
+                <img src="./img/물랑루즈.JPG" alt="Image 4">
+                <img src="./img/tcktck 2.png" alt="Image 5">
             </div>
         </div>
     </section>
 
+<main>
     <!-- 콘텐츠 리스트 섹션 -->
-    <main>
-        <section class="content-list">
-            <div class="search_frame">
-                <div class="whole_list">전체목록</div>
-                <input type="text" placeholder="작품명을 입력하세요" class="search">
+    <section class="content-list">
+        <div class="search_frame">
+            <div class="whole_list">전체목록</div>
+            <input type="text" placeholder="작품명을 입력하세요" class="search">
             </div>
 
-            <div class="content-list__items" id="content-list">
-                <!-- 동적으로 데이터가 삽입될 영역 -->
+            <div class="content-list__items1">
+                <div class="contentList01">
+                    <div class="content-item">콘텐츠 1</div>
+                    <div class="content-item">콘텐츠 2</div>
+                    <div class="content-item">콘텐츠 3</div>
+                    <div class="content-item">콘텐츠 4</div>
+                    <div class="content-item">콘텐츠 5</div>
+                </div>
+                <div class="contentList02">
+                    <div class="content-item">콘텐츠 1</div>
+                    <div class="content-item">콘텐츠 2</div>
+                    <div class="content-item">콘텐츠 3</div>
+                    <div class="content-item">콘텐츠 4</div>
+                    <div class="content-item">콘텐츠 5</div>
+                </div>
             </div>
-            <button id="load-more" style="display: block; margin: 20px auto;">더 보기</button>
-        </section>
-    </main>
+    </section>
+</main>
 
     <script>
         let currentPage = 1;
@@ -105,6 +134,11 @@
         document.querySelector('.BtnLogin').addEventListener('click', () => {
             window.location.href = 'login.html';
         });
+        
+        // 버튼 이벤트: 마이 페이지로 이동
+        document.querySelector('.icon_my').addEventListener('click', () => {
+            window.location.href = 'MyPage.html';
+        });
 
         // 버튼 이벤트: 회원가입 페이지로 이동
         document.querySelector('.BtnSignUp').addEventListener('click', () => {
@@ -120,21 +154,35 @@
             window.location.href = 'MyPage.html';
         });
 		
-        // 슬라이드 동작
-        const slideTrack = document.querySelector('.slide-track');
-        const slides = slideTrack.children;
-        let currentIndex = 0;
-
-        function updateSlidePosition() {
-            slideTrack.style.transform = `translateX(-${currentIndex * 240}px)`;
-        }
-
-        function nextSlide() {
-            currentIndex = (currentIndex + 1) % slides.length;
-            updateSlidePosition();
-        }
-
-        setInterval(nextSlide, 3000);
+		// 슬라이드 동작 관련
+		const slideTrack = document.querySelector('.slide-track');
+		const slides = slideTrack.children;
+		let currentIndex = 2; // 3번째 이미지부터 시작 (인덱스는 0부터 시작)
+		
+		function updateSlidePosition() {
+		// 트랙 이동: 중앙 이미지를 정렬
+		slideTrack.style.transform = `translateX(-${(currentIndex - 2) * 240}px)`;
+		
+		// 중앙 이미지 확대
+		Array.from(slides).forEach((slide, index) => {
+		slide.style.transform = index === currentIndex ? 'scale(1.2)' : 'scale(1)';
+		slide.style.opacity = index === currentIndex ? '1' : (index === currentIndex - 1 || index === currentIndex + 1 ? '0.5' : '0');
+		});
+		  }
+		
+		function nextSlide() {
+		currentIndex++;
+		if (currentIndex >= slides.length) {
+		currentIndex = 2; // 다시 3번째 이미지로 루프
+		}
+		updateSlidePosition();
+		}
+		
+		// 초기 슬라이드 위치 설정
+		updateSlidePosition();
+		
+		// 자동 슬라이드: 3초마다 이동
+		setInterval(nextSlide, 3000);
     </script>
 </body>
 </html>

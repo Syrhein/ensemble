@@ -45,6 +45,7 @@
         gap: 40px;
     }
 
+    
     .category {
         color: black;
         font-size: 18px;
@@ -60,6 +61,12 @@
     .category:hover {
         color: #6d211f;
     }
+    
+    .categories .category:nth-child(1) {
+        font-weight: bold;
+        font-size: 23px;
+    }
+
 
     /* 버튼 스타일 */
     .Buttons {
@@ -119,117 +126,68 @@
     }
 
     .icon_my {
-    width: 26px;
-    height: 26px;        
+        width: 26px;
+    height: 26px;
     margin-top: 3px;
-    cursor: pointer;
-    transition: background-color 0.3s;
     }
 
 
-    /* 컨테이너 스타일 */
-    .container {
-        width: 1200px;
-        margin: 100px auto 0;
-        padding: 20px;
-        text-align: center;
-    }
+        /* 컨테이너 스타일 */
+        .container {
+            width: 1200px;
+            margin: 100px auto 0;
+            padding: 20px;
+            text-align: center;
+        }
 
-    /* 환경설정 아이콘 설정 */
-    .settings-icon {
-    width: 27px;
-    height: 27px;
-    position: absolute;
-    top: 20px;
-    right: 17px;
-    cursor: pointer;
-    }
+        /* 제목과 검색창을 감싸는 컨테이너에 Flexbox 적용 */
+        .cate_ttl {
+            display: flex;
+            justify-content: space-between; /* 제목 왼쪽, 검색창 오른쪽 */
+            align-items: center;
+        }
 
+        /* 제목과 검색창 스타일 */
+        .cate_ttl h1 {
+            font-size: 25px;
+            margin-bottom: 20px;
+        }
 
-    /* 프로필 사진 설정 */
-    .profile-picture {
-    width: 140px;
-    height: 140px;
-    border-radius: 50%;
-    margin: 40px auto 10px;
-    display: block;
-    }
+        .cate_ttl input {
+            width: 200px;
+            padding: 8px;
+            font-size: 14px;
+            border: 1px solid #b7b7b7;
+            border-radius: 5px;
+        }
 
-    /* 사용자 이름 및 이메일 스타일 */
-    .username {
-    font-size: 27px;
-    font-weight: bolder;
-    margin-top: 5px;
-    }
+        /* 콘텐츠 그리드 스타일 */
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 50px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
 
-    .email {
-    color: #666;
-    font-size: 18px;
-    margin: 10px 0;
-    padding-bottom: 5%;
-    }
+        .content-item {
+            background-color: #ffffff;
+            padding: 15px;
+        }
 
-    /* 통계 섹션 스타일 */
-    .stats {
-    display: flex;
-    justify-content: space-around;
-    margin: 20px 0;
-    }
+        .content-item img {
+            width: 160px;
+            height: 180px;
+        }
 
-    .stat-item {
-    text-align: center;
-    padding: 5%;
-    width: 100px;
-    height: 90px;
-    }
-    .stat-item:hover {
-    background-color: #e7e7e77e;
-    }
+        .content-title {
+            margin-top: 10px;
+            font-size: 16px;
+            font-weight: 500;
+            font-family: '프리텐다드고딕';
+        }
 
-    .stat-item img {
-    width: 30px;
-    height: 30px;
-    }
-
-    .stat-item h3 {
-    font-size: 20px;
-    margin: 5px;
-    color: #666;
-    }
-
-    .stat-item p {
-    color: #666;
-    margin: 5px 0 0;
-    }
-
-    /* 부드러운 스크롤 효과 */
-    html {
-        scroll-behavior: smooth;
-    }
-    
-    /* 캘린더 */
-	#calendar {
-	    max-width: 900px;
-	    margin: 40px auto;
-	}
-	
-	.fc-daygrid-day {
-	    height: 120px;
-	}
-	
-	.fc-daygrid-event {
-	    background-color: transparent !important;
-	    border: none !important;
-	    box-shadow: none !important;
-	    padding: 0 !important;
-	    margin: 0 !important;
-	    text-decoration: none !important;
-	}
-	
-	.poster-image {
-	    width: 100%;
-	    height: 100%;
-	    object-fit: cover;
-	    border-radius: 5px;
-	    display: block;
-	}
+        /* 부드러운 스크롤 효과 */
+        html {
+            scroll-behavior: smooth;
+        }
