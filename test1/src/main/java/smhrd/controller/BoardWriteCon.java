@@ -2,13 +2,9 @@ package smhrd.controller;
 
 import java.io.File;
 import java.io.IOException;
-import java.sql.Clob;
-import java.sql.Connection;
 import java.util.List;
 import java.util.UUID;
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -16,7 +12,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.sql.DataSource;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
@@ -52,21 +47,8 @@ public class BoardWriteCon extends HttpServlet {
                         vo.setPostTitle(item.getString("UTF-8"));
                     }
                     if (item.getFieldName().equals("postContent")) {
-                        // String 데이터를 Clob으로 변환
-                        try {
-                            Context initContext = new InitialContext();
-                            DataSource ds = (DataSource) initContext.lookup("java:comp/env/jdbc/YourDataSourceName");
-                            Connection conn = ds.getConnection();
-
-                            Clob contentClob = conn.createClob();
-                            contentClob.setString(1, item.getString("UTF-8"));
-                            vo.setPostContent(contentClob);
-
-                            conn.close();
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                            throw new ServletException("Error while setting Clob data for postContent");
-                        }
+                        // String 데이터를 그대로 설정
+                        vo.setPostContent(item.getString("UTF-8"));
                     }
                 } else {
                     if (!item.getName().isEmpty()) {
