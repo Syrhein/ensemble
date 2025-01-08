@@ -23,6 +23,6 @@
 
   <mappers>
     <!-- 통합된 Mapper 파일 참조 -->
-    <mapper resource="smhrd/db/BookAndBoardMapper.xml"/>
+    <mapper resource="smhrd/db/MusicalMapper.xml"/>
   </mappers>
 </configuration>

@@ -2,36 +2,60 @@ package smhrd.model;
 
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
-
 import smhrd.db.SqlSessionManager;
 
 public class MemberDAO {
-	SqlSessionFactory factory = SqlSessionManager.getSqlSession();
-	
-	public int join(Member vo) {
-		
-		SqlSession session = factory.openSession(true); // auto commit -> true 자동 커밋
-		
-		
-		int result = session.insert("join", vo);
-		
-		session.close();
-		
-		return result;
-	}
-	
-	
-	public Member login(Member vo) {
-		SqlSession session = factory.openSession(true); // auto commit -> true 자동 커밋
-		
-		// 회원이 입력한 id,pw가 db에 있는 데이터 중 일치하는것이 있는지 확인 select
-		// selectOne(xml과 연결고리 id값, 같이보내는 데이터)
-		Member result = session.selectOne("login", vo);
-		
-		session.close();
-		
-		return result;
-	}
+    SqlSessionFactory factory = SqlSessionManager.getSqlSession();
 
+    // 회원가입
+    public int join(Member member) {
+        SqlSession session = factory.openSession(true); // auto commit -> true 자동 커밋
+        int result = 0;
+        try {
+            result = session.insert("MusicalMapper.join", member); // Mapper의 join ID를 호출
+        } finally {
+            session.close();
+        }
+        return result;
+    }
 
+    // 로그인
+    public Member login(String userId, String userPw) {
+        SqlSession session = factory.openSession(true); // auto commit -> true 자동 커밋
+        Member result = null;
+        try {
+            // 매개변수를 Mapper에 전달
+            Member loginParams = new Member();
+            loginParams.setUserId(userId);
+            loginParams.setUserPw(userPw);
+            result = session.selectOne("MusicalMapper.login", loginParams); // Mapper의 login ID를 호출
+        } finally {
+            session.close();
+        }
+        return result;
+    }
+
+    // 회원 정보 수정
+    public int updateProfile(Member member) {
+        SqlSession session = factory.openSession(true); // auto commit -> true 자동 커밋
+        int result = 0;
+        try {
+            result = session.update("MusicalMapper.updateProfile", member); // Mapper의 updateProfile ID를 호출
+        } finally {
+            session.close();
+        }
+        return result;
+    }
+
+    // 회원 탈퇴
+    public int deleteMember(String userId) {
+        SqlSession session = factory.openSession(true); // auto commit -> true 자동 커밋
+        int result = 0;
+        try {
+            result = session.delete("MusicalMapper.deleteMember", userId); // Mapper의 deleteMember ID를 호출
+        } finally {
+            session.close();
+        }
+        return result;
+    }
 }
