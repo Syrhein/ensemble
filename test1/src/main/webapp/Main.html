@@ -124,14 +124,20 @@
         document.querySelector('.BtnSignUp').addEventListener('click', () => {
             window.location.href = 'signUp.html';
         });
-
+    
+        // 국내창작 이벤트
+        document.querySelector('.categories .category:nth-child(1)').addEventListener('click', () => {
+            window.location.href = 'cate_create.html';
+        });
+        
+        // 라이센스 버튼 이벤트
+        document.querySelector('.categories .category:nth-child(2)').addEventListener('click', () => {
+            window.location.href = 'cate_license.html';
+        });
+        
         // 게시판 버튼 이벤트
         document.querySelector('.categories .category:nth-child(3)').addEventListener('click', () => {
             window.location.href = 'Board.jsp';
-        });
-		// 마이페이지 버튼 이벤트
-		document.querySelector('.icon_my').addEventListener('click', () => {
-            window.location.href = 'MyPage.html';
         });
 		
 		// 슬라이드 동작 관련
