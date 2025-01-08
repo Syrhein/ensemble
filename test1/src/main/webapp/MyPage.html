@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Page</title>
+    <link rel="stylesheet" href="./css/MyPage.css">
+    
+    <link href="https://cdn.jsdelivr.net/npm/@fullcalendar/core@4.4.0/main.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@4.4.0/main.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core@4.4.0/main.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@4.4.0/main.min.js"></script>
+
+</head>
+<body>
+
+    <!-- 헤더 영역 -->
+    <div data-layer="헤더영역 01" class="header">
+        <div data-layer="Frame1" class="Frame1">
+            <div data-layer="카테고리" class="categories">
+                <div data-layer="국내창작" class="category">국내창작</div>
+                <div data-layer="라이센스" class="category">라이센스</div>
+                <div data-layer="게시판" class="category">게시판</div>
+            </div>
+
+            <div data-layer="로고영역" class="logo">CURTAIN CALL GUIDE</div>
+
+            <div data-layer="buttons" class="Buttons">
+                <div data-layer="btn_sign up" class="BtnSignUp">
+                    <div data-layer="SIGN UP" class="SignUp">회원가입</div>
+                </div>
+                <div data-layer="btn_login" class="BtnLogin">
+                    <div data-layer="Login" class="Login">로그인</div>
+                </div>
+                <img src="./img/icon_my.png" class="icon_my" alt="My Icon">
+            </div>
+        </div>
+    </div>
+
+
+    <div class="container">
+        <!-- 환경설정 아이콘 -->
+        <div class="Settings">
+        <img src="./img/icon_setting.png" alt="Settings Icon" class="settings-icon">
+        </div>
+    
+        <!-- 프로필 사진 -->
+        <img src="./img/cheeese.jpg" alt="Profile Picture" class="profile-picture">
+    
+        <!-- 사용자 이름 및 이메일 -->
+        <div class="username">User ID</div>
+        <div class="email">email1234@naver.com</div>
+    
+    
+    
+        <!-- 위시리스트 영역 -->
+        <div class="stats">
+            <div class="stat-item">
+                <img src="./img/icon_heart.png" class="icon_heart">
+                <h3>관심</h3>
+            </div>
+            <div class="stat-item">
+                <img src="./img/icon_content.png" class="icon_content">
+                <h3>게시글</h3>   
+            </div>
+            <div class="stat-item">
+                <img src="./img/icon_comment.png" class="icon_comment">
+                <h3>댓글</h3>
+            </div>
+        </div> 
+    </div>
+    
+    	<!-- 캘린더 영역 -->
+    <div id="calendar"></div>
+    
+<script>
+// FullCalendar 초기화
+document.addEventListener('DOMContentLoaded', function () {
+    var calendarEl = document.getElementById('calendar');
+
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+        plugins: ['dayGrid'],
+        initialView: 'dayGridMonth',
+        events: function(fetchInfo, successCallback, failureCallback) {
+            fetch(`/Ensemble/EventServlet?userId=로그인_사용자_ID`)
+                .then(response => response.json())
+                .then(data => successCallback(data))
+                .catch(error => failureCallback(error));
+        },
+        eventRender: function (info) {
+            var eventEl = info.el;
+
+            const img = document.createElement('img');
+            img.src = info.event.extendedProps.posterUrl; // 포스터 URL
+            img.alt = "포스터 이미지";
+            img.className = 'poster-image';
+
+            eventEl.innerHTML = ''; // 기존 내용 제거
+            eventEl.appendChild(img); // 이미지 추가
+        }
+    });
+
+    calendar.render();
+});
+
+</script>
+
+</body>
+</html>
