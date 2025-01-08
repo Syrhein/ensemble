@@ -14,7 +14,7 @@ public class MusicalDAO {
         SqlSession session = factory.openSession(true); // Auto-commit 설정
         List<MusicalVO> list = null;
         try {
-            list = session.selectList("com.smhrd.db.BookAndBoardMapper.getMusicalList");
+            list = session.selectList("com.smhrd.db.MusicalMapper.getMusicalList");
             System.out.println("Retrieved Musical List: " + list); // 디버깅용 로그
         } finally {
             session.close();
@@ -27,7 +27,7 @@ public class MusicalDAO {
         SqlSession session = factory.openSession(true); // Auto-commit 설정
         PerformanceVO details = null;
         try {
-            details = session.selectOne("com.smhrd.db.BookAndBoardMapper.getPerformanceDetails", musicalIdx);
+            details = session.selectOne("com.smhrd.db.MusicalMapper.getPerformanceDetails", musicalIdx);
             System.out.println("Retrieved Performance Details: " + details); // 디버깅용 로그
         } finally {
             session.close();
