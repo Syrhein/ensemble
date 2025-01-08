@@ -14,9 +14,9 @@
       <transactionManager type="JDBC"/>
       <dataSource type="POOLED">
         <property name="driver" value="oracle.jdbc.driver.OracleDriver"/>
-        <property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"/>
-        <property name="username" value="hr"/>
-        <property name="password" value="12345"/>
+        <property name="url" value="jdbc:oracle:thin:@project-db-campus.smhrd.com:1523:xe"/>
+        <property name="username" value="sc_24K_bigdata15_p2_1"/>
+        <property name="password" value="smhrd1"/>
       </dataSource>
     </environment>
   </environments>
