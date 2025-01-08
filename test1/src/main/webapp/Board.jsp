@@ -3,6 +3,8 @@
 <%@ page import="smhrd.model.BoardVO" %>
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -17,8 +19,8 @@
         <nav>
             <ul>
                 <li><a href="Main.html">홈</a></li>
-                <li><a href="#">국내창작</a></li>
-                <li><a href="#">라이센스</a></li>
+                <li><a href="cate_create.html">국내창작</a></li>
+                <li><a href="cate_license.html">라이센스</a></li>
                 <li><a href="Board.jsp">게시판</a></li>
             </ul>
         </nav>
@@ -40,35 +42,20 @@
                     </thead>
                     <tbody>
                         <%
-                            // DAO에서 게시글 목록 가져오기
                             BoardDAO dao = new BoardDAO();
                             List<BoardVO> boardList = dao.getBoardList();
                             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
-                            if (boardList != null && !boardList.isEmpty()) {
-                                for (BoardVO board : boardList) {
+                            request.setAttribute("boardList", boardList);
                         %>
-                        <tr>
-                            <td><%= board.getId() %></td>
-                            <td><a href="BoardDetailCon?id=<%= board.getId() %>"><%= board.getTitle() %></a></td>
-                            <td><%= board.getWriter() %></td>
-                            <td>
-                                <% if (board.getCreatedAt() != null) { %>
-                                    <%= dateFormat.format(board.getCreatedAt()) %>
-                                <% } else { %>
-                                    N/A
-                                <% } %>
-                            </td>
-                            <td><%= board.getViews() %></td>
-                        </tr>
-                        <% 
-                                }
-                            } else { 
-                        %>
-                        <tr>
-                            <td colspan="5">게시글이 없습니다.</td>
-                        </tr>
-                        <% } %>
+                        <c:forEach var="board" items="${boardList}">
+                            <tr>
+                                <td>${board.postIdx}</td>
+                                <td>${board.postTitle}</td>
+                                <td>${board.userId}</td>
+                                <td>${dateFormat.format(board.createdAt)}</td>
+                                <td>${board.postViews}</td>
+                            </tr>
+                        </c:forEach>
                     </tbody>
                 </table>
             </div>

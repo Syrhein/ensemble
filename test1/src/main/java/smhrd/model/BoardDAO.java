@@ -9,14 +9,28 @@ import java.util.List;
 public class BoardDAO {
     SqlSessionFactory factory = SqlSessionManager.getSqlSession();
 
-    // 조회수 증가
-    public void incrementViewCount(int postIdx) {
-        SqlSession session = factory.openSession(true); // Auto-commit 설정
+    // 게시글 목록 가져오기
+    public List<BoardVO> getBoardList() {
+        SqlSession session = factory.openSession(true);
+        List<BoardVO> list = null;
         try {
-            session.update("MusicalMapper.incrementViewCount", postIdx);
+            list = session.selectList("MusicalMapper.getBoardList");
         } finally {
             session.close();
         }
+        return list;
+    }
+
+    // 게시글 상세보기
+    public BoardVO getBoardDetail(int postIdx) {
+        SqlSession session = factory.openSession(true);
+        BoardVO vo = null;
+        try {
+            vo = session.selectOne("MusicalMapper.getBoardDetail", postIdx);
+        } finally {
+            session.close();
+        }
+        return vo;
     }
 
     // 게시글 등록
@@ -31,29 +45,13 @@ public class BoardDAO {
         return result;
     }
 
-    // 게시글 목록 가져오기
-    public List<BoardVO> getBoardList() {
+    // 조회수 증가
+    public void incrementViewCount(int postIdx) {
         SqlSession session = factory.openSession(true);
-        List<BoardVO> list = null;
         try {
-            list = session.selectList("MusicalMapper.getBoardList");
-            System.out.println("Retrieved Board List: " + list); // 디버깅용 로그
+            session.update("MusicalMapper.incrementViewCount", postIdx);
         } finally {
             session.close();
         }
-        return list;
-    }
-
-    // 게시글 상세보기
-    public BoardVO getBoardDetail(int postIdx) {
-        SqlSession session = factory.openSession(true);
-        BoardVO vo = null;
-        try {
-            vo = session.selectOne("MusicalMapper.getBoardDetail", postIdx);
-            System.out.println("Retrieved Board: " + vo);
-        } finally {
-            session.close();
-        }
-        return vo;
     }
 }
