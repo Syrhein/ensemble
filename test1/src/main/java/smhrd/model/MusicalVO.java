@@ -4,6 +4,7 @@ public class MusicalVO {
     private String musicalId;       // MUSICAL_ID
     private String musicalTitle;    // MUSICAL_TITLE
     private String musicalPoster;   // MUSICAL_POSTER
+    private String musicalCreate;   // MUSICAL_CREATE
 
     // 기본 생성자
     public MusicalVO() {
@@ -45,4 +46,12 @@ public class MusicalVO {
     public String toString() {
         return "MusicalVO [musicalId=" + musicalId + ", musicalTitle=" + musicalTitle + ", musicalPoster=" + musicalPoster + "]";
     }
+
+	public String getMusicalCreate() {
+		return musicalCreate;
+	}
+
+	public void setMusicalCreate(String musicalCreate) {
+		this.musicalCreate = musicalCreate;
+	}
 }
