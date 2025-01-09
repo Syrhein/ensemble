@@ -93,6 +93,34 @@
 	letter-spacing: 0.6px;
 }
 
+	    /* 로그아웃 버튼 */
+    .BtnLogout {
+        padding: 8px 20px;
+        background: rgba(217, 217, 217, 0);
+        border-radius: 50px;
+        border: 2px solid black;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .BtnLogout:hover {
+        background-color: #f0f0f0;
+    }
+
+    .Logout {
+        text-align: center;
+        color: black;
+        font-size: 16px;
+        font-weight: 700;
+        font-family: '프리텐다드고딕';
+        text-transform: uppercase;
+        line-height: 1;
+        letter-spacing: 0.66px;
+    }
+
 .BtnLogin {
 	padding: 8px 20px;
 	background: rgba(217, 217, 217, 0);
