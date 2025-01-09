@@ -164,23 +164,21 @@
 	</resultMap>
 
 	<!-- 상위 5개 뮤지컬 포스터 가져오기 -->
-<select id="getTopMusicalPosters" resultType="smhrd.model.MusicalVO">
+<select id="getTopMusicalPosters" resultType="java.lang.String">
+    <![CDATA[
     SELECT 
-        M.MUSICAL_ID,
-        M.MUSICAL_TITLE,
-        M.MUSICAL_POSTER
+        MUSICAL_POSTER
     FROM 
-        (SELECT 
-             M.MUSICAL_ID,
-             M.MUSICAL_TITLE,
-             M.MUSICAL_POSTER,
-             ROW_NUMBER() OVER (ORDER BY S.SHOW_VIEWS DESC) AS RN
-         FROM 
-             TB_SHOW S
-         JOIN 
-             TB_MUSICAL M ON S.MUSICAL_ID = M.MUSICAL_ID) SubQuery
+    (SELECT 
+         M.MUSICAL_POSTER,
+         ROW_NUMBER() OVER (ORDER BY S.SHOW_VIEWS DESC) AS RN
+     FROM 
+         TB_SHOW S
+     JOIN 
+         TB_MUSICAL M ON S.MUSICAL_ID = M.MUSICAL_ID)
     WHERE 
-        RN &lt;= 5
+        RN <= 5
+    ]]>
 </select>
 
 
