@@ -15,8 +15,8 @@ import java.io.IOException;
 import java.sql.*;
 
 
-@WebServlet("/calendar")
-public class calendar extends HttpServlet {
+@WebServlet("/CalendarServlet")
+public class CalendarServlet extends HttpServlet {
     private static final String DB_URL = "jdbc:oracle:thin:@project-db-campus.smhrd.com:1523:xe";
     private static final String DB_USER = "sc_24K_bigdata15_p2_1";
     private static final String DB_PASSWORD = "smhrd1";

@@ -14,39 +14,36 @@ import smhrd.model.Member; // Member 클래스 임포트 필요
 public class CheckLoginCon extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
-    protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    @Override
+    protected void service(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession session = request.getSession(false); // 세션이 없으면 null 반환
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
 
         JSONObject jsonResponse = new JSONObject();
-
         try {
             if (session != null) {
-                Member member = (Member) session.getAttribute("info"); // 세션에서 Member 객체 가져오기
+                Member member = (Member) session.getAttribute("info");
 
                 if (member != null) {
-                    // 로그인 상태
                     jsonResponse.put("isLoggedIn", true);
                     jsonResponse.put("userId", member.getUserId());
-                    jsonResponse.put("userEmail", member.getUserEmail()); // 필요한 추가 정보
+                    jsonResponse.put("userEmail", member.getUserEmail());
                 } else {
-                    // 세션은 있지만 로그인 정보가 없는 경우
                     jsonResponse.put("isLoggedIn", false);
-                    jsonResponse.put("error", "No user information found in session.");
+                    jsonResponse.put("error", "로그인 정보가 없습니다.");
                 }
             } else {
-                // 세션 자체가 없는 경우
                 jsonResponse.put("isLoggedIn", false);
-                jsonResponse.put("error", "Session not found.");
+                jsonResponse.put("error", "세션이 만료되었습니다.");
             }
-
-            response.getWriter().write(jsonResponse.toString());
         } catch (Exception e) {
-            // 예외 처리
             jsonResponse.put("isLoggedIn", false);
-            jsonResponse.put("error", "An unexpected error occurred: " + e.getMessage());
-            response.getWriter().write(jsonResponse.toString());
+            jsonResponse.put("error", "서버 오류가 발생했습니다.");
+            e.printStackTrace();
         }
+
+        response.getWriter().write(jsonResponse.toString());
     }
 }
+

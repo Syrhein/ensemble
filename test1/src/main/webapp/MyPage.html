@@ -76,49 +76,8 @@
     
     
     <script src="./js/common.js"></script>
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    var calendarEl = document.getElementById('calendar');
+    <script src="./js/calendar.js"></script>
 
-    var calendar = new FullCalendar.Calendar(calendarEl, {
-        plugins: ['dayGrid'],
-        initialView: 'dayGridMonth',
-        events: function(fetchInfo, successCallback, failureCallback) {
-            // CheckLoginCon 호출하여 로그인 상태 확인
-            fetch('http://localhost:8081/test1/CheckLoginCon') // CheckLoginCon 서블릿 호출
-                .then(response => response.json())
-                .then(data => {
-                    if (data.isLoggedIn) {
-                        const userId = data.userId;
-
-                        // 사용자 ID로 캘린더 이벤트 가져오기
-                        return fetch(`/calendar?userId=${userId}`);
-                    } else {
-                        alert('로그인이 필요합니다!');
-                        window.location.href = '/login.html';
-                    }
-                })
-                .then(response => response.json())
-                .then(data => successCallback(data))
-                .catch(error => failureCallback(error));
-        },
-        eventRender: function (info) {
-            var eventEl = info.el;
-
-            const img = document.createElement('img');
-            img.src = info.event.extendedProps.posterUrl; // 포스터 URL
-            img.alt = "포스터 이미지";
-            img.className = 'poster-image';
-
-            eventEl.innerHTML = ''; // 기존 내용 제거
-            eventEl.appendChild(img); // 이미지 추가
-        }
-    });
-
-    calendar.render();
-});
-
-</script>
 	
 	<script>
         // 버튼 이벤트: 로그인 페이지로 이동
