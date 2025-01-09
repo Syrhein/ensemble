@@ -22,40 +22,48 @@ public class MainCon extends HttpServlet {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
 
-        // CORS 설정 추가
+        // CORS 설정
         response.setHeader("Access-Control-Allow-Origin", "*");
         response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
         response.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
-        // musicalId와 showDetails 파라미터 처리
+        // 파라미터 처리
         String musicalId = request.getParameter("musicalId");
-        String showDetails = request.getParameter("showDetails"); // 공연 세부 정보 요청 여부
+        String showDetails = request.getParameter("showDetails"); // 상세정보 요청 여부
 
         try {
             MusicalDAO dao = new MusicalDAO();
             Gson gson = new Gson();
 
-            if (musicalId != null) {
+            if (musicalId != null && !musicalId.trim().isEmpty()) {
                 if ("true".equalsIgnoreCase(showDetails)) {
-                    // 공연 상세 정보 반환
+                    // 상세정보 요청
                     MusicalDetailVO details = dao.getMusicalDetails(musicalId);
-                    String json = gson.toJson(details);
-                    response.getWriter().write(json);
+                    if (details != null) {
+                        response.getWriter().write(gson.toJson(details));
+                    } else {
+                        response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                        response.getWriter().write("{\"error\":\"뮤지컬 상세 정보를 찾을 수 없습니다.\"}");
+                    }
                 } else {
-                    // 특정 뮤지컬 기본 정보 반환
+                    // 특정 뮤지컬 기본 정보 요청
                     MusicalVO musical = dao.getMusicalById(musicalId);
-                    String json = gson.toJson(musical);
-                    response.getWriter().write(json);
+                    if (musical != null) {
+                        response.getWriter().write(gson.toJson(musical));
+                    } else {
+                        response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                        response.getWriter().write("{\"error\":\"뮤지컬 정보를 찾을 수 없습니다.\"}");
+                    }
                 }
             } else {
-                // 전체 뮤지컬 목록 반환
+                // 전체 목록 요청
                 List<MusicalVO> musicals = dao.getMusicalList();
-                String json = gson.toJson(musicals);
-                response.getWriter().write(json);
+                response.getWriter().write(gson.toJson(musicals));
             }
         } catch (Exception e) {
             e.printStackTrace();
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.getWriter().write("{\"error\":\"서버 에러가 발생했습니다.\"}");
         }
     }
 }

@@ -4,11 +4,14 @@ public class MusicalDetailVO {
     private String musicalId;
     private String musicalTitle;
     private String musicalPoster;
-    private String hallName;
-    private String showDate;
-    private String showRuntime;
-    private String showPrice;
-    private int showViews;
+    private String musicalStDt;  // 상연 시작일
+    private String musicalEdDt;  // 상연 종료일
+    private String hallName;     // 공연장 이름
+    private String showDate;     // 상영일
+    private String showRuntime;  // 런타임
+    private String showPrice;    // 가격
+    private String showImg;      // 공연 이미지
+    private int showViews;       // 조회수
 
     // Getter & Setter
     public String getMusicalId() {
@@ -33,6 +36,22 @@ public class MusicalDetailVO {
 
     public void setMusicalPoster(String musicalPoster) {
         this.musicalPoster = musicalPoster;
+    }
+
+    public String getMusicalStDt() {
+        return musicalStDt;
+    }
+
+    public void setMusicalStDt(String musicalStDt) {
+        this.musicalStDt = musicalStDt;
+    }
+
+    public String getMusicalEdDt() {
+        return musicalEdDt;
+    }
+
+    public void setMusicalEdDt(String musicalEdDt) {
+        this.musicalEdDt = musicalEdDt;
     }
 
     public String getHallName() {
@@ -65,6 +84,14 @@ public class MusicalDetailVO {
 
     public void setShowPrice(String showPrice) {
         this.showPrice = showPrice;
+    }
+
+    public String getShowImg() {
+        return showImg;
+    }
+
+    public void setShowImg(String showImg) {
+        this.showImg = showImg;
     }
 
     public int getShowViews() {
