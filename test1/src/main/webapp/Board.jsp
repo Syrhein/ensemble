@@ -37,6 +37,7 @@
                             <th>작성자</th>
                             <th>작성일</th>
                             <th>조회수</th>
+                            <th>좋아요</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -50,8 +51,9 @@
                                 <td>${board.postIdx}</td>
                                 <td><a href="BoardDetailCon?postIdx=${board.postIdx}">${board.postTitle}</a></td>
                                 <td>${board.userId}</td>
-                                <td><fmt:formatDate value="${board.createdAt}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
+                                <td>${board.getCreatedAt()}</td>
                                 <td>${board.postViews}</td>
+                                <td>${board.postLikes}</td>
                             </tr>
                         </c:forEach>
                     </tbody>

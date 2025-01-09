@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>게시글 상세보기</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
     <header>
@@ -25,8 +26,10 @@
         <p>작성자: <%= board.getUserId() %></p>
         <p>작성일: <%= board.getCreatedAt() %></p>
         <p>조회수: <%= board.getPostViews() %></p>
-        <p>작성일자: ${board.createdAt}</p>
-        
+        <p>
+            좋아요: <span id="postLikes"><%= board.getPostLikes() %></span>
+            <button id="likeButton" data-post-idx="<%= board.getPostIdx() %>">좋아요</button>
+        </p>
         <div>
             <%
             if (board.getPostContent() != null) {
@@ -56,5 +59,25 @@
         %>
         <a href="Board.jsp">목록으로</a>
     </main>
+
+    <script>
+        $(document).ready(function() {
+            $('#likeButton').on('click', function() {
+                const postIdx = $(this).data('post-idx');
+                $.ajax({
+                    type: 'POST',
+                    url: 'LikePostCon',
+                    data: { postIdx: postIdx },
+                    success: function() {
+                        let currentLikes = parseInt($('#postLikes').text());
+                        $('#postLikes').text(currentLikes + 1);
+                    },
+                    error: function() {
+                        alert('좋아요 처리에 실패했습니다.');
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>

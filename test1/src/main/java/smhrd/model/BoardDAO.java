@@ -56,4 +56,17 @@ public class BoardDAO {
             session.close();
         }
     }
+    
+    
+    //좋아요 증가
+ // 좋아요 증가
+    public void incrementPostLikes(int postIdx) {
+        SqlSession session = factory.openSession(true);
+        try {
+            session.update("MusicalMapper.incrementPostLikes", postIdx);
+        } finally {
+            session.close();
+        }
+    }
+
 }
