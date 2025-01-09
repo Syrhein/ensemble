@@ -45,5 +45,13 @@ public class MusicalDAO {
             return false;
         }
     }
-    
+   public boolean insertReview(ReviewVO review) {
+       try (SqlSession session = factory.openSession(true)) {
+           int result = session.insert("MusicalMapper.insertReview", review);
+           return result > 0; // 삽입 성공 여부 반환
+       } catch (Exception e) {
+           e.printStackTrace();
+           return false;
+       }
+   } 
 }

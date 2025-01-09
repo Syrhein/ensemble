@@ -137,6 +137,16 @@
 		WHERE M.MUSICAL_ID = #{musicalId}
 	</select>
 
+<!-- 리뷰 추가 -->
+<insert id="insertReview" parameterType="smhrd.model.ReviewVO">
+    INSERT INTO TB_REVIEW (
+        REVIEW_IDX, SHOW_IDX, USER_ID, REVIEW_CONTENT, REVIEW_STAR, CREATED_AT, REVIEW_LIKES
+    ) VALUES (
+        SEQ_REVIEW_IDX.NEXTVAL, #{showIdx}, #{userId}, #{reviewContent}, #{reviewStar}, CURRENT_TIMESTAMP, 0
+    )
+</insert>
+
+
 	<!-- ResultMap 설정 -->
 	<resultMap id="musicalDetailMap"
 		type="smhrd.model.MusicalDetailVO">
