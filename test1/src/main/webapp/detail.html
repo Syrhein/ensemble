@@ -1,100 +1,150 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>상세페이지</title>
-<link rel="stylesheet" href="./css/detail.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>상세페이지</title>
+    <link rel="stylesheet" href="./css/detail.css">
+    <style>
+        /* 팝업 및 오버레이 스타일 */
+        .popup-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            max-width: 600px;
+            width: 80%;
+            max-height: 80%;
+            overflow-y: auto;
+        }
+
+        .popup-header {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .popup-close {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .popup-content img {
+            width: 100%;
+            height: auto;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        .popup-content p {
+            margin: 10px 0;
+            font-size: 16px;
+            color: #333;
+        }
+    </style>
 </head>
 <body>
-	<!-- 헤더 영역 -->
-	<div data-layer="헤더영역 01" class="header">
-		<div data-layer="Frame1" class="Frame1">
-			<div data-layer="카테고리" class="categories">
-				<div data-layer="국내창작" class="category">국내창작</div>
-				<div data-layer="라이센스" class="category">라이센스</div>
-				<div data-layer="게시판" class="category">게시판</div>
-			</div>
+    <!-- 헤더 영역 -->
+    <div class="header">
+        <div class="Frame1">
+            <div class="categories">
+                <div class="category">국내창작</div>
+                <div class="category">라이센스</div>
+                <div class="category">게시판</div>
+            </div>
+            <div class="logo">CURTAIN CALL GUIDE</div>
+            <div class="Buttons">
+                <div class="BtnSignUp"><div class="SignUp">회원가입</div></div>
+                <div class="BtnLogin"><div class="Login">로그인</div></div>
+                <img src="./img/icon_my.png" class="icon_my" alt="My Icon">
+            </div>
+        </div>
+    </div>
 
-			<div data-layer="로고영역" class="logo">CURTAIN CALL GUIDE</div>
+    <!-- 공연 정보 영역 -->
+    <div class="container">
+        <div class="show_settings">
+            <div class="show_poster"><img id="musicalPoster" src="" alt="Show Poster"></div>
+            <div class="show_info">
+                <h1 id="musicalTitle">TITLE</h1>
+                <div class="tags"><span>#카테고리</span></div>
+                <div class="show_schedule">
+                    <div id="hallName" class="show_schedule_list">공연장:</div>
+                    <div id="musicalStDt" class="show_schedule_st">상영 시작일:</div>
+                    <div id="musicalEdDt" class="show_schedule_dt">상영 종료일:</div>
+                    <div id="showDate" class="show_schedule_list">상영일:</div>
+                    <div id="showRuntime" class="show_schedule_list">런타임:</div>
+                    <div id="showPrice" class="show_schedule_list">가격:</div>
+                    <div id="showViews" class="show_schedule_list">조회수:</div>
+                </div>
+                <div class="toggle-dscrp">
+                    <button class="toggle-button" id="toggleDetailsButton">작품 상세정보 보기</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-			<div data-layer="buttons" class="Buttons">
-				<div data-layer="btn_sign up" class="BtnSignUp">
-					<div data-layer="SIGN UP" class="SignUp">회원가입</div>
-				</div>
-				<div data-layer="btn_login" class="BtnLogin">
-					<div data-layer="Login" class="Login">로그인</div>
-				</div>
-				<img src="./img/icon_my.png" class="icon_my" alt="My Icon">
-			</div>
-		</div>
-	</div>
+    <!-- 팝업 및 오버레이 -->
+    <div class="popup-overlay" id="popupOverlay"></div>
+    <div class="popup" id="popup">
+        <div class="popup-header">
+            작품 상세정보
+            <span class="popup-close" id="popupClose">&times;</span>
+        </div>
+        <div class="popup-content" id="popupContent"></div>
+    </div>
 
-	<!-- 공연 정보 영역 -->
-	<div class="container">
-		<div class="show_settings">
-			<!-- 공연 포스터 이미지 -->
-			<div class="show_poster">
-				<img id="musicalPoster" src="" alt="Show Poster">
-			</div>
-
-			<div class="show_info">
-				<h1 id="musicalTitle">TITLE</h1>
-
-				<div class="tags">
-					<span>#카테고리</span>
-				</div>
-
-				<!-- 공연 일정 영역 -->
-				<div class="show_schedule">
-					<div id="hallName" class="show_schedule_list">공연장:</div>
-					<div id="musicalStDt" class="show_schedule_st">상영 시작일:</div>
-					<div id="musicalEdDt" class="show_schedule_dt">상영 종료일:</div>
-					<div id="showDate" class="show_schedule_list">상영일:</div>
-					<div id="showRuntime" class="show_schedule_list">런타임:</div>
-					<div id="showPrice" class="show_schedule_list">가격:</div>
-					<div id="showViews" class="show_schedule_list">조회수:</div>
-				</div>
-
-				<div class="toggle-dscrp">
-					<button class="toggle-button">작품 상세정보 펼치기</button>
-				</div>
-			</div>
-
-			<!-- 위시리스트 영역 -->
-			<div class="stats">
-				<div class="stat-item">
-					<img src="./img/icon_heart.png" class="icon_heart">
-					<h3>관심</h3>
-				</div>
-				<div class="stat-item">
-					<img src="./img/icon_content.png" class="icon_content">
-					<h3>리뷰</h3>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<script>
-        // URL 파라미터에서 musicalId 가져오기
+    <script>
         const urlParams = new URLSearchParams(window.location.search);
         const musicalId = urlParams.get('musicalId');
 
         if (musicalId) {
-            // MainCon에서 공연 상세 정보 가져오기
             fetch(`http://localhost:8081/test1/MainCon?musicalId=${musicalId}&showDetails=true`)
                 .then(response => response.json())
                 .then(data => {
-                    // 데이터 삽입
                     document.getElementById('musicalTitle').innerText = data.musicalTitle;
                     document.getElementById('musicalPoster').src = data.musicalPoster;
                     document.getElementById('hallName').innerText = `공연장: ${data.hallName}`;
                     document.getElementById('musicalStDt').innerText = `상영 시작일: ${formatDate(data.musicalStDt)}`;
                     document.getElementById('musicalEdDt').innerText = `상영 종료일: ${formatDate(data.musicalEdDt)}`;
-                    document.getElementById('showDate').innerText = `상영일 : ${formatDate(data.showDate)}`;
+                    document.getElementById('showDate').innerText = `상영일: ${formatDate(data.showDate)}`;
                     document.getElementById('showRuntime').innerText = `런타임: ${data.showRuntime}`;
                     document.getElementById('showPrice').innerText = `가격: ${data.showPrice}`;
                     document.getElementById('showViews').innerText = `조회수: ${data.showViews}`;
+
+                    document.getElementById('toggleDetailsButton').addEventListener('click', () => {
+                        const popupContent = document.getElementById('popupContent');
+                        popupContent.innerHTML = `
+                            <img src="${data.showImg}" alt="작품 상세 이미지">
+                            <p>${data.description || '작품 소개 정보가 없습니다.'}</p>
+                        `;
+                        document.getElementById('popup').style.display = 'block';
+                        document.getElementById('popupOverlay').style.display = 'block';
+                    });
+
+                    document.getElementById('popupClose').addEventListener('click', closePopup);
+                    document.getElementById('popupOverlay').addEventListener('click', closePopup);
                 })
                 .catch(error => console.error('Error loading details:', error));
         } else {
@@ -102,43 +152,17 @@
             window.location.href = 'Main.html';
         }
 
-        // 날짜 포맷팅 함수
         function formatDate(dateString) {
-            if (!dateString) return '정보 없음'; // 날짜가 null인 경우 처리
+            if (!dateString) return '정보 없음';
             const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
             const date = new Date(dateString);
             return isNaN(date) ? dateString : date.toLocaleDateString('ko-KR', options);
         }
 
-
-        // 버튼 이벤트: 페이지 이동
-        document.querySelector('.BtnLogin').addEventListener('click', () => {
-            window.location.href = 'login.html';
-        });
-
-        document.querySelector('.icon_my').addEventListener('click', () => {
-            window.location.href = 'MyPage.html';
-        });
-
-        document.querySelector('.BtnSignUp').addEventListener('click', () => {
-            window.location.href = 'signUp.html';
-        });
-
-        document.querySelector('.categories .category:nth-child(1)').addEventListener('click', () => {
-            window.location.href = 'cate_create.html';
-        });
-
-        document.querySelector('.categories .category:nth-child(2)').addEventListener('click', () => {
-            window.location.href = 'cate_license.html';
-        });
-
-        document.querySelector('.categories .category:nth-child(3)').addEventListener('click', () => {
-            window.location.href = 'Board.jsp';
-        });
-
-        document.querySelector('.logo').addEventListener('click', () => {
-            window.location.href = 'Main.html';
-        });
+        function closePopup() {
+            document.getElementById('popup').style.display = 'none';
+            document.getElementById('popupOverlay').style.display = 'none';
+        }
     </script>
 </body>
 </html>

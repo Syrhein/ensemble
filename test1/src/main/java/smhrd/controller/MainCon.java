@@ -38,32 +38,44 @@ public class MainCon extends HttpServlet {
             if (musicalId != null && !musicalId.trim().isEmpty()) {
                 if ("true".equalsIgnoreCase(showDetails)) {
                     // 상세정보 요청
-                    MusicalDetailVO details = dao.getMusicalDetails(musicalId);
-                    if (details != null) {
-                        response.getWriter().write(gson.toJson(details));
-                    } else {
-                        response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-                        response.getWriter().write("{\"error\":\"뮤지컬 상세 정보를 찾을 수 없습니다.\"}");
-                    }
+                    processDetailRequest(musicalId, dao, gson, response);
                 } else {
                     // 특정 뮤지컬 기본 정보 요청
-                    MusicalVO musical = dao.getMusicalById(musicalId);
-                    if (musical != null) {
-                        response.getWriter().write(gson.toJson(musical));
-                    } else {
-                        response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-                        response.getWriter().write("{\"error\":\"뮤지컬 정보를 찾을 수 없습니다.\"}");
-                    }
+                    processBasicInfoRequest(musicalId, dao, gson, response);
                 }
             } else {
                 // 전체 목록 요청
-                List<MusicalVO> musicals = dao.getMusicalList();
-                response.getWriter().write(gson.toJson(musicals));
+                processListRequest(dao, gson, response);
             }
         } catch (Exception e) {
             e.printStackTrace();
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             response.getWriter().write("{\"error\":\"서버 에러가 발생했습니다.\"}");
         }
+    }
+
+    private void processDetailRequest(String musicalId, MusicalDAO dao, Gson gson, HttpServletResponse response) throws IOException {
+        MusicalDetailVO details = dao.getMusicalDetails(musicalId);
+        if (details != null) {
+            response.getWriter().write(gson.toJson(details));
+        } else {
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            response.getWriter().write("{\"error\":\"뮤지컬 상세 정보를 찾을 수 없습니다.\"}");
+        }
+    }
+
+    private void processBasicInfoRequest(String musicalId, MusicalDAO dao, Gson gson, HttpServletResponse response) throws IOException {
+        MusicalVO musical = dao.getMusicalById(musicalId);
+        if (musical != null) {
+            response.getWriter().write(gson.toJson(musical));
+        } else {
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            response.getWriter().write("{\"error\":\"뮤지컬 정보를 찾을 수 없습니다.\"}");
+        }
+    }
+
+    private void processListRequest(MusicalDAO dao, Gson gson, HttpServletResponse response) throws IOException {
+        List<MusicalVO> musicals = dao.getMusicalList();
+        response.getWriter().write(gson.toJson(musicals));
     }
 }
