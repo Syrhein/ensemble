@@ -42,12 +42,18 @@ public class calendar extends HttpServlet {
 
             try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
                  PreparedStatement stmt = conn.prepareStatement(
-                     "SELECT m.musical_name AS title, " +
-                     "       r.review_date AS start, " +
-                     "       m.musical_poster AS poster_url " +
-                     "FROM review r " +
-                     "JOIN musical m ON r.musical_id = m.musical_id " +
-                     "WHERE r.user_id = ?"
+                     "SELECT " +
+                     "    m.MUSICAL_TITLE AS \"title\", " +
+                     "    r.CREATED_AT AS \"start\", " +
+                     "    m.MUSICAL_POSTER AS \"poster_url\" " +
+                     "FROM " +
+                     "    tb_review r " +
+                     "JOIN " +
+                     "    tb_show s ON r.SHOW_IDX = s.SHOW_IDX " +
+                     "JOIN " +
+                     "    tb_musical m ON s.MUSICAL_ID = m.MUSICAL_ID " +
+                     "WHERE " +
+                     "    r.USER_ID = ?"
                  )) {
 
                 stmt.setString(1, userId); // 사용자 ID 바인딩
@@ -63,6 +69,9 @@ public class calendar extends HttpServlet {
             }
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.getWriter().write("{\"error\": \"Database error occurred.\"}");
+            return;
         }
 
         response.getWriter().write(events.toString());

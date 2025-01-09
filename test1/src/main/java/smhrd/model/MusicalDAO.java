@@ -16,7 +16,6 @@ public class MusicalDAO {
         List<MusicalVO> list = null;
         try {
             list = session.selectList("MusicalMapper.getMusicalList");
-            System.out.println("Retrieved Musical List: " + list); // 디버깅용 로그
         } finally {
             session.close();
         }
