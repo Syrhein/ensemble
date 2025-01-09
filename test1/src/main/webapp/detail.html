@@ -8,297 +8,127 @@
 </head>
 <body>
     <!-- 헤더 영역 -->
-<div data-layer="헤더영역 01" class="header">
-    <div data-layer="Frame1" class="Frame1">
-        <div data-layer="카테고리" class="categories">
-            <div data-layer="국내창작" class="category">국내창작</div>
-            <div data-layer="라이센스" class="category">라이센스</div>
-            <div data-layer="게시판" class="category">게시판</div>
-        </div>
-
-        <div data-layer="로고영역" class="logo">CURTAIN CALL GUIDE</div>
-
-        <div data-layer="buttons" class="Buttons">
-            <div data-layer="btn_sign up" class="BtnSignUp">
-                <div data-layer="SIGN UP" class="SignUp">회원가입</div>
-            </div>
-            <div data-layer="btn_login" class="BtnLogin">
-                <div data-layer="Login" class="Login">로그인</div>
-            </div>
-            <img src="./img/icon_my.png" class="icon_my" alt="My Icon">
-        </div>
-    </div>
-</div>
-
-<!-- 공연 정보 영역 -->
-<div class="container">
-    <div class="show_settings">
-        <!-- 공연 포스터 이미지 -->
-        <div class="show_poster">
-            <img src="./img/시라노.gif" alt="Show Poster">
-        </div>
-
-        <div class="show_info">
-            
-            <h1>TITLE</h1>
-            
-            <div class="tags">
-                <span>#카테고리</span>
+    <div data-layer="헤더영역 01" class="header">
+        <div data-layer="Frame1" class="Frame1">
+            <div data-layer="카테고리" class="categories">
+                <div data-layer="국내창작" class="category">국내창작</div>
+                <div data-layer="라이센스" class="category">라이센스</div>
+                <div data-layer="게시판" class="category">게시판</div>
             </div>
 
-            <!-- empty space -->
-            <div class="space">
-            </div>
+            <div data-layer="로고영역" class="logo">CURTAIN CALL GUIDE</div>
 
-            <!-- 공연 일정 영역 -->
-            <div class="show_schedule">
-                <div class="show_schedule_list"> 공연장 </div>
-                <div class="show_schedule_list"> 상영기간 </div>
-                <div class="show_schedule_list"> 상영일 </div>
-                <div class="show_schedule_list"> 런타임 </div>
-                <div class="show_schedule_list"> 가격 </div>
-                <div class="show_schedule_list"> 조회수 </div>
-            </div>
-
-
-            <div class="toggle-dscrp">
-                <button class="toggle-button">작품 상세정보 펼치기</button>
-            </div>
-
-        </div>
-
-        <!-- 위시리스트 영역 --> 
-        <div class="stats">
-            <div class="stat-item">
-                <img src="./img/icon_heart.png" class="icon_heart">
-                <h3>관심</h3>
-            </div>
-            <div class="stat-item">
-                <img src="./img/icon_content.png" class="icon_content">
-                <h3>리뷰</h3>   
+            <div data-layer="buttons" class="Buttons">
+                <div data-layer="btn_sign up" class="BtnSignUp">
+                    <div data-layer="SIGN UP" class="SignUp">회원가입</div>
+                </div>
+                <div data-layer="btn_login" class="BtnLogin">
+                    <div data-layer="Login" class="Login">로그인</div>
+                </div>
+                <img src="./img/icon_my.png" class="icon_my" alt="My Icon">
             </div>
         </div>
     </div>
 
-    <!-- 리뷰 영역 -->
-    <div class="show_review">
-        REVIEW
-    </div>
-
-    <!-- 리뷰 섹션 -->
-    <div class="container_card">
-        <div class="card">
-            <div class="card-header">
-                <img src="./img/cheeese.jpg" alt="Profile" class="profile-img">
-                <h2>User Id</h2>
-                <span class="rating">⭐ Rating</span>
-            </div>
-            <!-- empty space -->
-            <div class="space">
+    <!-- 공연 정보 영역 -->
+    <div class="container">
+        <div class="show_settings">
+            <!-- 공연 포스터 이미지 -->
+            <div class="show_poster">
+                <img id="musicalPoster" src="" alt="Show Poster">
             </div>
 
-            <div class="card-content">
-                전장에서 적장에게 아량을 베푸는 건 아무리 안중근이라도 용납이 안됐다.. 여튼 웃음기 하나 없이 진중한 와중에 들려온 외침 "까레아 우라!!" 이 한 마디에 극장을 나서며 덩달아 비장해진다.afddsfasfsd
-            </div>
-            <div class="card-footer">
-                <div class="likes-comments">
-                    <span>👍 346</span>
-                    <span>💬 2</span>
+            <div class="show_info">
+                <h1 id="musicalTitle">TITLE</h1>
+
+                <div class="tags">
+                    <span>#카테고리</span>
                 </div>
-                <button class="like-button">Like</button>
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-header">
-                <img src="./img/cheeese.jpg" alt="Profile" class="profile-img">
-                <h2>User Id</h2>
-                <span class="rating">⭐ Rating</span>
-            </div>
-            <!-- empty space -->
-            <div class="space">
-            </div>
 
-            <div class="card-content">
-                전장에서 적장에게 아량을 베푸는 건 아무리 안중근이라도 용납이 안됐다.. 여튼 웃음기 하나 없이 진중한 와중에 들려온 외침 "까레아 우라!!" 이 한 마디에 극장을 나서며 덩달아 비장해진다.afddsfasfsd
-            </div>
-            <div class="card-footer">
-                <div class="likes-comments">
-                    <span>👍 346</span>
-                    <span>💬 2</span>
+                <!-- 공연 일정 영역 -->
+                <div class="show_schedule">
+                    <div id="hallName" class="show_schedule_list">공연장: </div>
+                    <div id="showDate" class="show_schedule_st">상영 시작일: </div>
+                    <div id="showDate" class="show_schedule_dt">상영 종료일: </div>
+                    <div id="showDate" class="show_schedule_list">상영일: </div>
+                    <div id="showRuntime" class="show_schedule_list">런타임: </div>
+                    <div id="showPrice" class="show_schedule_list">가격: </div>
+                    <div id="showViews" class="show_schedule_list">조회수: </div>
                 </div>
-                <button class="like-button">Like</button>
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-header">
-                <img src="./img/cheeese.jpg" alt="Profile" class="profile-img">
-                <h2>User Id</h2>
-                <span class="rating">⭐ Rating</span>
-            </div>
-            <!-- empty space -->
-            <div class="space">
-            </div>
 
-            <div class="card-content">
-                전장에서 적장에게 아량을 베푸는 건 아무리 안중근이라도 용납이 안됐다.. 여튼 웃음기 하나 없이 진중한 와중에 들려온 외침 "까레아 우라!!" 이 한 마디에 극장을 나서며 덩달아 비장해진다.afddsfasfsd
-            </div>
-            <div class="card-footer">
-                <div class="likes-comments">
-                    <span>👍 346</span>
-                    <span>💬 2</span>
+                <div class="toggle-dscrp">
+                    <button class="toggle-button">작품 상세정보 펼치기</button>
                 </div>
-                <button class="like-button">Like</button>
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-header">
-                <img src="./img/cheeese.jpg" alt="Profile" class="profile-img">
-                <h2>User Id</h2>
-                <span class="rating">⭐ Rating</span>
-            </div>
-            <!-- empty space -->
-            <div class="space">
             </div>
 
-            <div class="card-content">
-                전장에서 적장에게 아량을 베푸는 건 아무리 안중근이라도 용납이 안됐다.. 여튼 웃음기 하나 없이 진중한 와중에 들려온 외침 "까레아 우라!!" 이 한 마디에 극장을 나서며 덩달아 비장해진다.
-            </div>
-            <div class="card-footer">
-                <div class="likes-comments">
-                    <span>👍 346</span>
-                    <span>💬 2</span>
+            <!-- 위시리스트 영역 -->
+            <div class="stats">
+                <div class="stat-item">
+                    <img src="./img/icon_heart.png" class="icon_heart">
+                    <h3>관심</h3>
                 </div>
-                <button class="like-button">Like</button>
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-header">
-                <img src="./img/cheeese.jpg" alt="Profile" class="profile-img">
-                <h2>User Id</h2>
-                <span class="rating">⭐ Rating</span>
-            </div>
-            <!-- empty space -->
-            <div class="space">
-            </div>
-
-            <div class="card-content">
-                ㅁ낭ㄹㅇ나ㅣ런ㅇ마ㅣ러ㅣㄴㅇㅁ런아ㅣ러ㅏㅣㄴㅇ;런ㅁ이;런ㅁ이;러민;ㅇ런ㅁ일ㅇ
-            </div>
-            <div class="card-footer">
-                <div class="likes-comments">
-                    <span>👍 346</span>
-                    <span>💬 2</span>
+                <div class="stat-item">
+                    <img src="./img/icon_content.png" class="icon_content">
+                    <h3>리뷰</h3>
                 </div>
-                <button class="like-button">Like</button>
             </div>
-        </div>
-        <div class="card">
-            <div class="card-header">
-                <img src="./img/cheeese.jpg" alt="Profile" class="profile-img">
-                <h2>User Id</h2>
-                <span class="rating">⭐ Rating</span>
-            </div>
-            <!-- empty space -->
-            <div class="space">
-            </div>
-
-            <div class="card-content">
-                <a href="">
-                    <div class="content_txt"> a태그 속 리뷰 txt</div>
-                </a>
-            </div>
-            <div class="card-footer">
-                <div class="likes-comments">
-                    <span>👍 346</span>
-                    <span>💬 2</span>
-                </div>
-                <button class="like-button">Like</button>
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-header">
-                <img src="./img/cheeese.jpg" alt="Profile" class="profile-img">
-                <h2>User Id</h2>
-                <span class="rating">⭐ Rating</span>
-            </div>
-            <!-- empty space -->
-            <div class="space">
-            </div>
-
-            <div class="card-content">
-                전장에서 적장에게 아량을 베푸는 건 아무리 안중근이라도 용납이 안됐다.. 여튼 웃음기 하나 없이 진중한 와중에 들려온 외침 "까레아 우라!!" 이 한 마디에 극장을 나서며 덩달아 비장해진다.afddsfasfsd
-            </div>
-            <div class="card-footer">
-                <div class="likes-comments">
-                    <span>👍 346</span>
-                    <span>💬 2</span>
-                </div>
-                <button class="like-button">Like</button>
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-header">
-                <img src="./img/cheeese.jpg" alt="Profile" class="profile-img">
-                <h2>User Id</h2>
-                <span class="rating">⭐ Rating</span>
-            </div>
-            <!-- empty space -->
-            <div class="space">
-            </div>
-
-            <div class="card-content">
-                전장에서 적장에게 아량을 베푸는 건 아무리 안중근이라도 용납이 안됐다.. 여튼 웃음기 하나 없이 진중한 와중에 들려온 외침 "까레아 우라!!" 이 한 마디에 극장을 나서며 덩달아 비장해진다.afddsfasfsd
-            </div>
-            <div class="card-footer">
-                <div class="likes-comments">
-                    <span>👍 346</span>
-                    <span>💬 2</span>
-                </div>
-                <button class="like-button">Like</button>
-            </div>
-        </div>
-
-        <div class="button_more">
-            <button class="more_Card"> 더보기 > </button>
         </div>
     </div>
 
     <script>
-        // 버튼 이벤트: 로그인 페이지로 이동
+        // URL 파라미터에서 musicalId 가져오기
+        const urlParams = new URLSearchParams(window.location.search);
+        const musicalId = urlParams.get('musicalId');
+
+        if (musicalId) {
+            // MainCon에서 공연 상세 정보 가져오기
+            fetch(`http://localhost:8081/test1/MainCon?musicalId=${musicalId}&showDetails=true`)
+                .then(response => response.json())
+                .then(data => {
+                    // 데이터 삽입
+                    document.getElementById('musicalTitle').innerText = data.musicalTitle;
+                    document.getElementById('musicalPoster').src = data.musicalPoster;
+                    document.getElementById('hallName').innerText = `공연장: ${data.hallName}`;
+                    document.getElementById('showDate').innerText = `상영기간: ${data.showDate}`;
+                    document.getElementById('showDate').innerText = `상영일: ${data.showDate}`;
+                    document.getElementById('showRuntime').innerText = `런타임: ${data.showRuntime}`;
+                    document.getElementById('showPrice').innerText = `가격: ${data.showPrice}`;
+                    document.getElementById('showViews').innerText = `조회수: ${data.showViews}`;
+                })
+                .catch(error => console.error('Error loading details:', error));
+        } else {
+            alert('뮤지컬 정보를 찾을 수 없습니다.');
+            window.location.href = 'Main.html';
+        }
+
+        // 버튼 이벤트: 페이지 이동
         document.querySelector('.BtnLogin').addEventListener('click', () => {
             window.location.href = 'login.html';
         });
-        
-        // 버튼 이벤트: 마이 페이지로 이동
+
         document.querySelector('.icon_my').addEventListener('click', () => {
             window.location.href = 'MyPage.html';
         });
 
-        // 버튼 이벤트: 회원가입 페이지로 이동
         document.querySelector('.BtnSignUp').addEventListener('click', () => {
             window.location.href = 'signUp.html';
         });
-    
-        // 국내창작 이벤트
+
         document.querySelector('.categories .category:nth-child(1)').addEventListener('click', () => {
             window.location.href = 'cate_create.html';
         });
-        
-        // 라이센스 버튼 이벤트
+
         document.querySelector('.categories .category:nth-child(2)').addEventListener('click', () => {
             window.location.href = 'cate_license.html';
         });
-        
-        // 게시판 버튼 이벤트
+
         document.querySelector('.categories .category:nth-child(3)').addEventListener('click', () => {
             window.location.href = 'Board.jsp';
         });
-        
-     // 로고 메인화면 가기
+
         document.querySelector('.logo').addEventListener('click', () => {
             window.location.href = 'Main.html';
         });
-     
-        </script>
+    </script>
 </body>
 </html>

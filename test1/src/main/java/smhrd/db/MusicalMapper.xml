@@ -93,14 +93,38 @@
 
 	<!-- 뮤지컬 목록 가져오기 -->
 	<select id="getMusicalList" resultType="smhrd.model.MusicalVO">
-		SELECT musical_id AS
-		musicalId,
+		SELECT musical_id AS musicalId,
 		musical_title AS musicalTitle,
-		musical_poster AS
-		musicalPoster
+		musical_poster AS musicalPoster
 		FROM TB_MUSICAL
 	</select>
+	
+	<!--  상세정보 뮤지컬 가져오기  -->
+	<select id="getMusicalDetails" parameterType="string" resultMap="musicalDetailMap">
+        SELECT M.MUSICAL_ID AS musicalId,
+               M.MUSICAL_TITLE AS musicalTitle,
+               M.MUSICAL_POSTER AS musicalPoster,
+               S.HALL_NAME AS hallName,
+               S.SHOW_DT AS showDate,
+               S.SHOW_RUNTIME AS showRuntime,
+               S.SHOW_PRICE AS showPrice,
+               S.SHOW_VIEWS AS showViews
+        FROM TB_MUSICAL M
+        JOIN TB_SHOW S ON M.MUSICAL_ID = S.MUSICAL_ID
+        WHERE M.MUSICAL_ID = #{musicalId}
+    </select>
 
+    <!-- ResultMap 설정 -->
+    <resultMap id="musicalDetailMap" type="smhrd.model.MusicalDetailVO">
+        <result property="musicalId" column="musicalId"/>
+        <result property="musicalTitle" column="musicalTitle"/>
+        <result property="musicalPoster" column="musicalPoster"/>
+        <result property="hallName" column="hallName"/>
+        <result property="showDate" column="showDate"/>
+        <result property="showRuntime" column="showRuntime"/>
+        <result property="showPrice" column="showPrice"/>
+        <result property="showViews" column="showViews"/>
+    </resultMap>
 
 
 
