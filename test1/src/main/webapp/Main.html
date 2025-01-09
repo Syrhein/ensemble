@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="./css/main.css">
 </head>
 <body>
+<script src="./js/slider.js"></script>
+
     <!-- 헤더 영역 -->
     <div data-layer="헤더영역 01" class="header">
         <div data-layer="Frame1" class="Frame1">
@@ -140,30 +142,6 @@
             window.location.href = 'Main.html';
         });
 
-        // 슬라이드 동작 관련
-        const slideTrack = document.querySelector('.slide-track');
-        const slides = slideTrack.children;
-        let currentIndex = 2; // 3번째 이미지부터 시작 (인덱스는 0부터 시작)
-
-        function updateSlidePosition() {
-            slideTrack.style.transform = `translateX(-${(currentIndex - 2) * 240}px)`;
-
-            Array.from(slides).forEach((slide, index) => {
-                slide.style.transform = index === currentIndex ? 'scale(1.2)' : 'scale(1)';
-                slide.style.opacity = index === currentIndex ? '1' : (index === currentIndex - 1 || index === currentIndex + 1 ? '0.5' : '0');
-            });
-        }
-
-        function nextSlide() {
-            currentIndex++;
-            if (currentIndex >= slides.length) {
-                currentIndex = 2; // 다시 3번째 이미지로 루프
-            }
-            updateSlidePosition();
-        }
-
-        updateSlidePosition();
-        setInterval(nextSlide, 3000);
     </script>
     <script src="./js/common.js"></script>
 </body>

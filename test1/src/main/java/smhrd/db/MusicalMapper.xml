@@ -140,9 +140,9 @@
 <!-- 리뷰 추가 -->
 <insert id="insertReview" parameterType="smhrd.model.ReviewVO">
     INSERT INTO TB_REVIEW (
-        REVIEW_IDX, SHOW_IDX, USER_ID, REVIEW_CONTENT, REVIEW_STAR, CREATED_AT, REVIEW_LIKES
+        SHOW_IDX, USER_ID, REVIEW_CONTENT, REVIEW_STAR, CREATED_AT, REVIEW_LIKES
     ) VALUES (
-        SEQ_REVIEW_IDX.NEXTVAL, #{showIdx}, #{userId}, #{reviewContent}, #{reviewStar}, CURRENT_TIMESTAMP, 0
+        #{showIdx}, #{userId}, #{reviewContent}, #{reviewStar}, CURRENT_TIMESTAMP, 0
     )
 </insert>
 
@@ -162,6 +162,26 @@
 		<result property="showImg" column="show_img" />
 		<result property="showViews" column="showViews" />
 	</resultMap>
+
+	<!-- 상위 5개 뮤지컬 포스터 가져오기 -->
+<select id="getTopMusicalPosters" resultType="smhrd.model.MusicalVO">
+    SELECT 
+        M.MUSICAL_ID,
+        M.MUSICAL_TITLE,
+        M.MUSICAL_POSTER
+    FROM 
+        (SELECT 
+             M.MUSICAL_ID,
+             M.MUSICAL_TITLE,
+             M.MUSICAL_POSTER,
+             ROW_NUMBER() OVER (ORDER BY S.SHOW_VIEWS DESC) AS RN
+         FROM 
+             TB_SHOW S
+         JOIN 
+             TB_MUSICAL M ON S.MUSICAL_ID = M.MUSICAL_ID) SubQuery
+    WHERE 
+        RN &lt;= 5
+</select>
 
 
 
