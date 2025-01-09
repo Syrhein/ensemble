@@ -3,10 +3,14 @@ package smhrd.controller;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import smhrd.model.Member;
+
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import java.io.IOException;
 import java.sql.*;
 
@@ -22,7 +26,16 @@ public class calendar extends HttpServlet {
         response.setContentType("application/json; charset=UTF-8");
         JsonArray events = new JsonArray();
 
-        String userId = request.getParameter("userId"); // 클라이언트로부터 사용자 ID를 전달받음
+        HttpSession session = request.getSession();
+        Member member = (Member) session.getAttribute("info"); // 세션에서 사용자 정보 가져오기
+
+        if (member == null) {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.getWriter().write("{\"error\": \"로그인이 필요합니다.\"}");
+            return;
+        }
+
+        String userId = member.getUserId(); // 세션에서 사용자 ID 가져오기
 
         try {
             Class.forName("oracle.jdbc.OracleDriver");
@@ -36,7 +49,7 @@ public class calendar extends HttpServlet {
                      "JOIN musical m ON r.musical_id = m.musical_id " +
                      "WHERE r.user_id = ?"
                  )) {
-                
+
                 stmt.setString(1, userId); // 사용자 ID 바인딩
                 ResultSet rs = stmt.executeQuery();
 

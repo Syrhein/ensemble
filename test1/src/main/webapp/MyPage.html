@@ -14,7 +14,7 @@
 
 </head>
 <body>
-
+	
     <!-- 헤더 영역 -->
     <div data-layer="헤더영역 01" class="header">
         <div data-layer="Frame1" class="Frame1">
@@ -74,6 +74,8 @@
     	<!-- 캘린더 영역 -->
     <div id="calendar"></div>
     
+    
+    <script src="./js/common.js"></script>
 <script>
 // FullCalendar 초기화
 document.addEventListener('DOMContentLoaded', function () {
@@ -83,7 +85,21 @@ document.addEventListener('DOMContentLoaded', function () {
         plugins: ['dayGrid'],
         initialView: 'dayGridMonth',
         events: function(fetchInfo, successCallback, failureCallback) {
-            fetch(`/Ensemble/EventServlet?userId=로그인_사용자_ID`)
+            // 사용자 ID를 세션에서 가져오는 API를 호출
+            fetch('/GetUserId') // GetUserId 서블릿 호출
+                .then(response => response.json())
+                .then(data => {
+                    const userId = data.userId;
+
+                    if (!userId) {
+                        alert('로그인이 필요합니다!');
+                        window.location.href = '/login.html';
+                        return;
+                    }
+
+                    // 사용자 ID로 캘린더 이벤트를 가져옴
+                    return fetch(`/calendar?userId=${userId}`);
+                })
                 .then(response => response.json())
                 .then(data => successCallback(data))
                 .catch(error => failureCallback(error));
@@ -105,7 +121,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 </script>
-
+	
 	<script>
         // 버튼 이벤트: 로그인 페이지로 이동
         document.querySelector('.BtnLogin').addEventListener('click', () => {
@@ -142,5 +158,6 @@ document.addEventListener('DOMContentLoaded', function () {
             window.location.href = 'Main.html';
         });
         </script>
+        
 </body>
 </html>
