@@ -112,8 +112,8 @@
 	</select>
 
 <!-- 상세정보 조회수 증가 -->
-<update id="incrementViews" parameterType="string">
-    UPDATE TB_MUSICAL
+<update id="incrementMusicalViews" parameterType="string">
+    UPDATE TB_SHOW
     SET SHOW_VIEWS = SHOW_VIEWS + 1
     WHERE MUSICAL_ID = #{musicalId}
 </update>
