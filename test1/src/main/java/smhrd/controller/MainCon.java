@@ -30,7 +30,6 @@ public class MainCon extends HttpServlet {
             // DAO를 통해 뮤지컬 목록 가져오기
             MusicalDAO dao = new MusicalDAO();
             List<MusicalVO> musicals = dao.getMusicalList();
-            System.out.println("Musical List Retrieved: " + musicals);
 
             // JSON으로 변환하여 응답
             Gson gson = new Gson();

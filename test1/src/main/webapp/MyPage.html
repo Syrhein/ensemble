@@ -77,7 +77,6 @@
     
     <script src="./js/common.js"></script>
 <script>
-// FullCalendar 초기화
 document.addEventListener('DOMContentLoaded', function () {
     var calendarEl = document.getElementById('calendar');
 
@@ -85,20 +84,19 @@ document.addEventListener('DOMContentLoaded', function () {
         plugins: ['dayGrid'],
         initialView: 'dayGridMonth',
         events: function(fetchInfo, successCallback, failureCallback) {
-            // 사용자 ID를 세션에서 가져오는 API를 호출
-            fetch('/GetUserId') // GetUserId 서블릿 호출
+            // CheckLoginCon 호출하여 로그인 상태 확인
+            fetch('http://localhost:8081/test1/CheckLoginCon') // CheckLoginCon 서블릿 호출
                 .then(response => response.json())
                 .then(data => {
-                    const userId = data.userId;
+                    if (data.isLoggedIn) {
+                        const userId = data.userId;
 
-                    if (!userId) {
+                        // 사용자 ID로 캘린더 이벤트 가져오기
+                        return fetch(`/calendar?userId=${userId}`);
+                    } else {
                         alert('로그인이 필요합니다!');
                         window.location.href = '/login.html';
-                        return;
                     }
-
-                    // 사용자 ID로 캘린더 이벤트를 가져옴
-                    return fetch(`/calendar?userId=${userId}`);
                 })
                 .then(response => response.json())
                 .then(data => successCallback(data))
