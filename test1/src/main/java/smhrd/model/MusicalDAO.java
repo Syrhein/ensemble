@@ -34,4 +34,16 @@ public class MusicalDAO {
             return session.selectOne("MusicalMapper.getMusicalDetails", musicalId);
         }
     }
+    
+    // 상세정보 조회수
+    public boolean incrementMusicalViews(String musicalId) {
+        try (SqlSession session = factory.openSession(true)) {
+            int result = session.update("MusicalMapper.incrementMusicalViews", musicalId);
+            return result > 0; // 업데이트된 행 수가 1 이상이면 성공
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    
 }
