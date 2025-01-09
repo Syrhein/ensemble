@@ -175,11 +175,11 @@
     .Buttons {
         gap: 5px;
     }
-    .BtnSignUp, .BtnLogin {
+    .BtnSignUp, .BtnLogin, BtnLogout {
         padding: 6px 8px;
     }
 
-    .SignUp, .Login {
+    .SignUp, .Login .Logout {
         font-size: 8px;
         white-space: nowrap; /* 텍스트가 줄바꿈되지 않도록 설정 */
         flex-wrap: nowrap; /* 가로 정렬 고정 */
