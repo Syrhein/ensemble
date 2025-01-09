@@ -158,7 +158,7 @@
     }
     
     .show_info .tags {
-        margin: 15px 0;
+        margin: 10px 0;
         padding: 10px 0;
         text-align: left;
     }
@@ -192,12 +192,15 @@
     .show_schedule_list {
         text-align: left;
         justify-content:space-between;
-        
+        margin: 8px;
+        font-family: '프리텐다드고딕';
+        font-size: 18px;
+        font-weight: 300;
     }
 
         /* 버튼 스타일 */
         .toggle-dscrp {
-            margin: 15px 0;
+            margin: 20px 0;
         }
 
         .toggle-button {
@@ -212,19 +215,7 @@
         }
 
         .toggle-button:hover {
-            background-color: #842a27ad;
-        }
-
-        /* 숨겨진 내용 스타일 */
-        .toggle-content {
-            display: none; /* 초기 상태는 숨김 */
-            margin-top: 10px;
-            padding: 20px;
-            background-color: #f9f9f9;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            color: #333;
-            font-size: 14px;
+            background-color: #d3d3d3ad;
         }
     
     
@@ -263,38 +254,125 @@
 
     
     /* 리뷰 영역 */
-    .show_actions {
-        display: flex;
-        justify-content: space-around;
-        padding: 15px;
-        border-top: 1px solid #ddd;
-        background-color: #e9e9e9;
-    }
-    
-    .show_actions div {
-        text-align: center;
-        cursor: pointer;
-        padding: 5%;
-    }
-    
-    .show_actions div:hover {
-        color: #6d211f;
-    }
-    
     .show_review {
         text-align: center;
         padding: 10px;
-        background-color: #8a3f3ce6;
+        margin-bottom: 8px;
+        background-color: #944747f7;
         color: #ffffff;
         font-family: '프리텐다드고딕';
         font-size: 18px;
-        font-weight: bold;
+        font-weight: 600;
         letter-spacing: 10px;
     }
+
+    /* 리뷰 섹션 */
+    .container_card {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: center; /* 수평 중앙 정렬 */
+    }
+
+    .card {
+        background-color: #e7e5e575;
+        padding: 20px;
+        width: 280px;
+        margin: 5px;
+        box-sizing: border-box;
+        position: relative;
+    }
     
+    .card-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+    
+    .container_card .space {
+        border-bottom: 1px solid #cecece;
+        flex-grow: 1; /* 위쪽에 빈 공간을 만들어 콘텐츠가 아래로 밀리도록 설정 */
+        margin: 2px 0;
+    }
+    
+    .profile-img {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        margin-right: 10px;
+    }
+    
+    .card-header h2 {
+        font-size: 18px;
+        margin: 0;
+        color: #333;
+        flex-grow: 1;
+        text-align: left;
+    }
+    
+    .rating {
+        font-size: 16px;
+        color: #888;
+    }
+    
+    .card-content {
+        color: #454545;
+    }
+    .card-content a {
+        font-size: 15px;
+        color: #454545;
+        margin: 10px 0;
+        line-height: 1.6;
+        overflow: hidden;
+        text-decoration: none;
+    }
+    
+    .card-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 10px;
+        padding-top: 10px;
+        border-top: 1px solid #cecece; /* 상단에 구분선 추가 (선택사항) */
+    }
+    
+    .likes-comments span {
+        font-size: 14px;
+        color: #666;
+        margin-right: 10px;
+    }
+    
+    .like-button {
+        background-color: transparent;
+        border: none;
+        color: #a52723d9;
+        font-size: 14px;
+        cursor: pointer;
+    }
 
 
+    /* 더보기 버튼 */
+    .button_more {
+        display: flex;
+        justify-content: flex-end; /* 오른쪽 정렬 */
+        width: 100%;
+    }
 
+    .more_Card {
+        align-items: end;
+        background: none;
+        border: none;
+        color: #730000;
+        font-family: '프리텐다드고딕';
+        font-size: 16px;
+        
+    }
+
+    .button_more .more_Card:hover {
+        color: #a52723d9;
+        font-size: 17px;
+        font-weight: 600;
+    }
 
 
     /* 부드러운 스크롤 효과 */
