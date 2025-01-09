@@ -10,33 +10,37 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import smhrd.model.MusicalDAO;
-import smhrd.model.MusicalVO;
 
 
 @WebServlet("/SlideDataServlet")
 public class SlideDataServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // 응답의 Content-Type 설정 (JSON 형식, UTF-8 인코딩)
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
 
-        // DAO 호출하여 데이터 가져오기
         MusicalDAO dao = new MusicalDAO();
-        List<MusicalVO> topMusicals = dao.getTopMusicalPosters();
+        List<String> topPosters = dao.getTopMusicalPosters();
 
-        // 데이터를 JSON 배열로 변환
+
         JSONArray jsonArray = new JSONArray();
-        for (MusicalVO musical : topMusicals) {
+
+        // 데이터가 없을 경우 처리
+        if (topPosters == null || topPosters.isEmpty()) {
+            System.out.println("No data found!");
+            response.getWriter().write(jsonArray.toString()); // 빈 JSON 반환
+            return;
+        }
+
+        for (String poster : topPosters) {
+            if (poster == null) continue; // Null 데이터 건너뜁니다.
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("musicalId", musical.getMusicalId());
-            jsonObject.put("musicalTitle", musical.getMusicalTitle());
-            jsonObject.put("musicalPoster", musical.getMusicalPoster());
+            jsonObject.put("musicalPoster", poster); // 포스터 URL만 JSON으로 반환
             jsonArray.put(jsonObject);
         }
 
-        // JSON 응답 반환
         response.getWriter().write(jsonArray.toString());
     }
 }
+

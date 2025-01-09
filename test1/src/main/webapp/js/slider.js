@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     const slideTrack = document.querySelector('.slide-track');
-    let currentIndex = 2; // 3번째 이미지부터 시작 (인덱스는 0부터 시작)
+    let currentIndex = 0; // 첫 번째 이미지부터 시작 (인덱스는 0부터 시작)
 
     // 서버에서 슬라이드 데이터 로드
     fetch('http://localhost:8081/test1/SlideDataServlet')
@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
             data.forEach(item => {
                 const img = document.createElement('img');
                 img.src = item.musicalPoster;
-                img.alt = item.musicalTitle;
+                img.alt = item.musicalTitle || "슬라이드 이미지"; // alt 속성 추가
                 slideTrack.appendChild(img);
             });
 
@@ -24,19 +24,24 @@ document.addEventListener('DOMContentLoaded', () => {
     // 슬라이드 동작 초기화
     function updateSlidePosition() {
         const slides = slideTrack.children;
-        slideTrack.style.transform = `translateX(-${(currentIndex - 2) * 240}px)`;
+        const slideCount = slides.length; // 슬라이드의 총 개수 계산
+        if (slideCount === 0) return; // 슬라이드가 없으면 동작 중지
+
+        slideTrack.style.transform = `translateX(-${currentIndex * 240}px)`; // 한 슬라이드의 너비: 240px
 
         Array.from(slides).forEach((slide, index) => {
             slide.style.transform = index === currentIndex ? 'scale(1.2)' : 'scale(1)';
-            slide.style.opacity = index === currentIndex ? '1' : (index === currentIndex - 1 || index === currentIndex + 1 ? '0.5' : '0');
+            slide.style.opacity = index === currentIndex ? '1' : '0.5';
         });
     }
 
     function nextSlide() {
         const slides = slideTrack.children;
+        const slideCount = slides.length; // 슬라이드의 총 개수 계산
+
         currentIndex++;
-        if (currentIndex >= slides.length) {
-            currentIndex = 2; // 다시 3번째 이미지로 루프
+        if (currentIndex >= slideCount) {
+            currentIndex = 0; // 첫 번째 슬라이드로 루프
         }
         updateSlidePosition();
     }
