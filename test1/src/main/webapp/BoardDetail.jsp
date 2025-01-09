@@ -25,6 +25,8 @@
         <p>작성자: <%= board.getUserId() %></p>
         <p>작성일: <%= board.getCreatedAt() %></p>
         <p>조회수: <%= board.getPostViews() %></p>
+        <p>작성일자: ${board.createdAt}</p>
+        
         <div>
             <%
             if (board.getPostContent() != null) {

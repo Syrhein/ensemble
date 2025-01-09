@@ -33,11 +33,17 @@ public class BoardWriteCon extends HttpServlet {
             uploadDir.mkdir();
         }
 
+        // Debug: 초기화 확인 로그
+        System.out.println("BoardWriteCon: 시작");
+
         BoardVO vo = new BoardVO();
         DiskFileItemFactory factory = new DiskFileItemFactory();
         ServletFileUpload upload = new ServletFileUpload(factory);
 
         try {
+            // Debug: 폼 데이터 처리 시작
+            System.out.println("BoardWriteCon: 폼 데이터 처리 시작");
+
             List<FileItem> formItems = upload.parseRequest(request);
             for (FileItem item : formItems) {
                 if (item.isFormField()) {
@@ -65,10 +71,15 @@ public class BoardWriteCon extends HttpServlet {
             vo.setPostViews(0);
             vo.setPostLikes(0);
 
+            // Debug: DAO 호출 전 로그
+            System.out.println("BoardWriteCon: DAO 호출 전");
             BoardDAO dao = new BoardDAO();
+
             if (dao.insertBoard(vo) > 0) {
+                System.out.println("BoardWriteCon: 게시글 등록 성공");
                 response.sendRedirect("Board.jsp");
             } else {
+                System.out.println("BoardWriteCon: 게시글 등록 실패");
                 response.sendRedirect("Main.html");
             }
 

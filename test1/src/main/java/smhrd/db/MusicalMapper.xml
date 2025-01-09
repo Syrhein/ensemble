@@ -28,13 +28,14 @@
 	<!-- 게시글 등록 -->
 	<insert id="insertBoard" parameterType="smhrd.model.BoardVO">
     INSERT INTO TB_POST (
-        POST_IDX, POST_TITLE, POST_CONTENT,
+        POST_IDX, POST_TITLE, POST_CONTENT, CREATED_AT,
         POST_VIEWS, POST_LIKES, USER_ID, POST_FILE_NAME, POST_FILE_PATH
     ) VALUES (
-        SEQ_TB_POST.NEXTVAL, #{postTitle}, #{postContent},
+        SEQ_TB_POST.NEXTVAL, #{postTitle}, #{postContent}, SYSDATE,
         #{postViews}, #{postLikes}, #{userId}, #{postFileName}, #{postFilePath}
     )
 </insert>
+
 
 
 	<!-- 게시글 목록 가져오기 -->
@@ -66,6 +67,7 @@
     FROM TB_POST
     WHERE POST_IDX = #{postIdx}
 </select>
+
 
 	<!-- 조회수 증가 -->
 	<update id="incrementViewCount" parameterType="int">
