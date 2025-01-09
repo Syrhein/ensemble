@@ -59,11 +59,13 @@
         <div class="popup-content" id="popupContent"></div>
     </div>
 	
-	<div class="review-section">
+<div class="review-section">
     <h2>리뷰 작성</h2>
     <form id="reviewForm">
-		<input type="hidden" id="showIdx" name="showIdx" value="${show.showIdx}">
-		
+        <!-- 서버에서 동적으로 전달된 showIdx 확인 및 유지 -->
+        <input type="hidden" id="showIdx" name="showIdx" value="${show.showIdx}">
+
+        <!-- 사용자 정보 전달 -->
         <input type="hidden" id="userId" name="userId" value="${userId}">
         <textarea id="reviewContent" placeholder="리뷰를 입력하세요" required></textarea>
         <select id="reviewStar" required>
@@ -86,23 +88,31 @@
         const reviewContent = document.getElementById("reviewContent").value;
         const reviewStar = document.getElementById("reviewStar").value;
 
+        // showIdx 유효성 검증 추가
+        if (!showIdx || isNaN(showIdx)) {
+            alert("공연 정보가 올바르지 않습니다. 다시 시도해주세요.");
+            return;
+        }
+
+        // 리뷰 작성 요청
         fetch("http://localhost:8081/test1/ReviewWriteCon", {
             method: "POST",
             headers: { "Content-Type": "application/x-www-form-urlencoded" },
             body: `showIdx=${showIdx}&userId=${userId}&reviewContent=${reviewContent}&reviewStar=${reviewStar}`
         })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                alert("리뷰 작성이 완료되었습니다.");
-                location.reload();
-            } else {
-                alert(data.error || "리뷰 작성에 실패했습니다.");
-            }
-        })
-        .catch(error => console.error("Error writing review:", error));
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert("리뷰 작성이 완료되었습니다.");
+                    location.reload();
+                } else {
+                    alert(data.error || "리뷰 작성에 실패했습니다.");
+                }
+            })
+            .catch(error => console.error("Error writing review:", error));
     });
 </script>
+
 	
 	
 	
