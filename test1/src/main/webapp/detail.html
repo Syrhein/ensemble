@@ -62,8 +62,9 @@
 	<div class="review-section">
     <h2>리뷰 작성</h2>
     <form id="reviewForm">
-        <input type="hidden" id="showIdx" value="${showIdx}">
-        <input type="hidden" id="userId" value="${userId}">
+		<input type="hidden" id="showIdx" name="showIdx" value="${show.showIdx}">
+		
+        <input type="hidden" id="userId" name="userId" value="${userId}">
         <textarea id="reviewContent" placeholder="리뷰를 입력하세요" required></textarea>
         <select id="reviewStar" required>
             <option value="1">1점</option>
