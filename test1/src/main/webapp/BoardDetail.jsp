@@ -28,12 +28,7 @@
         <div>
             <%
             if (board.getPostContent() != null) {
-                java.io.Reader contentReader = board.getPostContent().getCharacterStream();
-                char[] buffer = new char[1024];
-                int bytesRead;
-                while ((bytesRead = contentReader.read(buffer)) != -1) {
-                    out.print(new String(buffer, 0, bytesRead));
-                }
+                out.print(board.getPostContent()); // String으로 바로 출력
             } else {
                 out.print("<p>내용이 없습니다.</p>");
             }
