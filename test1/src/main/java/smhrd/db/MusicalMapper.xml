@@ -107,6 +107,8 @@
 		musical_title AS musicalTitle,
 		musical_poster AS
 		musicalPoster
+		musical_poster AS musicalPoster,
+		musical_create AS musicalCreate
 		FROM TB_MUSICAL
 	</select>
 

@@ -47,7 +47,7 @@
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', () => {
+	document.addEventListener('DOMContentLoaded', () => {
     const contentGrid = document.querySelector('.content-grid');
     const moreButton = document.querySelector('.more-button');
 
@@ -56,10 +56,11 @@ document.addEventListener('DOMContentLoaded', () => {
     let allData = []; // 서버에서 가져온 전체 데이터를 저장
 
     // 데이터 로드
-    fetch('http://localhost:8081/test1/MainCon?create=Y') // 서버 URL, create=Y 조건 추가
+    fetch('http://localhost:8081/test1/MainCon') // 서버 URL
         .then(response => response.json())
         .then(data => {
-            allData = data; // 전체 데이터를 저장
+            // MUSICAL_CREATE='Y' 조건 필터링
+            allData = data.filter(item => item.musicalCreate === 'Y');
             renderPage(); // 첫 페이지 렌더링
         })
         .catch(error => console.error('Error loading data:', error));
