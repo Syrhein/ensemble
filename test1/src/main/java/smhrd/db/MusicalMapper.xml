@@ -142,7 +142,11 @@
     INSERT INTO TB_REVIEW (
         SHOW_IDX, USER_ID, REVIEW_CONTENT, REVIEW_STAR, CREATED_AT, REVIEW_LIKES
     ) VALUES (
+<<<<<<< HEAD
         #{showIdx}, #{userId}, #{reviewContent}, #{reviewStar}, CURRENT_TIMESTAMP, 0
+=======
+         #{showIdx}, #{userId}, #{reviewContent}, #{reviewStar}, CURRENT_TIMESTAMP, 0
+>>>>>>> branch 'main' of https://github.com/SCNULMH/Ensemble.git
     )
 </insert>
 

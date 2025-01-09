@@ -19,18 +19,37 @@ public class ReviewWriteCon extends HttpServlet {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
 
-        String userId = request.getParameter("userId");
-        String reviewContent = request.getParameter("reviewContent");
-        String reviewStar = request.getParameter("reviewStar");
-        int showIdx = Integer.parseInt(request.getParameter("showIdx"));
-
-        ReviewVO review = new ReviewVO();
-        review.setUserId(userId);
-        review.setReviewContent(reviewContent);
-        review.setReviewStar(reviewStar);
-        review.setShowIdx(showIdx);
-
         try {
+            // 파라미터 가져오기 및 검증
+            String userId = request.getParameter("userId");
+            String reviewContent = request.getParameter("reviewContent");
+            String reviewStar = request.getParameter("reviewStar");
+            String showIdxParam = request.getParameter("showIdx");
+
+            if (userId == null || reviewContent == null || reviewStar == null || showIdxParam == null) {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                response.getWriter().write("{\"error\":\"필수 입력 값이 누락되었습니다.\"}");
+                return;
+            }
+
+            // showIdx를 정수로 변환 (예외 처리)
+            int showIdx;
+            try {
+                showIdx = Integer.parseInt(showIdxParam);
+            } catch (NumberFormatException e) {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                response.getWriter().write("{\"error\":\"showIdx는 숫자여야 합니다.\"}");
+                return;
+            }
+
+            // ReviewVO 객체 생성
+            ReviewVO review = new ReviewVO();
+            review.setUserId(userId);
+            review.setReviewContent(reviewContent);
+            review.setReviewStar(reviewStar);
+            review.setShowIdx(showIdx);
+
+            // DAO를 통해 데이터베이스에 리뷰 삽입
             MusicalDAO dao = new MusicalDAO();
             boolean success = dao.insertReview(review);
 
@@ -41,6 +60,7 @@ public class ReviewWriteCon extends HttpServlet {
                 response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                 response.getWriter().write("{\"error\":\"리뷰 작성에 실패하였습니다.\"}");
             }
+
         } catch (Exception e) {
             e.printStackTrace();
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
