@@ -26,6 +26,8 @@ public class BoardDAO {
         SqlSession session = factory.openSession(true);
         BoardVO vo = null;
         try {
+            // 조회수 증가 (옵션)
+            incrementViewCount(postIdx); // 조회수 증가 먼저 호출
             vo = session.selectOne("MusicalMapper.getBoardDetail", postIdx);
         } finally {
             session.close();

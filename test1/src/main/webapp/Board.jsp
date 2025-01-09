@@ -1,7 +1,6 @@
-<%@ page import="java.util.List" %>
-<%@ page import="smhrd.model.BoardDAO" %>
-<%@ page import="smhrd.model.BoardVO" %>
-<%@ page import="java.text.SimpleDateFormat" %>
+<%@page import="smhrd.model.BoardVO"%>
+<%@page import="java.util.List"%>
+<%@page import="smhrd.model.BoardDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
@@ -44,15 +43,14 @@
                         <%
                             BoardDAO dao = new BoardDAO();
                             List<BoardVO> boardList = dao.getBoardList();
-                            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                             request.setAttribute("boardList", boardList);
                         %>
                         <c:forEach var="board" items="${boardList}">
                             <tr>
                                 <td>${board.postIdx}</td>
-                                <td>${board.postTitle}</td>
+                                <td><a href="BoardDetailCon?postIdx=${board.postIdx}">${board.postTitle}</a></td>
                                 <td>${board.userId}</td>
-                                <td>${dateFormat.format(board.createdAt)}</td>
+                                <td><fmt:formatDate value="${board.createdAt}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
                                 <td>${board.postViews}</td>
                             </tr>
                         </c:forEach>
