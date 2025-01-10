@@ -168,23 +168,25 @@
 <select id="getTopMusicalPosters" resultType="smhrd.model.MusicalVO">
     <![CDATA[
     SELECT 
-        M.MUSICAL_ID AS musicalId,
-        M.MUSICAL_TITLE AS musicalTitle,
-        M.MUSICAL_POSTER AS musicalPoster
-    FROM 
-        (SELECT 
-             M.MUSICAL_ID,
-             M.MUSICAL_TITLE,
-             M.MUSICAL_POSTER,
-             ROW_NUMBER() OVER (ORDER BY S.SHOW_VIEWS DESC) AS RN
-         FROM 
-             TB_SHOW S
-         JOIN 
-             TB_MUSICAL M ON S.MUSICAL_ID = M.MUSICAL_ID)
-    WHERE 
-        RN <= 5
+        SQ.MUSICAL_ID AS musicalId,
+        SQ.MUSICAL_TITLE AS musicalTitle,
+        SQ.MUSICAL_POSTER AS musicalPoster
+    FROM (
+        SELECT 
+            M.MUSICAL_ID,
+            M.MUSICAL_TITLE,
+            M.MUSICAL_POSTER,
+            ROW_NUMBER() OVER (ORDER BY S.SHOW_VIEWS DESC) AS RN
+        FROM 
+            TB_SHOW S
+        JOIN 
+            TB_MUSICAL M ON S.MUSICAL_ID = M.MUSICAL_ID
+    ) SQ
+    WHERE SQ.RN <= 5
     ]]>
 </select>
+
+
 
 
 

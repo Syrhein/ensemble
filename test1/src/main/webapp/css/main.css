@@ -221,26 +221,18 @@
     width: 380px;
     height: 460px;
     object-fit: cover;
-    transition: transform 0.3s ease-in-out; /* 이미지 확대 효과 */
+    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out; /* 이미지 효과 */
+    opacity: 0.5; /* 기본적으로 반투명 */
+    pointer-events: none; /* 기본적으로 클릭 불가 */
 }
 
-/* 중앙 이미지 확대 */
-.slide-track img:nth-child(3) {
-    transform: scale(1.2);
+/* 활성화된 이미지 */
+.slide-track img.active {
+    opacity: 1; /* 완전히 보이기 */
+    transform: scale(1.2); /* 확대 효과 */
+    pointer-events: auto; /* 클릭 가능 */
 }
 
-/* 양쪽 이미지는 반만 보이도록 */
-.slide-track img:nth-child(2),
-.slide-track img:nth-child(4) {
-    opacity: 0.5;
-}
-
-/* 양쪽 끝 이미지는 숨김 */
-.slide-track img:nth-child(1),
-.slide-track img:nth-child(5) {
-    opacity: 0;
-    pointer-events: none;
-}
 
 
 
