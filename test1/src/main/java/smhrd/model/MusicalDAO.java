@@ -56,15 +56,14 @@ public class MusicalDAO {
    }
    
    // 상위 5개 뮤지컬 정보 가져오기
-   public List<String> getTopMusicalPosters() {
-	    SqlSession session = factory.openSession(true); // Auto-commit 설정
-	    List<String> posters = null;
+   public List<MusicalVO> getTopMusicals() {
+	    SqlSession session = factory.openSession(true);
+	    List<MusicalVO> topMusicals = null;
 	    try {
-	        posters = session.selectList("MusicalMapper.getTopMusicalPosters");
-	        System.out.println("Query result: " + posters);
+	        topMusicals = session.selectList("MusicalMapper.getTopMusicalPosters");
 	    } finally {
 	        session.close();
 	    }
-	    return posters;
+	    return topMusicals;
 	}
 }
