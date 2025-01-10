@@ -1,19 +1,52 @@
 package smhrd.model;
 
+import java.time.LocalDate;
+
 public class MusicalDetailVO {
-    private String musicalId;
-    private String musicalTitle;
-    private String musicalPoster;
-    private String musicalStDt;  // 상연 시작일
-    private String musicalEdDt;  // 상연 종료일
-    private String hallName;     // 공연장 이름
-    private String showDate;     // 상영일
-    private String showRuntime;  // 런타임
-    private String showPrice;    // 가격
-    private String showImg;      // 공연 이미지
-    private int showViews;       // 조회수
+    private int showIdx;          // 공연 ID
+    private String musicalId;     // 뮤지컬 ID
+    private String musicalTitle;  // 뮤지컬 제목
+    private String musicalPoster; // 포스터 URL
+    private LocalDate musicalStDt;  // 상연 시작일
+    private LocalDate musicalEdDt;  // 상연 종료일
+    private String hallName;      // 공연장 이름
+    private String showDate;      // 상영일
+    private String showRuntime;   // 런타임
+    private String showPrice;     // 가격
+    private String showImg;       // 공연 이미지
+    private int showViews;        // 조회수
+
+    // 기본 생성자
+    public MusicalDetailVO() {}
+
+    // 매개변수가 있는 생성자
+    public MusicalDetailVO(int showIdx, String musicalId, String musicalTitle, String musicalPoster,
+                           LocalDate musicalStDt, LocalDate musicalEdDt, String hallName,
+                           String showDate, String showRuntime, String showPrice,
+                           String showImg, int showViews) {
+        this.showIdx = showIdx;
+        this.musicalId = musicalId;
+        this.musicalTitle = musicalTitle;
+        this.musicalPoster = musicalPoster;
+        this.musicalStDt = musicalStDt;
+        this.musicalEdDt = musicalEdDt;
+        this.hallName = hallName;
+        this.showDate = showDate;
+        this.showRuntime = showRuntime;
+        this.showPrice = showPrice;
+        this.showImg = showImg;
+        this.showViews = showViews;
+    }
 
     // Getter & Setter
+    public int getShowIdx() {
+        return showIdx;
+    }
+
+    public void setShowIdx(int showIdx) {
+        this.showIdx = showIdx;
+    }
+
     public String getMusicalId() {
         return musicalId;
     }
@@ -38,19 +71,19 @@ public class MusicalDetailVO {
         this.musicalPoster = musicalPoster;
     }
 
-    public String getMusicalStDt() {
+    public LocalDate getMusicalStDt() {
         return musicalStDt;
     }
 
-    public void setMusicalStDt(String musicalStDt) {
+    public void setMusicalStDt(LocalDate musicalStDt) {
         this.musicalStDt = musicalStDt;
     }
 
-    public String getMusicalEdDt() {
+    public LocalDate getMusicalEdDt() {
         return musicalEdDt;
     }
 
-    public void setMusicalEdDt(String musicalEdDt) {
+    public void setMusicalEdDt(LocalDate musicalEdDt) {
         this.musicalEdDt = musicalEdDt;
     }
 
@@ -100,5 +133,24 @@ public class MusicalDetailVO {
 
     public void setShowViews(int showViews) {
         this.showViews = showViews;
+    }
+
+    // toString 메서드
+    @Override
+    public String toString() {
+        return "MusicalDetailVO{" +
+                "showIdx=" + showIdx +
+                ", musicalId='" + musicalId + '\'' +
+                ", musicalTitle='" + musicalTitle + '\'' +
+                ", musicalPoster='" + musicalPoster + '\'' +
+                ", musicalStDt=" + musicalStDt +
+                ", musicalEdDt=" + musicalEdDt +
+                ", hallName='" + hallName + '\'' +
+                ", showDate='" + showDate + '\'' +
+                ", showRuntime='" + showRuntime + '\'' +
+                ", showPrice='" + showPrice + '\'' +
+                ", showImg='" + showImg + '\'' +
+                ", showViews=" + showViews +
+                '}';
     }
 }

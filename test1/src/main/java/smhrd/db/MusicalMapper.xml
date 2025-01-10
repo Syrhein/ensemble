@@ -119,24 +119,24 @@
 </update>
 
 	<!-- 상세정보 뮤지컬 가져오기 -->
-	<select id="getMusicalDetails" parameterType="string"
-		resultType="smhrd.model.MusicalDetailVO">
-		SELECT M.MUSICAL_ID AS musicalId,
-		M.MUSICAL_TITLE AS musicalTitle,
-		M.MUSICAL_POSTER AS musicalPoster,
-		M.MUSICAL_ST_DT AS musicalStDt,
-		M.MUSICAL_ED_DT AS musicalEdDt,
-		S.HALL_NAME AS hallName,
-		S.SHOW_DT AS showDate,
-		S.SHOW_RUNTIME AS showRuntime,
-		S.SHOW_PRICE AS showPrice,
-		S.SHOW_IMGS AS showImg,
-		S.SHOW_IDX as showIdx,
-		S.SHOW_VIEWS AS showViews
-		FROM TB_MUSICAL M
-		JOIN TB_SHOW S ON M.MUSICAL_ID = S.MUSICAL_ID
-		WHERE M.MUSICAL_ID = #{musicalId}
-	</select>
+	<select id="getMusicalDetails" parameterType="string" resultType="smhrd.model.MusicalDetailVO">
+    SELECT S.SHOW_IDX AS showIdx,
+           M.MUSICAL_ID AS musicalId,
+           M.MUSICAL_TITLE AS musicalTitle,
+           M.MUSICAL_POSTER AS musicalPoster,
+           M.MUSICAL_ST_DT AS musicalStDt,
+           M.MUSICAL_ED_DT AS musicalEdDt,
+           S.HALL_NAME AS hallName,
+           S.SHOW_DT AS showDate,
+           S.SHOW_RUNTIME AS showRuntime,
+           S.SHOW_PRICE AS showPrice,
+           S.SHOW_IMGS AS showImg,
+           S.SHOW_VIEWS AS showViews
+    FROM TB_MUSICAL M
+    JOIN TB_SHOW S ON M.MUSICAL_ID = S.MUSICAL_ID
+    WHERE M.MUSICAL_ID = #{musicalId}
+</select>
+
 
 <!-- 리뷰 추가 -->
 <insert id="insertReview" parameterType="smhrd.model.ReviewVO">
