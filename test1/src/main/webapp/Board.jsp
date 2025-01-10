@@ -17,15 +17,15 @@
     <div class="header">
         <div class="Frame1">
             <div class="categories">
-                <div class="category"><a href="cate_create.jsp">국내창작</a></div>
-                <div class="category"><a href="cate_license.jsp">라이센스</a></div>
+                <div class="category"><a href="cate_create.html">국내창작</a></div>
+                <div class="category"><a href="cate_license.html">라이센스</a></div>
                 <div class="category"><a href="Board.jsp">게시판</a></div>
             </div>
-            <div class="logo"><a href="Main.jsp">CURTAIN CALL GUIDE</a></div>
+            <div class="logo"><a href="Main.html">CURTAIN CALL GUIDE</a></div>
             <div class="Buttons">
-                <div class="BtnSignUp"><a href="signUp.jsp" class="SignUp">회원가입</a></div>
-                <div class="BtnLogin"><a href="login.jsp" class="Login">로그인</a></div>
-                <a href="MyPage.jsp"><img src="./img/icon_my.png" class="icon_my" alt="My Icon"></a>
+                <div class="BtnSignUp"><a href="signUp.html" class="SignUp">회원가입</a></div>
+                <div class="BtnLogin"><a href="login.html" class="Login">로그인</a></div>
+                <a href="MyPage.html"><img src="./img/icon_my.png" class="icon_my" alt="My Icon"></a>
             </div>
         </div>
     </div>

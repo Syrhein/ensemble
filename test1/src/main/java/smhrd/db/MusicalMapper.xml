@@ -18,7 +18,7 @@
 		<result property="showImg" column="show_img" />
 		<result property="showViews" column="showViews" />
 	</resultMap>
-	
+
 	<!-- 회원가입 -->
 	<insert id="join" parameterType="smhrd.model.Member">
 		INSERT INTO TB_USER (USER_ID,
@@ -115,7 +115,33 @@
 		POST_LIKES = POST_LIKES + 1
 		WHERE POST_IDX = #{postIdx}
 	</update>
-
+<!-- 댓글작성 -->
+	<insert id="insertComment" parameterType="smhrd.model.CommentVO">
+		INSERT INTO TB_COMMENT (CMT_IDX, POST_IDX, USER_ID, CMT_CONTENT, CREATED_AT,
+		CMT_LIKES)
+		VALUES (SEQ_COMMENT.NEXTVAL, #{postIdx}, #{userId}, #{cmtContent},
+		SYSTIMESTAMP, 0)
+	</insert>
+<!-- 댓글 불러오기 -->
+	<select id="getComments" parameterType="int"
+		resultType="smhrd.model.CommentVO">
+		SELECT
+		CMT_IDX AS cmtIdx,
+		POST_IDX AS postIdx,
+		USER_ID AS userId,
+		CMT_CONTENT AS cmtContent,
+		CREATED_AT AS createdAt,
+		CMT_LIKES AS cmtLikes
+		FROM TB_COMMENT
+		WHERE POST_IDX = #{postIdx}
+		ORDER BY CREATED_AT DESC
+	</select>
+<!-- 댓글 좋아요수 -->
+	<update id="incrementCommentLikes" parameterType="int">
+		UPDATE TB_COMMENT
+		SET CMT_LIKES = CMT_LIKES + 1
+		WHERE CMT_IDX = #{cmtIdx}
+	</update>
 
 	<!-- 뮤지컬 목록 가져오기 -->
 	<select id="getMusicalList" resultType="smhrd.model.MusicalVO">
@@ -128,48 +154,50 @@
 		FROM TB_MUSICAL
 	</select>
 
-<!-- 상세정보 조회수 증가 -->
-<update id="incrementMusicalViews" parameterType="string">
-    UPDATE TB_SHOW
-    SET SHOW_VIEWS = SHOW_VIEWS + 1
-    WHERE MUSICAL_ID = #{musicalId}
-</update>
+	<!-- 상세정보 조회수 증가 -->
+	<update id="incrementMusicalViews" parameterType="string">
+		UPDATE TB_SHOW
+		SET SHOW_VIEWS = SHOW_VIEWS + 1
+		WHERE MUSICAL_ID = #{musicalId}
+	</update>
 
 	<!-- 상세정보 뮤지컬 가져오기 -->
-	<select id="getMusicalDetails" parameterType="string" resultType="smhrd.model.MusicalDetailVO">
-    SELECT 
-           M.MUSICAL_ID AS musicalId,
-           M.MUSICAL_TITLE AS musicalTitle,
-           M.MUSICAL_POSTER AS musicalPoster,
-           M.MUSICAL_ST_DT AS musicalStDt,
-           M.MUSICAL_ED_DT AS musicalEdDt,
-           S.HALL_NAME AS hallName,
-           S.SHOW_IDX AS showIdx,
-           S.SHOW_DT AS showDate,
-           S.SHOW_RUNTIME AS showRuntime,
-           S.SHOW_PRICE AS showPrice,
-           S.SHOW_IMGS AS showImg,
-           S.SHOW_VIEWS AS showViews
-    FROM TB_MUSICAL M
-    JOIN TB_SHOW S ON M.MUSICAL_ID = S.MUSICAL_ID
-    WHERE M.MUSICAL_ID = #{musicalId}
-</select>
+	<select id="getMusicalDetails" parameterType="string"
+		resultType="smhrd.model.MusicalDetailVO">
+		SELECT
+		M.MUSICAL_ID AS musicalId,
+		M.MUSICAL_TITLE AS musicalTitle,
+		M.MUSICAL_POSTER AS musicalPoster,
+		M.MUSICAL_ST_DT AS musicalStDt,
+		M.MUSICAL_ED_DT AS musicalEdDt,
+		S.HALL_NAME AS hallName,
+		S.SHOW_IDX AS showIdx,
+		S.SHOW_DT AS showDate,
+		S.SHOW_RUNTIME AS showRuntime,
+		S.SHOW_PRICE AS showPrice,
+		S.SHOW_IMGS AS showImg,
+		S.SHOW_VIEWS AS showViews
+		FROM TB_MUSICAL M
+		JOIN TB_SHOW S ON M.MUSICAL_ID = S.MUSICAL_ID
+		WHERE M.MUSICAL_ID = #{musicalId}
+	</select>
 
 
-<!-- 리뷰 추가 -->
-<insert id="insertReview" parameterType="smhrd.model.ReviewVO">
-    INSERT INTO TB_REVIEW (
-        SHOW_IDX, USER_ID, REVIEW_CONTENT, REVIEW_STAR, CREATED_AT, REVIEW_LIKES
-    ) VALUES (
-        #{showIdx}, #{userId}, #{reviewContent}, #{reviewStar}, CURRENT_TIMESTAMP, 0
-    )
-</insert>
+	<!-- 리뷰 추가 -->
+	<insert id="insertReview" parameterType="smhrd.model.ReviewVO">
+		INSERT INTO TB_REVIEW (
+		SHOW_IDX, USER_ID, REVIEW_CONTENT, REVIEW_STAR, CREATED_AT, REVIEW_LIKES
+		) VALUES (
+		#{showIdx}, #{userId}, #{reviewContent}, #{reviewStar}, CURRENT_TIMESTAMP, 0
+		)
+	</insert>
 
 
 
 
 	<!-- 상위 5개 뮤지컬 포스터 가져오기 -->
-<select id="getTopMusicalPosters" resultType="smhrd.model.MusicalVO">
+	<select id="getTopMusicalPosters"
+		resultType="smhrd.model.MusicalVO">
     <![CDATA[
     SELECT 
         SQ.MUSICAL_ID AS musicalId,
@@ -188,14 +216,14 @@
     ) SQ
     WHERE SQ.RN <= 5
     ]]>
-</select>
+	</select>
 
-<!-- 회원 이름 변경 -->
-<update id="updateUserName" parameterType="map">
-    UPDATE TB_USER
-    SET USER_NAME = #{newName}
-    WHERE USER_ID = #{userId}
-</update>
+	<!-- 회원 이름 변경 -->
+	<update id="updateUserName" parameterType="map">
+		UPDATE TB_USER
+		SET USER_NAME = #{newName}
+		WHERE USER_ID = #{userId}
+	</update>
 
 
 
