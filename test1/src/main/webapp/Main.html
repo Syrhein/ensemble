@@ -63,7 +63,6 @@
         const itemsPerPage = 12; // 한 페이지당 표시할 콘텐츠 수
         let allData = []; // 서버에서 가져온 전체 데이터를 저장
         let filteredData = []; // 검색 결과 데이터를 저장
-        let debounceTimeout; // 디바운싱 타이머
 
         // 데이터 로드
         fetch('http://localhost:8081/test1/MainCon') // 서버 URL
@@ -118,13 +117,10 @@
             renderPage();
         }
 
-        // 검색 입력 이벤트에 디바운싱 적용
+        // 검색 입력 이벤트
         searchInput.addEventListener('input', () => {
-            clearTimeout(debounceTimeout); // 이전 타이머 취소
-            debounceTimeout = setTimeout(() => {
-                const query = searchInput.value.trim(); // 검색어 가져오기
-                filterData(query); // 필터링 함수 호출
-            }, 300); // 300ms 대기
+            const query = searchInput.value.trim(); // 검색어 가져오기
+            filterData(query); // 필터링 함수 호출
         });
 
         // 더보기 버튼 이벤트
