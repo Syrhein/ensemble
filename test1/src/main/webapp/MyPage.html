@@ -47,6 +47,16 @@
         <!-- 사용자 이름 및 이메일 -->
         <div class="username">User name</div>
         <div class="userid">User id</div>
+        
+        <!-- 이름 변경 영역 -->
+		<div class="edit-user-info">
+		    <button class="edit-name-btn">이름 변경</button>
+		    <div class="edit-name-form" style="display: none;">
+		        <input type="text" class="new-name-input" placeholder="새 이름 입력">
+		        <button class="save-name-btn">저장</button>
+		        <button class="cancel-name-btn">취소</button>
+		    </div>
+		</div>
     
         <!-- 위시리스트 영역 -->
         <div class="stats">
@@ -73,34 +83,93 @@
 
     <script>
     document.addEventListener('DOMContentLoaded', () => {
-        // 사용자 정보 표시를 위한 DOM 요소
         const usernameElement = document.querySelector('.username');
-        const emailElement = document.querySelector('.userid');
+        const useridElement = document.querySelector('.userid');
 
-        // 로그인 상태 및 사용자 정보 확인
-        fetch('http://localhost:8081/test1/CheckLoginCon')
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                return response.json();
-            })
-            .then(data => {
-                if (data.isLoggedIn) {
-                    // 사용자 정보 표시
-                    usernameElement.textContent = data.userId || 'Unknown User';
-                    emailElement.textContent = data.userName || 'Unknown UserName';
-                } else {
-                    // 로그인되지 않은 경우 로그인 페이지로 리다이렉트
-                    alert(data.error || '로그인이 필요합니다!');
-                    window.location.href = 'login.html';
-                }
-            })
-            .catch(error => {
-                console.error('Error fetching user info:', error);
-                alert('네트워크 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
+        // 회원정보 로드
+        const loadUserInfo = () => {
+            fetch('http://localhost:8081/test1/CheckLoginCon')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.isLoggedIn) {
+                        usernameElement.textContent = data.userName || 'Unknown';
+                        useridElement.textContent = data.userId || 'Unknown';
+                    } else {
+                        alert(data.error || '로그인이 필요합니다!');
+                        window.location.href = 'login.html';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching user info:', error);
+                    alert('네트워크 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
+                });
+        };
+
+        // 이름 변경 기능
+        const initEditNameFeature = () => {
+            const editNameBtn = document.querySelector('.edit-name-btn');
+            const editNameForm = document.querySelector('.edit-name-form');
+            const newNameInput = document.querySelector('.new-name-input');
+            const saveNameBtn = document.querySelector('.save-name-btn');
+            const cancelNameBtn = document.querySelector('.cancel-name-btn');
+
+            // 이름 변경 버튼 클릭 시 입력 필드 표시
+            editNameBtn.addEventListener('click', () => {
+                editNameForm.style.display = 'block';
+                newNameInput.value = ''; // 입력 필드 초기화
             });
+
+            // 취소 버튼 클릭 시 입력 필드 숨기기
+            cancelNameBtn.addEventListener('click', () => {
+                editNameForm.style.display = 'none';
+            });
+
+            // 저장 버튼 클릭 시 서버로 이름 변경 요청
+            saveNameBtn.addEventListener('click', () => {
+                const newName = newNameInput.value.trim();
+                if (newName) {
+                    fetch('http://localhost:8081/test1/UpdateUserNameCon', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ userId: useridElement.textContent, userName: newName }),
+                    })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error(`HTTP error! status: ${response.status}`);
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            if (data.success) {
+                                alert('이름이 성공적으로 변경되었습니다!');
+                                usernameElement.textContent = newName; // 화면에 이름 업데이트
+                                editNameForm.style.display = 'none';
+                            } else {
+                                alert(data.error || '이름 변경에 실패했습니다.');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error updating name:', error);
+                            alert('네트워크 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
+                        });
+                } else {
+                    alert('새 이름을 입력해주세요.');
+                }
+            });
+        };
+
+        // 초기화
+        loadUserInfo();
+        initEditNameFeature();
     });
+
     </script>
     
     <script>
