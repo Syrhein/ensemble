@@ -115,13 +115,15 @@
 		POST_LIKES = POST_LIKES + 1
 		WHERE POST_IDX = #{postIdx}
 	</update>
+	
+	
 <!-- 댓글작성 -->
 	<insert id="insertComment" parameterType="smhrd.model.CommentVO">
-		INSERT INTO TB_COMMENT (CMT_IDX, POST_IDX, USER_ID, CMT_CONTENT, CREATED_AT,
-		CMT_LIKES)
-		VALUES (SEQ_COMMENT.NEXTVAL, #{postIdx}, #{userId}, #{cmtContent},
-		SYSTIMESTAMP, 0)
+		INSERT INTO TB_COMMENT ( POST_IDX, USER_ID, CMT_CONTENT, CREATED_AT,CMT_LIKES)
+		VALUES ( #{postIdx}, #{userId}, #{cmtContent},SYSTIMESTAMP, 0)
 	</insert>
+	
+	
 <!-- 댓글 불러오기 -->
 	<select id="getComments" parameterType="int"
 		resultType="smhrd.model.CommentVO">
