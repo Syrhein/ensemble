@@ -1,14 +1,14 @@
 package smhrd.model;
 
-import java.time.LocalDate;
+import java.sql.Date;
 
 public class MusicalDetailVO {
     private int showIdx;          // 공연 ID
     private String musicalId;     // 뮤지컬 ID
     private String musicalTitle;  // 뮤지컬 제목
     private String musicalPoster; // 포스터 URL
-    private LocalDate musicalStDt;  // 상연 시작일
-    private LocalDate musicalEdDt;  // 상연 종료일
+    private Date musicalStDt;  // 상연 시작일
+    private Date musicalEdDt;  // 상연 종료일
     private String hallName;      // 공연장 이름
     private String showDate;      // 상영일
     private String showRuntime;   // 런타임
@@ -21,7 +21,7 @@ public class MusicalDetailVO {
 
     // 매개변수가 있는 생성자
     public MusicalDetailVO(int showIdx, String musicalId, String musicalTitle, String musicalPoster,
-                           LocalDate musicalStDt, LocalDate musicalEdDt, String hallName,
+                           Date musicalStDt, Date musicalEdDt, String hallName,
                            String showDate, String showRuntime, String showPrice,
                            String showImg, int showViews) {
         this.showIdx = showIdx;
@@ -71,19 +71,19 @@ public class MusicalDetailVO {
         this.musicalPoster = musicalPoster;
     }
 
-    public LocalDate getMusicalStDt() {
+    public Date getMusicalStDt() {
         return musicalStDt;
     }
 
-    public void setMusicalStDt(LocalDate musicalStDt) {
+    public void setMusicalStDt(Date musicalStDt) {
         this.musicalStDt = musicalStDt;
     }
 
-    public LocalDate getMusicalEdDt() {
+    public Date getMusicalEdDt() {
         return musicalEdDt;
     }
 
-    public void setMusicalEdDt(LocalDate musicalEdDt) {
+    public void setMusicalEdDt(Date musicalEdDt) {
         this.musicalEdDt = musicalEdDt;
     }
 
