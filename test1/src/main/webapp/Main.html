@@ -51,56 +51,89 @@
      
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const contentListContainer = document.querySelector('.content-list__items1');
-            const moreButton = document.createElement('button');
-            moreButton.innerText = "더보기";
-            moreButton.classList.add('more-button');
-            document.querySelector('.content-list').appendChild(moreButton);
+    document.addEventListener('DOMContentLoaded', () => {
+        const contentListContainer = document.querySelector('.content-list__items1');
+        const searchInput = document.querySelector('.search'); // 검색 필드
+        const moreButton = document.createElement('button');
+        moreButton.innerText = "더보기";
+        moreButton.classList.add('more-button');
+        document.querySelector('.content-list').appendChild(moreButton);
 
-            let currentPage = 0;
-            const itemsPerPage = 12; // 한 페이지당 표시할 콘텐츠 수
-            let allData = []; // 서버에서 가져온 전체 데이터를 저장
+        let currentPage = 0;
+        const itemsPerPage = 12; // 한 페이지당 표시할 콘텐츠 수
+        let allData = []; // 서버에서 가져온 전체 데이터를 저장
+        let filteredData = []; // 검색 결과 데이터를 저장
+        let debounceTimeout; // 디바운싱 타이머
 
-            // 데이터 로드
-            fetch('http://localhost:8081/test1/MainCon') // 서버 URL
-                .then(response => response.json())
-                .then(data => {
-                    allData = data; // 전체 데이터를 저장
-                    renderPage(); // 첫 페이지 렌더링
-                })
-                .catch(error => console.error('Error loading data:', error));
+        // 데이터 로드
+        fetch('http://localhost:8081/test1/MainCon') // 서버 URL
+            .then(response => response.json())
+            .then(data => {
+                allData = data; // 전체 데이터를 저장
+                filteredData = allData; // 초기에는 전체 데이터를 필터링 데이터로 사용
+                renderPage(); // 첫 페이지 렌더링
+            })
+            .catch(error => console.error('Error loading data:', error));
 
-            // 현재 페이지 렌더링
-            function renderPage() {
-                const start = currentPage * itemsPerPage;
-                const end = start + itemsPerPage;
-                const pageData = allData.slice(start, end); // 현재 페이지 데이터
+        // 현재 페이지 렌더링
+        function renderPage() {
+            const start = currentPage * itemsPerPage;
+            const end = start + itemsPerPage;
+            const pageData = filteredData.slice(start, end); // 현재 페이지 데이터
 
-                pageData.forEach(item => {
-                    const contentDiv = document.createElement('div');
-                    contentDiv.classList.add('content-item');
-                    contentDiv.innerHTML = `
-                        <a href="detail.html?musicalId=${item.musicalId}&showIdx=${item.showIdx}">
-                            <img src="${item.musicalPoster}" alt="${item.musicalTitle}">
-                            <h3>${item.musicalTitle}</h3>
-                        </a>
-                    `;
-                    contentListContainer.appendChild(contentDiv);
-                });
+            pageData.forEach(item => {
+                const contentDiv = document.createElement('div');
+                contentDiv.classList.add('content-item');
+                contentDiv.innerHTML = `
+                    <a href="detail.html?musicalId=${item.musicalId}&showIdx=${item.showIdx}">
+                        <img src="${item.musicalPoster}" alt="${item.musicalTitle}">
+                        <h3>${item.musicalTitle}</h3>
+                    </a>
+                `;
+                contentListContainer.appendChild(contentDiv);
+            });
 
-                // 더 이상 데이터가 없으면 더보기 버튼 숨기기
-                if (end >= allData.length) {
-                    moreButton.style.display = 'none';
-                }
+            // 더 이상 데이터가 없으면 더보기 버튼 숨기기
+            if (end >= filteredData.length) {
+                moreButton.style.display = 'none';
+            }
+        }
+
+        // 검색 필터링
+        function filterData(query) {
+            // 검색어가 없을 경우 전체 데이터를 사용
+            if (!query) {
+                filteredData = allData;
+            } else {
+                // 검색어와 제목 비교
+                filteredData = allData.filter(item =>
+                    item.musicalTitle.toLowerCase().includes(query.toLowerCase())
+                );
             }
 
-            // 더보기 버튼 이벤트
-            moreButton.addEventListener('click', () => {
-                currentPage++;
-                renderPage();
-            });
+            // 검색 결과를 기반으로 페이지 초기화
+            currentPage = 0;
+            contentListContainer.innerHTML = ''; // 기존 콘텐츠 제거
+            moreButton.style.display = 'block'; // 더보기 버튼 다시 표시
+            renderPage();
+        }
+
+        // 검색 입력 이벤트에 디바운싱 적용
+        searchInput.addEventListener('input', () => {
+            clearTimeout(debounceTimeout); // 이전 타이머 취소
+            debounceTimeout = setTimeout(() => {
+                const query = searchInput.value.trim(); // 검색어 가져오기
+                filterData(query); // 필터링 함수 호출
+            }, 300); // 300ms 대기
         });
+
+        // 더보기 버튼 이벤트
+        moreButton.addEventListener('click', () => {
+            currentPage++;
+            renderPage();
+        });
+    });
+
     </script>
 
     <script>
