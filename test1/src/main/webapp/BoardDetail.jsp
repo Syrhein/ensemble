@@ -110,7 +110,7 @@
                 <div class="reacting_area">
                     <form action="AddCommentCon" method="post">
                         <input type="hidden" name="postIdx" value="<%= postIdx %>">
-                        <input type="text" class="post_reacting" name="commentContent" placeholder="✏️ 댓글에 참여하세요">
+                        <input type="text" class="post_reacting" name="cmtContent" placeholder="✏️ 댓글에 참여하세요">
                         <button type="submit">등록</button>
                     </form>
                 </div>
