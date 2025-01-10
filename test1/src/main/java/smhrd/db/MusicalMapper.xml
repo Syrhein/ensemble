@@ -2,6 +2,23 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="MusicalMapper">
 
+	<!-- ResultMap 설정 -->
+	<resultMap id="musicalDetailMap"
+		type="smhrd.model.MusicalDetailVO">
+		<result property="musicalId" column="musicalId" />
+		<result property="musicalTitle" column="musicalTitle" />
+		<result property="musicalPoster" column="musicalPoster" />
+		<result property="musicalStDt" column="musical_ST_DT" />
+		<result property="musicalEdDt" column="musical_ED_DT" />
+		<result property="hallName" column="hallName" />
+		<result property="showIdx" column="showIdx" />
+		<result property="showDate" column="showDate" />
+		<result property="showRuntime" column="showRuntime" />
+		<result property="showPrice" column="showPrice" />
+		<result property="showImg" column="show_img" />
+		<result property="showViews" column="showViews" />
+	</resultMap>
+	
 	<!-- 회원가입 -->
 	<insert id="join" parameterType="smhrd.model.Member">
 		INSERT INTO TB_USER (USER_ID,
@@ -120,13 +137,14 @@
 
 	<!-- 상세정보 뮤지컬 가져오기 -->
 	<select id="getMusicalDetails" parameterType="string" resultType="smhrd.model.MusicalDetailVO">
-    SELECT S.SHOW_IDX AS showIdx,
+    SELECT 
            M.MUSICAL_ID AS musicalId,
            M.MUSICAL_TITLE AS musicalTitle,
            M.MUSICAL_POSTER AS musicalPoster,
            M.MUSICAL_ST_DT AS musicalStDt,
            M.MUSICAL_ED_DT AS musicalEdDt,
            S.HALL_NAME AS hallName,
+           S.SHOW_IDX AS showIdx,
            S.SHOW_DT AS showDate,
            S.SHOW_RUNTIME AS showRuntime,
            S.SHOW_PRICE AS showPrice,
@@ -148,21 +166,7 @@
 </insert>
 
 
-	<!-- ResultMap 설정 -->
-	<resultMap id="musicalDetailMap"
-		type="smhrd.model.MusicalDetailVO">
-		<result property="musicalId" column="musicalId" />
-		<result property="musicalTitle" column="musicalTitle" />
-		<result property="musicalPoster" column="musicalPoster" />
-		<result property="musicalStDt" column="musical_ST_DT" />
-		<result property="musicalEdDt" column="musical_ED_DT" />
-		<result property="hallName" column="hallName" />
-		<result property="showDate" column="showDate" />
-		<result property="showRuntime" column="showRuntime" />
-		<result property="showPrice" column="showPrice" />
-		<result property="showImg" column="show_img" />
-		<result property="showViews" column="showViews" />
-	</resultMap>
+
 
 	<!-- 상위 5개 뮤지컬 포스터 가져오기 -->
 <select id="getTopMusicalPosters" resultType="smhrd.model.MusicalVO">
