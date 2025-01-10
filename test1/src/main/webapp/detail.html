@@ -62,21 +62,34 @@
         <h2>리뷰 작성</h2>
         <form id="reviewForm">
             <input type="hidden" id="showIdx" name="showIdx" value="">
+
             <input type="hidden" id="userId" name="userId" value="">
             <textarea id="reviewContent" placeholder="리뷰를 입력하세요" required></textarea>
-            <select id="reviewStar" required>
-                <option value="1">1점</option>
-                <option value="2">2점</option>
-                <option value="3">3점</option>
-                <option value="4">4점</option>
-                <option value="5">5점</option>
-            </select>
+            <input type="number" name="reviewStar" min="1" max="5">
             <button type="submit">리뷰 작성</button>
         </form>
     </div>
 
     <!-- JavaScript -->
     <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // showIdx 값을 가져오기
+        const showIdxElement = document.getElementById('showIdx');
+        if (showIdxElement) {
+            console.log('showIdx value:', showIdxElement.value); // 값 확인 (예: "92")
+        } else {
+            console.error('showIdx 요소를 찾을 수 없습니다.');
+        }
+
+        // userId 값 설정 (예제)
+        const userIdElement = document.getElementById('userId');
+        if (userIdElement) {
+            userIdElement.value = '1'; // 실제 사용자 ID로 설정
+        }
+    });
+
+    
+    
         // 조회수를 증가시키는 함수
         function incrementViews(musicalId) {
             fetch(`http://localhost:8081/test1/IncrementViewCon`, {

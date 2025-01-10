@@ -5,8 +5,21 @@ public class ReviewVO {
     private int showIdx;
     private String userId;
     private String reviewContent;
-    private String reviewStar;
-    private int reviewLikes;
+    private int reviewStar; // 변경: String -> int
+    private int reviewLikes = 0; // 기본값 설정
+
+    // 기본 생성자
+    public ReviewVO() {
+    }
+
+    // 매개변수 생성자
+    public ReviewVO(int showIdx, String userId, String reviewContent, int reviewStar) {
+        this.showIdx = showIdx;
+        this.userId = userId;
+        this.reviewContent = reviewContent;
+        this.reviewStar = reviewStar;
+        this.reviewLikes = 0; // 기본값 설정
+    }
 
     // Getter and Setter
     public int getReviewIdx() {
@@ -41,11 +54,11 @@ public class ReviewVO {
         this.reviewContent = reviewContent;
     }
 
-    public String getReviewStar() {
+    public int getReviewStar() { // 변경: int 타입
         return reviewStar;
     }
 
-    public void setReviewStar(String reviewStar) {
+    public void setReviewStar(int reviewStar) { // 변경: int 타입
         this.reviewStar = reviewStar;
     }
 
@@ -55,5 +68,11 @@ public class ReviewVO {
 
     public void setReviewLikes(int reviewLikes) {
         this.reviewLikes = reviewLikes;
+    }
+
+    @Override
+    public String toString() {
+        return "ReviewVO [reviewIdx=" + reviewIdx + ", showIdx=" + showIdx + ", userId=" + userId 
+            + ", reviewContent=" + reviewContent + ", reviewStar=" + reviewStar + ", reviewLikes=" + reviewLikes + "]";
     }
 }

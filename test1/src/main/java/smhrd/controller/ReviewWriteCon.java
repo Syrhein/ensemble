@@ -1,68 +1,45 @@
-// ReviewWriteCon.java
 package smhrd.controller;
+
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import smhrd.model.MusicalDAO;
 import smhrd.model.ReviewVO;
 
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-
-@WebServlet("/ReviewWriteCon")
 public class ReviewWriteCon extends HttpServlet {
-    private static final long serialVersionUID = 1L;
-
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) {
+        // 요청 데이터 가져오기
+        String showIdx = request.getParameter("showIdx");
+        String userId = request.getParameter("userId");
+        String reviewContent = request.getParameter("reviewContent");
+        String reviewStar = request.getParameter("reviewStar"); // String 타입으로 입력받음
 
         try {
-            String userId = request.getParameter("userId");
-            String reviewContent = request.getParameter("reviewContent");
-            String reviewStar = request.getParameter("reviewStar");
-            String showIdx = request.getParameter("showIdx");
-
-            if (showIdx == null || showIdx.trim().isEmpty() || !isNumeric(showIdx)) {
-                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                response.getWriter().write("{\"error\":\"showIdx는 유효한 숫자여야 합니다.\"}");
-                return;
-            }
-            
+            // ReviewVO 객체 생성 및 데이터 설정
             ReviewVO review = new ReviewVO();
-            review.setShowIdx(Integer.parseInt(showIdx));
+            review.setShowIdx(Integer.parseInt(showIdx)); // String -> int 변환
             review.setUserId(userId);
             review.setReviewContent(reviewContent);
-            review.setReviewStar(reviewStar);
+            review.setReviewStar(Integer.parseInt(reviewStar)); // String -> int 변환
 
+            // DAO 호출
             MusicalDAO dao = new MusicalDAO();
-            boolean success = dao.insertReview(review);
+            int result = dao.insertReview(review); // int 반환
+            boolean success = (result > 0); // 삽입 성공 여부 확인
 
+            // 결과 처리
             if (success) {
-                response.setStatus(HttpServletResponse.SC_OK);
-                response.getWriter().write("{\"success\":\"리뷰가 성공적으로 작성되었습니다.\"}");
+                response.getWriter().write("리뷰 작성 성공");
             } else {
-                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                response.getWriter().write("{\"error\":\"리뷰 작성에 실패하였습니다.\"}");
+                response.getWriter().write("리뷰 작성 실패");
             }
-
         } catch (Exception e) {
             e.printStackTrace();
-            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            response.getWriter().write("{\"error\":\"서버 에러가 발생하였습니다.\"}");
-        }
-    }
-
-    private boolean isNumeric(String str) {
-        try {
-            Integer.parseInt(str);
-            return true;
-        } catch (NumberFormatException e) {
-            return false;
+            try {
+                response.getWriter().write("리뷰 작성 중 오류 발생");
+            } catch (Exception ignored) {
+            }
         }
     }
 }
