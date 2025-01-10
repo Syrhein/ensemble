@@ -131,6 +131,7 @@
 		S.SHOW_RUNTIME AS showRuntime,
 		S.SHOW_PRICE AS showPrice,
 		S.SHOW_IMGS AS showImg,
+		S.SHOW_IDX as showIdx,
 		S.SHOW_VIEWS AS showViews
 		FROM TB_MUSICAL M
 		JOIN TB_SHOW S ON M.MUSICAL_ID = S.MUSICAL_ID
