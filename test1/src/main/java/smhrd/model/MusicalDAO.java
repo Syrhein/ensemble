@@ -45,14 +45,12 @@ public class MusicalDAO {
             return false;
         }
     }
-   public boolean insertReview(ReviewVO review) {
-       try (SqlSession session = factory.openSession(true)) {
-           int result = session.insert("MusicalMapper.insertReview", review);
-           return result > 0; // 삽입 성공 여부 반환
-       } catch (Exception e) {
-           e.printStackTrace();
-           return false;
+    //리뷰 -- 수정
+   public int  insertReview(ReviewVO review) {
+	   try (SqlSession session = factory.openSession(true)) {
+		   return session.insert("MusicalMapper.insertReview", review);
        }
+	   
    }
    
    // 상위 5개 뮤지컬 정보 가져오기
