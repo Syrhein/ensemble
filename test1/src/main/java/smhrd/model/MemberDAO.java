@@ -1,5 +1,12 @@
 package smhrd.model;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Map;
+
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import smhrd.db.SqlSessionManager;
@@ -58,4 +65,17 @@ public class MemberDAO {
         }
         return result;
     }
+    
+    // 이름바꾸기
+    public boolean updateUserName(String userId, String newName) {
+        try (SqlSession session = factory.openSession(true)) { // Auto-commit enabled
+            int result = session.update("MusicalMapper.updateUserName", Map.of("userId", userId, "newName", newName));
+            return result > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+
 }
