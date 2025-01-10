@@ -18,7 +18,6 @@ public class BoardDetailCon extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // 게시글 번호 파라미터 가져오기
         String postIdxParam = request.getParameter("postIdx");
         int postIdx;
 
@@ -33,9 +32,11 @@ public class BoardDetailCon extends HttpServlet {
 
         BoardDAO dao = new BoardDAO();
 
-        // 게시글 상세 데이터 가져오기 (조회수 증가 포함)
-        BoardVO board = dao.getBoardDetail(postIdx);
+        // 조회수 증가
+        dao.incrementViewCount(postIdx);
 
+        // 게시글 상세 데이터 가져오기
+        BoardVO board = dao.getBoardDetail(postIdx);
         if (board == null) {
             System.out.println("[ERROR] No board found for Post Index: " + postIdx);
             response.sendRedirect("Board.jsp");
