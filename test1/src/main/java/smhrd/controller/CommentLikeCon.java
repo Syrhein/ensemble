@@ -14,15 +14,18 @@ import smhrd.model.CommentVO;
 @WebServlet("/CommentLikeCon")
 public class CommentLikeCon extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
+        response.setContentType("application/json; charset=UTF-8");
+
         int cmtIdx = Integer.parseInt(request.getParameter("cmtIdx"));
 
         BoardDAO dao = new BoardDAO();
-        int result = dao.incrementCommentLikes(cmtIdx);
+        int updatedLikes = dao.incrementCommentLikes(cmtIdx);
 
-        if (result > 0) {
-            response.sendRedirect(request.getHeader("Referer"));
+        if (updatedLikes >= 0) {
+            response.getWriter().write("{\"likes\": " + updatedLikes + "}");
         } else {
-            response.getWriter().println("좋아요 처리 실패");
+            response.getWriter().write("{\"error\": \"좋아요 처리 실패\"}");
         }
     }
 }

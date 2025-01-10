@@ -58,14 +58,16 @@ public class BoardDAO {
 	}
 
 	// 좋아요 증가
-	// 좋아요 증가
-	public void incrementPostLikes(int postIdx) {
-		SqlSession session = factory.openSession(true);
-		try {
-			session.update("MusicalMapper.incrementPostLikes", postIdx);
-		} finally {
-			session.close();
-		}
+	public int incrementPostLikes(int postIdx) {
+	    SqlSession session = factory.openSession(true);
+	    int updatedLikes = 0;
+	    try {
+	        session.update("MusicalMapper.incrementPostLikes", postIdx);
+	        updatedLikes = session.selectOne("MusicalMapper.getPostLikes", postIdx); // 좋아요 수 조회
+	    } finally {
+	        session.close();
+	    }
+	    return updatedLikes;
 	}
 
 //댓글 작성
@@ -90,6 +92,7 @@ public class BoardDAO {
 	    }
 	    return comments;
 	}
+
 
 	// 댓글 좋아요 증가
 	public int incrementCommentLikes(int cmtIdx) {

@@ -1,6 +1,8 @@
 package smhrd.controller;
 
 import java.io.IOException;
+import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -9,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import smhrd.model.BoardDAO;
 import smhrd.model.BoardVO;
+import smhrd.model.CommentVO;
 
 @WebServlet("/BoardDetailCon")
 public class BoardDetailCon extends HttpServlet {
@@ -39,8 +42,12 @@ public class BoardDetailCon extends HttpServlet {
             return;
         }
 
-        // 게시글 데이터를 리퀘스트에 저장하고 상세 페이지로 이동
+        // 댓글 데이터 가져오기
+        List<CommentVO> comments = dao.getComments(postIdx);
+
+        // 게시글 및 댓글 데이터를 리퀘스트에 저장
         request.setAttribute("board", board);
+        request.setAttribute("comments", comments);
         request.getRequestDispatcher("BoardDetail.jsp").forward(request, response);
     }
 }
