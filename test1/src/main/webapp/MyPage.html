@@ -45,8 +45,8 @@
         </div>
     
         <!-- 사용자 이름 및 이메일 -->
-        <div class="username">User ID</div>
-        <div class="email">email1234@naver.com</div>
+        <div class="username">User name</div>
+        <div class="userid">User id</div>
     
         <!-- 위시리스트 영역 -->
         <div class="stats">
@@ -75,7 +75,7 @@
     document.addEventListener('DOMContentLoaded', () => {
         // 사용자 정보 표시를 위한 DOM 요소
         const usernameElement = document.querySelector('.username');
-        const emailElement = document.querySelector('.email');
+        const emailElement = document.querySelector('.userid');
 
         // 로그인 상태 및 사용자 정보 확인
         fetch('http://localhost:8081/test1/CheckLoginCon')
@@ -89,7 +89,7 @@
                 if (data.isLoggedIn) {
                     // 사용자 정보 표시
                     usernameElement.textContent = data.userId || 'Unknown User';
-                    emailElement.textContent = data.userEmail || 'Unknown Email';
+                    emailElement.textContent = data.userName || 'Unknown UserName';
                 } else {
                     // 로그인되지 않은 경우 로그인 페이지로 리다이렉트
                     alert(data.error || '로그인이 필요합니다!');

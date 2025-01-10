@@ -28,6 +28,9 @@ public class CheckLoginCon extends HttpServlet {
                     jsonResponse.put("isLoggedIn", true);
                     jsonResponse.put("userId", member.getUserId());
                     jsonResponse.put("userEmail", member.getUserEmail());
+                    jsonResponse.put("userName", member.getUserName());
+                    jsonResponse.put("UserTel", member.getUserTel());
+                    jsonResponse.put("JoinedAt", member.getJoinedAt());
                 } else {
                     jsonResponse.put("isLoggedIn", false);
                     jsonResponse.put("error", "로그인 정보가 없습니다.");
