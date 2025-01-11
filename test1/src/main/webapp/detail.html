@@ -1,77 +1,92 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>상세페이지</title>
-    <link rel="stylesheet" href="./css/detail.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>상세페이지</title>
+<link rel="stylesheet" href="./css/detail.css">
 </head>
 <body>
-    <!-- 헤더 영역 -->
-    <div class="header">
-        <div class="Frame1">
-            <div class="categories">
-                <div class="category">국내창작</div>
-                <div class="category">라이센스</div>
-                <div class="category">게시판</div>
-            </div>
-            <div class="logo">CURTAIN CALL GUIDE</div>
-            <div class="Buttons">
-                <div class="BtnSignUp"><div class="SignUp">회원가입</div></div>
-                <div class="BtnLogin"><div class="Login">로그인</div></div>
-                <img src="./img/icon_my.png" class="icon_my" alt="My Icon">
-            </div>
-        </div>
-    </div>
+	<!-- 헤더 영역 -->
+	<div class="header">
+		<div class="Frame1">
+			<div class="categories">
+				<div class="category">국내창작</div>
+				<div class="category">라이센스</div>
+				<div class="category">게시판</div>
+			</div>
+			<div class="logo">CURTAIN CALL GUIDE</div>
+			<div class="Buttons">
+				<div class="BtnSignUp">
+					<div class="SignUp">회원가입</div>
+				</div>
+				<div class="BtnLogin">
+					<div class="Login">로그인</div>
+				</div>
+				<img src="./img/icon_my.png" class="icon_my" alt="My Icon">
+			</div>
+		</div>
+	</div>
 
-    <!-- 공연 정보 영역 -->
-    <div class="container">
-        <div class="show_settings">
-            <div class="show_poster"><img id="musicalPoster" src="" alt="Show Poster"></div>
-            <div class="show_info">
-                <h1 id="musicalTitle">TITLE</h1>
-                <div class="tags"><span>#카테고리</span></div>
-                <div class="show_schedule">
-                    <div id="hallName" class="show_schedule_list">공연장:</div>
-                    <div id="musicalStDt" class="show_schedule_st">상영 시작일:</div>
-                    <div id="musicalEdDt" class="show_schedule_dt">상영 종료일:</div>
-                    <div id="showDate" class="show_schedule_list">상영일:</div>
-                    <div id="showRuntime" class="show_schedule_list">런타임:</div>
-                    <div id="showPrice" class="show_schedule_list">가격:</div>
-                    <div id="showViews" class="show_schedule_list">조회수:</div>
-                </div>
-                <div class="toggle-dscrp">
-                    <button class="toggle-button" id="toggleDetailsButton">작품 상세정보 보기</button>
-                </div>
-            </div>
-        </div>
-    </div>
+	<!-- 공연 정보 영역 -->
+	<div class="container">
+		<div class="show_settings">
+			<div class="show_poster">
+				<img id="musicalPoster" src="" alt="Show Poster">
+			</div>
+			<div class="show_info">
+				<h1 id="musicalTitle">TITLE</h1>
+				<div class="tags">
+					<span>#카테고리</span>
+				</div>
+				<div class="show_schedule">
+					<div id="hallName" class="show_schedule_list">공연장:</div>
+					<div id="musicalStDt" class="show_schedule_st">상영 시작일:</div>
+					<div id="musicalEdDt" class="show_schedule_dt">상영 종료일:</div>
+					<div id="showDate" class="show_schedule_list">상영일:</div>
+					<div id="showRuntime" class="show_schedule_list">런타임:</div>
+					<div id="showPrice" class="show_schedule_list">가격:</div>
+					<div id="showViews" class="show_schedule_list">조회수:</div>
+				</div>
+				<div class="toggle-dscrp">
+					<button class="toggle-button" id="toggleDetailsButton">작품
+						상세정보 보기</button>
+				</div>
+			</div>
+		</div>
+	</div>
 
-    <!-- 팝업 및 오버레이 영역 -->
-    <div id="popupOverlay" class="popup-overlay" style="display: none;"></div>
-    <div id="popup" class="popup" style="display: none;">
-        <div class="popup-header">
-            <span>작품 상세정보</span>
-            <button id="popupClose" class="popup-close">&times;</button>
-        </div>
-        <div class="popup-content" id="popupContent"></div>
-    </div>
+	<!-- 팝업 및 오버레이 영역 -->
+	<div id="popupOverlay" class="popup-overlay" style="display: none;"></div>
+	<div id="popup" class="popup" style="display: none;">
+		<div class="popup-header">
+			<span>작품 상세정보</span>
+			<button id="popupClose" class="popup-close">&times;</button>
+		</div>
+		<div class="popup-content" id="popupContent"></div>
+	</div>
+	<!-- 위시리스트 영역 -->
+	<div class="stats">
+		<div class="stat-item">
+			<img src="./img/icon_heart.png" class="icon_heart">
+			<h3>관심</h3>
+		</div>
+		
+		
+		<!-- 리뷰 작성 영역 -->
+		<div class="review-section">
+			<h2>리뷰 작성</h2>
+			<form id="reviewForm">
+				<input type="hidden" id="showIdx" name="showIdx" value=""> <input
+					type="hidden" id="userId" name="userId" value="">
+				<textarea id="reviewContent" placeholder="리뷰를 입력하세요" required></textarea>
+				<input type="number" name="reviewStar" min="1" max="5">
+				<button type="submit">리뷰 작성</button>
+			</form>
+		</div>
 
-    <!-- 리뷰 작성 영역 -->
-    <div class="review-section">
-        <h2>리뷰 작성</h2>
-        <form id="reviewForm">
-            <input type="hidden" id="showIdx" name="showIdx" value="">
-
-            <input type="hidden" id="userId" name="userId" value="">
-            <textarea id="reviewContent" placeholder="리뷰를 입력하세요" required></textarea>
-            <input type="number" name="reviewStar" min="1" max="5">
-            <button type="submit">리뷰 작성</button>
-        </form>
-    </div>
-
-    <!-- JavaScript -->
-    <script>
+		<!-- JavaScript -->
+		<script>
     document.addEventListener('DOMContentLoaded', () => {
         // showIdx 값을 가져오기
         const showIdxElement = document.getElementById('showIdx');

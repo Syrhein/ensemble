@@ -46,7 +46,7 @@ public class MusicalDAO {
         }
     }
     //리뷰 -- 수정
-   public int  insertReview(ReviewVO review) {
+   public int insertReview(ReviewVO review) {
 	   try (SqlSession session = factory.openSession(true)) {
 		   return session.insert("MusicalMapper.insertReview", review);
        }
