@@ -189,7 +189,7 @@
         document.addEventListener("DOMContentLoaded", function () {
     const favoriteIcon = document.getElementById("favoriteIcon");
     const addFavoriteButton = document.getElementById("addFavoriteButton");
-    const userId = document.getElementById("userId").value;
+    const userId = document.getElementById("userId")?.value; // userId 값 확인
 
     // URL에서 showIdx 값 가져오기
     const urlParams = new URLSearchParams(window.location.search);
@@ -203,8 +203,14 @@
         }
     }
 
+    // showIdx 값 확인
     if (!showIdx) {
         console.error("showIdx 값이 설정되지 않았습니다. URL 또는 HTML에서 확인 필요.");
+        return;
+    }
+
+    if (!userId) {
+        console.error("userId 값이 설정되지 않았습니다. 로그인 여부를 확인하세요.");
         return;
     }
 

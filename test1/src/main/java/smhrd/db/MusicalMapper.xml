@@ -45,7 +45,15 @@
 		WHERE USER_ID = #{userId} AND
 		USER_PW = #{userPw}
 	</select>
-
+	
+	<!-- show 아이디 가져오기 ? -->
+	<select id="getShowIdxByMusicalId" parameterType="string"
+		resultType="string">
+		SELECT SHOW_IDX
+		FROM TB_SHOW
+		WHERE MUSICAL_ID = #{musicalId}
+		FETCH FIRST 1 ROWS ONLY
+	</select>
 
 	<!-- 게시글 등록 -->
 	<insert id="insertBoard" parameterType="smhrd.model.BoardVO">
@@ -211,14 +219,16 @@
 	<select id="isFavoriteExists"
 		parameterType="smhrd.model.FavoriteVO" resultType="int">
 		SELECT COUNT(*)
-		FROM TB_FAVORITE
+		FROM
+		TB_FAVORITE
 		WHERE USER_ID = #{userId}
 		AND SHOW_IDX = #{showIdx}
 	</select>
 
 	<!-- 관심 등록 -->
 	<insert id="addFavorite">
-		INSERT INTO TB_FAVORITE ( USER_ID, SHOW_IDX, CREATED_AT)
+		INSERT INTO TB_FAVORITE ( USER_ID, SHOW_IDX,
+		CREATED_AT)
 		VALUES ( #{userId}, #{showIdx}, CURRENT_TIMESTAMP)
 	</insert>
 

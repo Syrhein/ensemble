@@ -71,7 +71,12 @@ public class MusicalDAO {
         }
     }
 
-    
+ // musicalId를 기반으로 showIdx 가져오기
+    public String getShowIdxByMusicalId(String musicalId) {
+        try (SqlSession session = factory.openSession(true)) {
+            return session.selectOne("MusicalMapper.getShowIdxByMusicalId", musicalId);
+        }
+    }
     
    // 상위 5개 뮤지컬 정보 가져오기
    public List<MusicalVO> getTopMusicals() {
