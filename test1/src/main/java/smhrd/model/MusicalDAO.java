@@ -28,7 +28,14 @@ public class MusicalDAO {
         }
     }
     
-    // 상세정보 조회수
+    // 특정 musicalId로 showIdx 가져오기
+    public String getShowIdxByMusicalId(String musicalId) {
+        try (SqlSession session = factory.openSession(true)) {
+            return session.selectOne("MusicalMapper.getShowIdxByMusicalId", musicalId);
+        }
+    }
+
+    // 상세정보 조회수 증가
     public boolean incrementMusicalViews(String musicalId) {
         try (SqlSession session = factory.openSession(true)) {
             int result = session.update("MusicalMapper.incrementMusicalViews", musicalId);
@@ -39,10 +46,7 @@ public class MusicalDAO {
         }
     }
    
-
-   
-    
- // 관심 등록 여부 확인
+    // 관심 등록 여부 확인
     public boolean isFavoriteExists(FavoriteVO favorite) {
         SqlSession session = factory.openSession(true);
         try {
@@ -64,39 +68,38 @@ public class MusicalDAO {
         }
     }
 
- // musicalId를 기반으로 showIdx 가져오기
-    public String getShowIdxByMusicalId(String musicalId) {
+    // 상위 5개 뮤지컬 정보 가져오기
+    public List<MusicalVO> getTopMusicals() {
+        SqlSession session = factory.openSession(true);
+        List<MusicalVO> topMusicals = null;
+        try {
+            topMusicals = session.selectList("MusicalMapper.getTopMusicalPosters");
+        } finally {
+            session.close();
+        }
+        return topMusicals;
+    }
+   
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    // 리뷰 등록
+    public int insertReview(ReviewVO review) {
         try (SqlSession session = factory.openSession(true)) {
-            return session.selectOne("MusicalMapper.getShowIdxByMusicalId", musicalId);
+            return session.insert("MusicalMapper.insertReview", review);
         }
     }
-    
-   // 상위 5개 뮤지컬 정보 가져오기
-   public List<MusicalVO> getTopMusicals() {
-	    SqlSession session = factory.openSession(true);
-	    List<MusicalVO> topMusicals = null;
-	    try {
-	        topMusicals = session.selectList("MusicalMapper.getTopMusicalPosters");
-	    } finally {
-	        session.close();
-	    }
-	    return topMusicals;
-	}
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   //리뷰 -- 수정
-   public int insertReview(ReviewVO review) {
-	   try (SqlSession session = factory.openSession(true)) {
-		   return session.insert("MusicalMapper.insertReview", review);
-       }
-	   
-   }
 }

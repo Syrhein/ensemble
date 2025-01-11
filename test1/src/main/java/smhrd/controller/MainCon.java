@@ -2,7 +2,6 @@ package smhrd.controller;
 
 import smhrd.model.MusicalDAO;
 import smhrd.model.MusicalVO;
-import smhrd.model.MusicalDetailVO;
 import com.google.gson.Gson;
 
 import javax.servlet.ServletException;
@@ -27,27 +26,13 @@ public class MainCon extends HttpServlet {
         response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
         response.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
-        String musicalId = request.getParameter("musicalId");
-        String showDetails = request.getParameter("showDetails");
-
         try {
             MusicalDAO dao = new MusicalDAO();
             Gson gson = new Gson();
 
-            if (musicalId != null && !musicalId.trim().isEmpty()) {
-                if ("true".equalsIgnoreCase(showDetails)) {
-                    MusicalDetailVO details = dao.getMusicalDetails(musicalId);
-                    if (details != null) {
-                        response.getWriter().write(gson.toJson(details));
-                    } else {
-                        response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-                        response.getWriter().write("{\"error\":\"뮤지컬 상세 정보를 찾을 수 없습니다.\"}");
-                    }
-                }
-            } else {
-                List<MusicalVO> musicals = dao.getMusicalList();
-                response.getWriter().write(gson.toJson(musicals));
-            }
+            // 메인 페이지에서 필요한 뮤지컬 목록 가져오기
+            List<MusicalVO> musicals = dao.getMusicalList();
+            response.getWriter().write(gson.toJson(musicals));
         } catch (Exception e) {
             e.printStackTrace();
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);

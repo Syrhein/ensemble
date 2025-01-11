@@ -98,224 +98,178 @@
 
 	<!-- JavaScript -->
 	<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        // showIdx 값을 가져오기
-        const showIdxElement = document.getElementById('showIdx');
-        if (showIdxElement) {
-            console.log('showIdx value:', showIdxElement.value); // 값 확인 (예: "92")
-        } else {
-            console.error('showIdx 요소를 찾을 수 없습니다.');
-        }
+	document.addEventListener('DOMContentLoaded', () => {
+	    // URL에서 musicalId와 showIdx 값을 가져오기
+	    const urlParams = new URLSearchParams(window.location.search);
+	    const musicalId = urlParams.get("musicalId");
+	    const showIdx = urlParams.get("showIdx");
 
-        // userId 값 설정 (예제)
-        const userIdElement = document.getElementById('userId');
-        if (userIdElement) {
-            userIdElement.value = '1'; // 실제 사용자 ID로 설정
-        }
-    });
+	    // 필수 값 체크
+	    if (!musicalId || !showIdx) {
+	        alert("뮤지컬 정보를 불러올 수 없습니다.");
+	        console.error("URL에 musicalId 또는 showIdx가 없습니다.");
+	        window.location.href = "Main.html";
+	        return;
+	    }
 
-    
-    
-        // 조회수를 증가시키는 함수
-        function incrementViews(musicalId) {
-            fetch(`http://localhost:8081/test1/IncrementViewCon`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ musicalId })
-            })
-            .then(response => {
-                if (!response.ok) {
-                    console.error('조회수 증가 실패:', response.statusText);
-                }
-            })
-            .catch(error => console.error('조회수 증가 요청 중 에러 발생:', error));
-        }
+	    console.log("musicalId:", musicalId, "showIdx:", showIdx);
 
-        // 페이지가 로드될 때 공연 정보를 가져오는 함수
-        document.addEventListener("DOMContentLoaded", function () {
-            const urlParams = new URLSearchParams(window.location.search);
-            const musicalId = urlParams.get("musicalId");
-            const showIdx = urlParams.get("showIdx"); // 수정한거임
-            
-            if (musicalId) {
-                incrementViews(musicalId);
-                fetch(`http://localhost:8081/test1/MainCon?musicalId=${musicalId}&showDetails=true`)
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.error) {
-                            alert(data.error);
-                            return;
-                        }
-                        // 데이터를 화면에 바인딩
-                        document.getElementById("musicalTitle").innerText = data.musicalTitle;
-                        document.getElementById("musicalPoster").src = data.musicalPoster;
-                        document.getElementById("hallName").innerText = `공연장: ${data.hallName}`;
-                        document.getElementById("musicalStDt").innerText = `상영 시작일: ${data.musicalStDt}`;
-                        document.getElementById("musicalEdDt").innerText = `상영 종료일: ${data.musicalEdDt}`;
-                        document.getElementById("showDate").innerText = `상영일: ${data.showDate}`;
-                        document.getElementById("showRuntime").innerText = `런타임: ${data.showRuntime}`;
-                        document.getElementById("showPrice").innerText = `가격: ${data.showPrice}`;
-                        document.getElementById("showViews").innerText = `조회수: ${data.showViews}`;
-                        document.getElementById("showIdx").value = data.showIdx; // 리뷰 작성용
-
-                        // 팝업 버튼 클릭 이벤트
-                        document.getElementById('toggleDetailsButton').addEventListener('click', () => {
-                        const popupContent = document.getElementById('popupContent');
-                        popupContent.innerHTML = `
-                            <img src="${data.showImg}" alt="작품 상세 이미지">
-                        `;
-                        document.getElementById('popup').style.display = 'block';
-                        document.getElementById('popupOverlay').style.display = 'block';
-                    });
-
-                        // 팝업 닫기 이벤트
-                        document.getElementById("popupClose").addEventListener("click", closePopup);
-                        document.getElementById("popupOverlay").addEventListener("click", closePopup);
-                    })
-                    .catch(error => console.error("Error fetching musical details:", error));
-            } else {
-                alert("뮤지컬 ID가 없습니다.");
-                window.location.href = "Main.html";
-            }
-        });
-
-        // 팝업 닫기 함수
-        function closePopup() {
-            document.getElementById('popup').style.display = 'none';
-            document.getElementById('popupOverlay').style.display = 'none';
-        }
-
-        //관심등록
-        document.addEventListener("DOMContentLoaded", function () {
-    const favoriteIcon = document.getElementById("favoriteIcon");
-    const addFavoriteButton = document.getElementById("addFavoriteButton");
-    const userId = document.getElementById("userId")?.value; // userId 값 확인
-
-    // URL에서 showIdx 값 가져오기
-    const urlParams = new URLSearchParams(window.location.search);
-    let showIdx = urlParams.get("showIdx");
-
-    // HTML hidden 필드에서 showIdx 값 가져오기 (fallback)
-    if (!showIdx) {
-        const showIdxInput = document.getElementById("showIdx");
-        if (showIdxInput) {
-            showIdx = showIdxInput.value;
-        }
-    }
-
-    // showIdx 값 확인
-    if (!showIdx) {
-        console.error("showIdx 값이 설정되지 않았습니다. URL 또는 HTML에서 확인 필요.");
+	    // 조회수 증가 함수
+	    function incrementViews(musicalId) {
+    if (!musicalId) {
+        console.error("musicalId 값이 없습니다.");
         return;
     }
 
-    if (!userId) {
-        console.error("userId 값이 설정되지 않았습니다. 로그인 여부를 확인하세요.");
-        return;
-    }
-
-    if (!favoriteIcon) {
-        console.error("favoriteIcon 요소를 찾을 수 없습니다.");
-        return;
-    }
-
-    console.log("favoriteIcon 요소 확인:", favoriteIcon);
-    console.log("showIdx 값 확인:", showIdx);
-
-    // 초기 상태 설정
-    fetch(`CheckFavoriteServlet?userId=${userId}&showIdx=${showIdx}`)
-        .then(response => response.json())
-        .then(data => {
-            if (data.isFavorite) {
-                favoriteIcon.src = "./img/icon_heart_filled.png"; // 채워진 하트 이미지
-                console.log("이미 등록된 관심 공연입니다. 아이콘 경로 변경:", favoriteIcon.src);
-                addFavoriteButton.disabled = true;
-                addFavoriteButton.style.cursor = "default";
-            } else {
-                favoriteIcon.src = "./img/icon_heart.png"; // 빈 하트 이미지
-                console.log("관심 등록되지 않은 상태. 아이콘 경로:", favoriteIcon.src);
-            }
-        })
-        .catch(error => console.error("Error checking favorite status:", error));
-
-    // 관심 등록 버튼 클릭 이벤트
-    addFavoriteButton.addEventListener("click", function () {
-        if (!userId) {
-            alert("로그인이 필요합니다.");
-            window.location.href = "login.html";
-            return;
+    fetch(`http://localhost:8081/test1/IncrementViewCon`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ musicalId }) // musicalId를 JSON 형식으로 전달
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`조회수 증가 요청 실패: ${response.statusText}`);
         }
-
-        fetch("FavoriteServlet", {
-            method: "POST",
-            headers: { "Content-Type": "application/x-www-form-urlencoded" },
-            body: `userId=${userId}&showIdx=${showIdx}`
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                alert("관심 등록 완료!");
-                favoriteIcon.src = "./img/icon_heart_filled.png"; // 채워진 하트 이미지로 변경
-                console.log("관심 등록 완료 후 아이콘 경로 변경:", favoriteIcon.src);
-                addFavoriteButton.disabled = true;
-                addFavoriteButton.style.cursor = "default";
-            } else {
-                alert(data.error || "관심 등록 실패");
-            }
-        })
-        .catch(error => console.error("Error:", error));
-    });
-});
+        return response.json();
+    })
+    .then(data => {
+        console.log("조회수 증가 성공:", data);
+    })
+    .catch(error => console.error("조회수 증가 요청 중 에러 발생:", error));
+}
 
 
 
-            
-            
-            
-            
-            
-            
-        
-        
-        
-        
-        
-        
-        
-        
-        
-     // 리뷰 작성 요청
-        document.getElementById("reviewForm").addEventListener("submit", function (event) {
-            event.preventDefault();
+	    // 공연 상세 정보 가져오기
+	    function fetchMusicalDetails() {
+	        fetch(`http://localhost:8081/test1/MusicalDetail_CON?musicalId=${musicalId}&showDetails=true`)
+	            .then(response => response.json())
+	            .then(data => {
+	                if (data.error) {
+	                    alert(data.error);
+	                    return;
+	                }
 
-            const showIdx = document.getElementById("showIdx").value;
-            const userId = document.getElementById("userId").value;
-            const reviewContent = document.getElementById("reviewContent").value;
-            const reviewStar = document.getElementById("reviewStar").value;
+	                // 데이터를 화면에 바인딩
+	                document.getElementById("musicalTitle").innerText = data.musicalTitle;
+	                document.getElementById("musicalPoster").src = data.musicalPoster;
+	                document.getElementById("hallName").innerText = `공연장: ${data.hallName}`;
+	                document.getElementById("musicalStDt").innerText = `상영 시작일: ${data.musicalStDt}`;
+	                document.getElementById("musicalEdDt").innerText = `상영 종료일: ${data.musicalEdDt}`;
+	                document.getElementById("showDate").innerText = `상영일: ${data.showDate}`;
+	                document.getElementById("showRuntime").innerText = `런타임: ${data.showRuntime}`;
+	                document.getElementById("showPrice").innerText = `가격: ${data.showPrice}`;
+	                document.getElementById("showViews").innerText = `조회수: ${data.showViews}`;
+	                document.getElementById("showIdx").value = data.showIdx;
 
-            if (!showIdx || isNaN(showIdx)) {
-                alert("공연 정보를 불러올 수 없습니다. 다시 시도해주세요.");
-                return;
-            }
-            
-            
-            //리뷰
-            fetch("http://localhost:8081/test1/ReviewWriteCon", {
-                method: "POST",
-                headers: { "Content-Type": "application/x-www-form-urlencoded" },
-                body: `showIdx=${showIdx}&userId=${userId}&reviewContent=${reviewContent}&reviewStar=${reviewStar}`
-            })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        alert("리뷰 작성이 완료되었습니다.");
-                        location.reload();
-                    } else {
-                        alert(data.error || "리뷰 작성에 실패했습니다.");
-                    }
-                })
-                .catch(error => console.error("Error writing review:", error));
-        });
+	                // 팝업 상세 이미지 설정
+	                document.getElementById('toggleDetailsButton').addEventListener('click', () => {
+	                    const popupContent = document.getElementById('popupContent');
+	                    popupContent.innerHTML = `<img src="${data.showImg}" alt="작품 상세 이미지">`;
+	                    document.getElementById('popup').style.display = 'block';
+	                    document.getElementById('popupOverlay').style.display = 'block';
+	                });
+
+	                // 팝업 닫기 이벤트
+	                document.getElementById("popupClose").addEventListener("click", closePopup);
+	                document.getElementById("popupOverlay").addEventListener("click", closePopup);
+	            })
+	            .catch(error => console.error("뮤지컬 상세 정보 가져오기 실패:", error));
+	    }
+
+	    // 팝업 닫기 함수
+	    function closePopup() {
+	        document.getElementById('popup').style.display = 'none';
+	        document.getElementById('popupOverlay').style.display = 'none';
+	    }
+
+	    // 관심 등록 기능
+	    function initializeFavoriteFeature() {
+	        const favoriteIcon = document.getElementById("favoriteIcon");
+	        const addFavoriteButton = document.getElementById("addFavoriteButton");
+	        const userId = document.getElementById("userId")?.value;
+
+	        // userId와 showIdx 값 확인
+	        if (!userId || !showIdx) {
+	            console.error("userId 또는 showIdx 값이 없습니다.");
+	            return;
+	        }
+
+	        // 관심 상태 초기 설정
+	        fetch(`CheckFavoriteServlet?userId=${userId}&showIdx=${showIdx}`)
+	            .then(response => response.json())
+	            .then(data => {
+	                if (data.isFavorite) {
+	                    favoriteIcon.src = "./img/icon_heart_filled.png"; // 채워진 하트
+	                    addFavoriteButton.disabled = true;
+	                    addFavoriteButton.style.cursor = "default";
+	                } else {
+	                    favoriteIcon.src = "./img/icon_heart.png"; // 빈 하트
+	                }
+	            })
+	            .catch(error => console.error("Error checking favorite status:", error));
+
+	        // 관심 등록 버튼 클릭 이벤트
+	        addFavoriteButton.addEventListener("click", function () {
+	            fetch("FavoriteServlet", {
+	                method: "POST",
+	                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+	                body: `userId=${userId}&showIdx=${showIdx}`
+	            })
+	            .then(response => response.json())
+	            .then(data => {
+	                if (data.success) {
+	                    alert("관심 등록 완료!");
+	                    favoriteIcon.src = "./img/icon_heart_filled.png"; // 채워진 하트
+	                    addFavoriteButton.disabled = true;
+	                    addFavoriteButton.style.cursor = "default";
+	                } else {
+	                    alert(data.error || "관심 등록 실패");
+	                }
+	            })
+	            .catch(error => console.error("Error:", error));
+	        });
+	    }
+
+	    // 리뷰 작성
+	    function initializeReviewFeature() {
+	        document.getElementById("reviewForm").addEventListener("submit", function (event) {
+	            event.preventDefault();
+
+	            const reviewContent = document.getElementById("reviewContent").value;
+	            const reviewStar = document.getElementById("reviewStar").value;
+	            const userId = document.getElementById("userId").value;
+
+	            if (!reviewContent || !reviewStar || !showIdx) {
+	                alert("리뷰 정보를 확인해주세요.");
+	                return;
+	            }
+
+	            fetch("http://localhost:8081/test1/ReviewWriteCon", {
+	                method: "POST",
+	                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+	                body: `showIdx=${showIdx}&userId=${userId}&reviewContent=${reviewContent}&reviewStar=${reviewStar}`
+	            })
+	            .then(response => response.json())
+	            .then(data => {
+	                if (data.success) {
+	                    alert("리뷰 작성 완료!");
+	                    location.reload();
+	                } else {
+	                    alert(data.error || "리뷰 작성 실패");
+	                }
+	            })
+	            .catch(error => console.error("리뷰 작성 중 에러 발생:", error));
+	        });
+	    }
+
+	    // 초기화 작업
+	    incrementViews(musicalId);
+	    fetchMusicalDetails(musicalId,showIdx);
+	    initializeFavoriteFeature(showIdx);
+	    initializeReviewFeature(showIdx);
+	});
+
 
         
         

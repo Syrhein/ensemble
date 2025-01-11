@@ -37,9 +37,10 @@ public class IncrementViewCon extends HttpServlet {
                 json.append(line);
             }
             JsonObject jsonObject = JsonParser.parseString(json.toString()).getAsJsonObject();
-            musicalId = jsonObject.get("musicalId").getAsString();
 
-            if (musicalId == null || musicalId.trim().isEmpty()) {
+            if (jsonObject.has("musicalId") && !jsonObject.get("musicalId").isJsonNull()) {
+                musicalId = jsonObject.get("musicalId").getAsString();
+            } else {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 response.getWriter().write("{\"error\":\"뮤지컬 ID가 필요합니다.\"}");
                 return;
