@@ -24,9 +24,10 @@
 				<div class="BtnLogin">
 					<div class="Login">로그인</div>
 				</div>
-	            <div data-layer="btn_logout" class="BtnLogout" style="display: none;">
-		        <div class="Logout">로그아웃</div>
-		    </div>
+				<div data-layer="btn_logout" class="BtnLogout"
+					style="display: none;">
+					<div class="Logout">로그아웃</div>
+				</div>
 				<img src="./img/icon_my.png" class="icon_my" alt="My Icon">
 			</div>
 		</div>
@@ -74,27 +75,29 @@
 		<div class="stat-item">
 			<!-- 버튼 코드 -->
 			<button id="addFavoriteButton" class="favorite-button">
-				<img id="favoriteIcon" src="./img/icon_heart.png" class="icon_heart" alt="관심 등록">
-</button>
+				<img id="favoriteIcon" src="./img/icon_heart.png" class="icon_heart"
+					alt="관심 등록">
+			</button>
+
 
 			<h3>관심</h3>
 		</div>
-</div>
+	</div>
 
-		<!-- 리뷰 작성 영역 -->
-		<div class="review-section">
-			<h2>리뷰 작성</h2>
-			<form id="reviewForm">
-				<input type="hidden" id="showIdx" name="showIdx" value=""> <input
-					type="hidden" id="userId" name="userId" value="">
-				<textarea id="reviewContent" placeholder="리뷰를 입력하세요" required></textarea>
-				<input type="number" name="reviewStar" min="1" max="5">
-				<button type="submit">리뷰 작성</button>
-			</form>
-		</div>
+	<!-- 리뷰 작성 영역 -->
+	<div class="review-section">
+		<h2>리뷰 작성</h2>
+		<form id="reviewForm">
+			<input type="hidden" id="showIdx" name="showIdx" value=""> <input
+				type="hidden" id="userId" name="userId" value="">
+			<textarea id="reviewContent" placeholder="리뷰를 입력하세요" required></textarea>
+			<input type="number" name="reviewStar" min="1" max="5">
+			<button type="submit">리뷰 작성</button>
+		</form>
+	</div>
 
-		<!-- JavaScript -->
-		<script>
+	<!-- JavaScript -->
+	<script>
     document.addEventListener('DOMContentLoaded', () => {
         // showIdx 값을 가져오기
         const showIdxElement = document.getElementById('showIdx');
@@ -183,68 +186,81 @@
         }
 
         //관심등록
-        document.getElementById("addFavoriteButton").addEventListener("click", function () {
-    const userId = document.getElementById("userId").value;
-    const showIdx = document.getElementById("showIdx").value;
-    const favoriteIcon = document.getElementById("favoriteIcon");
-
-    if (!favoriteIcon) {
-        console.error("favoriteIcon 요소를 찾을 수 없습니다.");
-        return;
-    }
-
-    if (!userId) {
-        alert("로그인이 필요합니다.");
-        window.location.href = "login.html";
-        return;
-    }
-
-    fetch("FavoriteServlet", {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: `userId=${userId}&showIdx=${showIdx}`
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            alert("관심 등록 완료!");
-            favoriteIcon.src = "./img/icon_heart_filled.png"; // 채워진 하트 이미지로 변경
-            const button = document.getElementById("addFavoriteButton");
-            button.innerText = "관심 등록됨";
-            button.disabled = true;
-            button.style.cursor = "default";
-        } else {
-            alert(data.error || "관심 등록 실패");
-        }
-    })
-    .catch(error => console.error("Error:", error));
-});
-
-document.addEventListener("DOMContentLoaded", function () {
-    const userId = document.getElementById("userId").value;
-    const showIdx = document.getElementById("showIdx").value;
+        document.addEventListener("DOMContentLoaded", function () {
     const favoriteIcon = document.getElementById("favoriteIcon");
     const addFavoriteButton = document.getElementById("addFavoriteButton");
+    const userId = document.getElementById("userId").value;
+
+    // URL에서 showIdx 값 가져오기
+    const urlParams = new URLSearchParams(window.location.search);
+    let showIdx = urlParams.get("showIdx");
+
+    // HTML hidden 필드에서 showIdx 값 가져오기 (fallback)
+    if (!showIdx) {
+        const showIdxInput = document.getElementById("showIdx");
+        if (showIdxInput) {
+            showIdx = showIdxInput.value;
+        }
+    }
+
+    if (!showIdx) {
+        console.error("showIdx 값이 설정되지 않았습니다. URL 또는 HTML에서 확인 필요.");
+        return;
+    }
 
     if (!favoriteIcon) {
         console.error("favoriteIcon 요소를 찾을 수 없습니다.");
         return;
     }
 
+    console.log("favoriteIcon 요소 확인:", favoriteIcon);
+    console.log("showIdx 값 확인:", showIdx);
+
+    // 초기 상태 설정
     fetch(`CheckFavoriteServlet?userId=${userId}&showIdx=${showIdx}`)
         .then(response => response.json())
         .then(data => {
             if (data.isFavorite) {
                 favoriteIcon.src = "./img/icon_heart_filled.png"; // 채워진 하트 이미지
-                addFavoriteButton.innerText = "관심 등록됨";
+                console.log("이미 등록된 관심 공연입니다. 아이콘 경로 변경:", favoriteIcon.src);
                 addFavoriteButton.disabled = true;
                 addFavoriteButton.style.cursor = "default";
             } else {
                 favoriteIcon.src = "./img/icon_heart.png"; // 빈 하트 이미지
+                console.log("관심 등록되지 않은 상태. 아이콘 경로:", favoriteIcon.src);
             }
         })
         .catch(error => console.error("Error checking favorite status:", error));
+
+    // 관심 등록 버튼 클릭 이벤트
+    addFavoriteButton.addEventListener("click", function () {
+        if (!userId) {
+            alert("로그인이 필요합니다.");
+            window.location.href = "login.html";
+            return;
+        }
+
+        fetch("FavoriteServlet", {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: `userId=${userId}&showIdx=${showIdx}`
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert("관심 등록 완료!");
+                favoriteIcon.src = "./img/icon_heart_filled.png"; // 채워진 하트 이미지로 변경
+                console.log("관심 등록 완료 후 아이콘 경로 변경:", favoriteIcon.src);
+                addFavoriteButton.disabled = true;
+                addFavoriteButton.style.cursor = "default";
+            } else {
+                alert(data.error || "관심 등록 실패");
+            }
+        })
+        .catch(error => console.error("Error:", error));
+    });
 });
+
 
 
             
