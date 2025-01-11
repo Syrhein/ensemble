@@ -48,6 +48,7 @@
         <div class="username">User name</div>
         <div class="userid">User id</div>
         
+        
         <!-- 이름 변경 영역 -->
 		<div class="edit-user-info">
 		    <button class="edit-name-btn">이름 변경</button>
@@ -57,7 +58,8 @@
 		        <button class="cancel-name-btn">취소</button>
 		    </div>
 		</div>
-    
+    	
+    	<hr style="margin: 40px">
         <!-- 위시리스트 영역 -->
         <div class="stats">
             <div class="stat-item">
@@ -83,8 +85,8 @@
 
     <script>
     document.addEventListener('DOMContentLoaded', () => {
-        const usernameElement = document.querySelector('.username');
-        const useridElement = document.querySelector('.userid');
+        const usernameElement = document.querySelector('.username'); // 유저 이름을 표시할 요소
+        const useridElement = document.querySelector('.userid'); // 유저 ID를 표시할 요소
 
         // 회원정보 로드
         const loadUserInfo = () => {
@@ -97,8 +99,10 @@
                 })
                 .then(data => {
                     if (data.isLoggedIn) {
-                        usernameElement.textContent = data.userName || 'Unknown';
-                        useridElement.textContent = data.userId || 'Unknown';
+                        // 유저 이름과 문구 설정
+	                    const userName = data.userName || 'Unknown'; // 유저 이름
+	                    usernameElement.textContent = `${userName}님의 마이페이지`; // 문구 포함
+	                    useridElement.textContent = data.userId || 'Unknown'; // 유저 ID 설정
                     } else {
                         alert(data.error || '로그인이 필요합니다!');
                         window.location.href = 'login.html';
@@ -149,7 +153,7 @@
                         .then(data => {
                             if (data.success) {
                                 alert('이름이 성공적으로 변경되었습니다!');
-                                usernameElement.textContent = newName; // 화면에 이름 업데이트
+                                usernameElement.textContent = `${newName}님의 마이페이지`; // 이름 변경 후 문구 업데이트
                                 editNameForm.style.display = 'none';
                             } else {
                                 alert(data.error || '이름 변경에 실패했습니다.');

@@ -176,18 +176,56 @@
 
     /* 사용자 이름 및 이메일 스타일 */
     .username {
-    font-size: 27px;
+    font-size: 30px;
     font-weight: bolder;
-    margin-top: 5px;
+    margin: 30px;
+    padding: 30px;
+    text-align:left;
     }
 
-    .email {
+    .userid {
     color: #666;
-    font-size: 18px;
-    margin: 10px 0;
-    padding-bottom: 5%;
+    font-size: 28px;
+    margin: 30px;
+    padding: 30px;
+    text-align:left;
+    margin-top: 50px;
     }
 
+	.edit-name-btn{
+	height: 40px;
+    width: 150px;
+    font-size: 25px;
+	}
+	
+	
+	.edit-user-info {
+    margin-top: 20px;
+	}
+	
+	.edit-name-form {
+	    margin-top: 10px;
+	}
+	
+	.new-name-input {
+	    padding: 5px;
+	    margin-right: 10px;
+	    height: 30px;
+	    font-size: 20px;
+	}
+	
+	.save-name-btn{
+		height: 30px;
+	    width: 150px;
+	    font-size: 20px;
+	}
+	
+	.cancel-name-btn{
+		height: 30px;
+	    width: 150px;
+	    font-size: 20px;
+	}
+	
     /* 통계 섹션 스타일 */
     .stats {
     display: flex;
@@ -255,15 +293,3 @@
 	
 	
 	
-	.edit-user-info {
-    margin-top: 20px;
-	}
-	
-	.edit-name-form {
-	    margin-top: 10px;
-	}
-	
-	.new-name-input {
-	    padding: 5px;
-	    margin-right: 10px;
-	}
