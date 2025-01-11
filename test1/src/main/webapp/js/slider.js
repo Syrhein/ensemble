@@ -28,35 +28,41 @@ document.addEventListener('DOMContentLoaded', () => {
         })
         .catch(error => console.error('Error loading slide data:', error));
 
-    function updateSlidePosition() {
-        const slides = Array.from(slideTrack.children); // 슬라이드 목록
-        const slideCount = slides.length;
-        if (slideCount === 0) return;
+		function updateSlidePosition() {
+		    const slides = Array.from(slideTrack.children); // 슬라이드 목록
+		    const slideCount = slides.length;
+		    if (slideCount === 0) return;
 
-        // 모든 슬라이드에서 active 클래스 제거
-        slides.forEach(slide => slide.querySelector('img').classList.remove('active'));
+		    // 모든 슬라이드 초기화
+		    slides.forEach(slide => {
+		        slide.classList.remove('active', 'left', 'right', 'hidden');
+		    });
 
-        // 현재, 이전, 다음 슬라이드에 클래스 추가
-        slides[currentIndex].querySelector('img').classList.add('active'); // 현재 슬라이드
-        if (currentIndex > 0) {
-            slides[currentIndex - 1].querySelector('img').classList.add('active'); // 이전 슬라이드
-        }
-        if (currentIndex < slideCount - 1) {
-            slides[currentIndex + 1].querySelector('img').classList.add('active'); // 다음 슬라이드
-        }
+		    // 현재 슬라이드 강조
+		    slides[currentIndex].classList.add('active');
 
-        // 슬라이드 이동
-        slideTrack.style.transform = `translateX(-${currentIndex * 240}px)`;
-    }
+		    // 왼쪽 및 오른쪽 슬라이드 강조
+		    const prevIndex = (currentIndex - 1 + slideCount) % slideCount;
+		    const nextIndex = (currentIndex + 1) % slideCount;
+		    slides[prevIndex].classList.add('left');
+		    slides[nextIndex].classList.add('right');
 
-    function nextSlide() {
-        const slides = slideTrack.children;
-        const slideCount = slides.length;
+		    // 나머지 슬라이드 숨김 처리
+		    slides.forEach((slide, index) => {
+		        if (index !== currentIndex && index !== prevIndex && index !== nextIndex) {
+		            slide.classList.add('hidden');
+		        }
+		    });
+		}
 
-        currentIndex++;
-        if (currentIndex >= slideCount) {
-            currentIndex = 0; // 첫 번째 슬라이드로 루프
-        }
-        updateSlidePosition();
-    }
+		function nextSlide() {
+		    const slideCount = slideTrack.children.length;
+
+		    currentIndex++;
+		    if (currentIndex >= slideCount) {
+		        currentIndex = 0; // 첫 번째 슬라이드로 루프
+		    }
+		    updateSlidePosition();
+		}
+
 });

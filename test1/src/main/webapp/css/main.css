@@ -200,38 +200,68 @@
 /* 슬라이드 영역 */
 .slide {
     margin: 80px 0;
+    margin-left: 50px;
     position: relative;
-    overflow: hidden; /* 양 끝 이미지 숨김 */
+    overflow: hidden;
     display: flex;
     justify-content: center;
     align-items: center;
     background: #ffffff;
-    width: 100%; /* 부모 크기에 맞추기 */
+    width: 100%;
     max-width: 1400px;
     height: 600px;
 }
 
 .slide-track {
     display: flex;
-    transition: transform 0.4s ease-in-out; /* 부드럽게 이동 */
+    position: relative;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.4s ease-in-out;
 }
 
-.slide-track img {
-    flex: 0 0 240px; /* 이미지 크기 고정 */
+.slide-track a {
+    position: absolute; /* 이미지 위치를 절대적으로 배치 */
+    opacity: 0; /* 기본적으로 숨김 */
+    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+.slide-track a img {
     width: 380px;
     height: 460px;
     object-fit: cover;
-    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out; /* 이미지 효과 */
-    opacity: 0.5; /* 기본적으로 반투명 */
-    pointer-events: none; /* 기본적으로 클릭 불가 */
+    transition: transform 0.3s ease-in-out;
 }
 
-/* 활성화된 이미지 */
-.slide-track img.active {
-    opacity: 1; /* 완전히 보이기 */
-    transform: scale(1.2); /* 확대 효과 */
-    pointer-events: auto; /* 클릭 가능 */
+/* 중앙 이미지 */
+.slide-track a.active {
+    opacity: 1;
+    transform: scale(1.2) translateX(0); /* 확대 및 중앙 배치 */
+    z-index: 3; /* 다른 이미지 위에 표시 */
 }
+
+/* 왼쪽 이미지 */
+.slide-track a.left {
+    opacity: 0.5;
+    transform: scale(1) translateX(-260px); /* 살짝 왼쪽 배치 */
+    z-index: 2;
+}
+
+/* 오른쪽 이미지 */
+.slide-track a.right {
+    opacity: 0.5;
+    transform: scale(1) translateX(260px); /* 살짝 오른쪽 배치 */
+    z-index: 2;
+}
+
+/* 숨김 처리된 이미지 */
+.slide-track a.hidden {
+    opacity: 0;
+    transform: scale(0.8) translateX(0); /* 작게 축소 */
+    z-index: 1;
+}
+
+
 
 
 
