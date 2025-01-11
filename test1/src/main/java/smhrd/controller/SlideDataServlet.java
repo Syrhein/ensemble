@@ -32,6 +32,7 @@ public class SlideDataServlet extends HttpServlet {
             jsonObject.put("musicalId", musical.getMusicalId());
             jsonObject.put("musicalTitle", musical.getMusicalTitle());
             jsonObject.put("musicalPoster", musical.getMusicalPoster());
+            jsonObject.put("showIdx", musical.getShowIdx());
             jsonArray.put(jsonObject);
         }
 

@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // 슬라이드 데이터 동적 생성
             data.forEach(item => {
                 const slideItem = document.createElement('a');
-                slideItem.href = `detail.html?musicalId=${item.musicalId}`;
+                slideItem.href = `detail.html?musicalId=${item.musicalId}&showIdx=${item.showIdx}`;
                 slideItem.classList.add('slide-item');
 
                 const img = document.createElement('img');

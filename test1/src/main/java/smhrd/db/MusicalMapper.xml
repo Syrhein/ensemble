@@ -245,12 +245,14 @@
     SELECT 
         SQ.MUSICAL_ID AS musicalId,
         SQ.MUSICAL_TITLE AS musicalTitle,
-        SQ.MUSICAL_POSTER AS musicalPoster
+        SQ.MUSICAL_POSTER AS musicalPoster,
+        SQ.SHOW_IDX AS showIdx
     FROM (
         SELECT 
             M.MUSICAL_ID,
             M.MUSICAL_TITLE,
             M.MUSICAL_POSTER,
+            S.SHOW_IDX,
             ROW_NUMBER() OVER (ORDER BY S.SHOW_VIEWS DESC) AS RN
         FROM 
             TB_SHOW S
