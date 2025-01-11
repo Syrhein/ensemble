@@ -204,17 +204,20 @@
 	</select>
 
 
-	<!-- 리뷰 추가 -->
-	<insert id="insertReview" parameterType="smhrd.model.ReviewVO">
-		INSERT INTO TB_REVIEW (
-		SHOW_IDX, USER_ID, REVIEW_CONTENT, REVIEW_STAR, CREATED_AT,
-		REVIEW_LIKES
-		) VALUES (
-		#{showIdx}, #{userId}, #{reviewContent},
-		#{reviewStar}, CURRENT_TIMESTAMP, 0
-		)
-	</insert>
+	<!-- 관심 등록 여부 확인 -->
+    <select id="isFavoriteExists" parameterType="smhrd.model.FavoriteVO" resultType="int">
+        SELECT COUNT(*)
+        FROM TB_FAVORITE
+        WHERE USER_ID = #{userId}
+          AND SHOW_IDX = #{showIdx}
+    </select>
 
+    <!-- 관심 등록 -->
+    <insert id="addFavorite" parameterType="smhrd.model.FavoriteVO">
+        INSERT INTO TB_FAVORITE (FAV_IDX, USER_ID, SHOW_IDX, CREATED_AT)
+        VALUES (SEQ_FAV_IDX.NEXTVAL, #{userId}, #{showIdx}, CURRENT_TIMESTAMP)
+    </insert>
+	
 
 
 
@@ -250,6 +253,21 @@
 	</update>
 
 
+
+
+
+
+
+<!-- 리뷰 추가 -->
+	<insert id="insertReview" parameterType="smhrd.model.ReviewVO">
+		INSERT INTO TB_REVIEW (
+		SHOW_IDX, USER_ID, REVIEW_CONTENT, REVIEW_STAR, CREATED_AT,
+		REVIEW_LIKES
+		) VALUES (
+		#{showIdx}, #{userId}, #{reviewContent},
+		#{reviewStar}, CURRENT_TIMESTAMP, 0
+		)
+	</insert>
 
 
 

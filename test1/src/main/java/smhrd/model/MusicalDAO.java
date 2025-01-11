@@ -45,14 +45,34 @@ public class MusicalDAO {
             return false;
         }
     }
-    //리뷰 -- 수정
-   public int insertReview(ReviewVO review) {
-	   try (SqlSession session = factory.openSession(true)) {
-		   return session.insert("MusicalMapper.insertReview", review);
-       }
-	   
-   }
    
+
+   
+    
+ // 관심 등록 여부 확인
+    public boolean isFavoriteExists(FavoriteVO favorite) {
+        SqlSession session = factory.openSession(true);
+        try {
+            int count = session.selectOne("MusicalMapper.isFavoriteExists", favorite);
+            return count > 0; // 관심 등록 여부 반환
+        } finally {
+            session.close();
+        }
+    }
+
+    // 관심 등록
+    public boolean addFavorite(FavoriteVO favorite) {
+        SqlSession session = factory.openSession(true);
+        try {
+            int result = session.insert("MusicalMapper.addFavorite", favorite);
+            return result > 0; // 삽입 성공 여부 반환
+        } finally {
+            session.close();
+        }
+    }
+
+    
+    
    // 상위 5개 뮤지컬 정보 가져오기
    public List<MusicalVO> getTopMusicals() {
 	    SqlSession session = factory.openSession(true);
@@ -64,4 +84,21 @@ public class MusicalDAO {
 	    }
 	    return topMusicals;
 	}
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   //리뷰 -- 수정
+   public int insertReview(ReviewVO review) {
+	   try (SqlSession session = factory.openSession(true)) {
+		   return session.insert("MusicalMapper.insertReview", review);
+       }
+	   
+   }
 }
