@@ -81,10 +81,13 @@ document.addEventListener('DOMContentLoaded', () => {
         pageData.forEach(item => {
             const contentDiv = document.createElement('div');
             contentDiv.classList.add('content-item');
+          
             contentDiv.innerHTML = `
-                <img src="${item.musicalPoster}" alt="${item.musicalTitle}">
-                <p class="content-title">${item.musicalTitle}</p>
-            `;
+                    <a href="detail.html?musicalId=${item.musicalId}&showIdx=${item.showIdx}">
+                        <img src="${item.musicalPoster}" alt="${item.musicalTitle}">
+                        <h3>${item.musicalTitle}</h3>
+                    </a>
+                `;
             contentGrid.appendChild(contentDiv);
         });
 
