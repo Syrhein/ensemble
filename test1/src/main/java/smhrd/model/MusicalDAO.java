@@ -21,13 +21,6 @@ public class MusicalDAO {
         return list;
     }
 
-    // 특정 뮤지컬 상세 정보 가져오기
-    public MusicalVO getMusicalById(String musicalId) {
-        try (SqlSession session = factory.openSession(true)) {
-            return session.selectOne("MusicalMapper.getMusicalById", musicalId);
-        }
-    }
-
     // 특정 뮤지컬의 공연 정보 가져오기
     public MusicalDetailVO getMusicalDetails(String musicalId) {
         try (SqlSession session = factory.openSession(true)) {
