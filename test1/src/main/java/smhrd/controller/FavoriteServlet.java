@@ -12,13 +12,15 @@ import smhrd.model.MusicalDAO;
 
 @WebServlet("/FavoriteServlet")
 public class FavoriteServlet extends HttpServlet {
-    @Override
+	private static final long serialVersionUID = 1L;
+	@Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         response.setContentType("application/json; charset=UTF-8");
 
         String userId = request.getParameter("userId");
         String musicalId = request.getParameter("musicalId");
+        
 
         if (userId == null || musicalId == null) {
             response.getWriter().write("{\"success\": false, \"error\": \"유효하지 않은 요청입니다.\"}");
@@ -30,7 +32,7 @@ public class FavoriteServlet extends HttpServlet {
             MusicalDAO dao = new MusicalDAO();
 
             // musicalId를 사용해 showIdx 가져오기
-            String showIdx = dao.getShowIdxByMusicalId(musicalId);
+            String showIdx = request.getParameter("showIdx");
             if (showIdx == null) {
                 response.getWriter().write("{\"success\": false, \"error\": \"해당 뮤지컬의 공연 정보가 없습니다.\"}");
                 return;

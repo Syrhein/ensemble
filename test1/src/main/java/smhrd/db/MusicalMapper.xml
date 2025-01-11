@@ -219,20 +219,22 @@
 
 	<!-- 관심 등록 여부 확인 -->
 	<select id="isFavoriteExists"
-		parameterType="smhrd.model.FavoriteVO" resultType="int">
-		SELECT COUNT(*)
-		FROM
-		TB_FAVORITE
-		WHERE USER_ID = #{userId}
-		AND SHOW_IDX = #{showIdx}
-	</select>
+    parameterType="smhrd.model.FavoriteVO" resultType="int">
+    SELECT COUNT(*)
+    FROM TB_FAVORITE F
+    JOIN TB_SHOW S ON F.SHOW_IDX = S.SHOW_IDX
+    WHERE F.USER_ID = #{userId}
+    AND F.SHOW_IDX = #{showIdx};
+</select>
 
-	<!-- 관심 등록 -->
-	<insert id="addFavorite">
-		INSERT INTO TB_FAVORITE ( USER_ID, SHOW_IDX,
-		CREATED_AT)
-		VALUES ( #{userId}, #{showIdx}, CURRENT_TIMESTAMP)
-	</insert>
+
+<insert id="addFavorite">
+    INSERT INTO TB_FAVORITE (USER_ID, SHOW_IDX, CREATED_AT)
+    SELECT #{userId}, #{showIdx}, CURRENT_TIMESTAMP
+    FROM TB_USER
+    WHERE USER_ID = #{userId}
+</insert>
+
 
 
 
