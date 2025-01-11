@@ -40,12 +40,30 @@ public class BoardDAO {
     // 좋아요 증가
     public int incrementPostLikes(int postIdx) {
         int updatedLikes = 0;
-        try (SqlSession session = factory.openSession(true)) {
-            session.update("MusicalMapper.incrementPostLikes", postIdx);
-            updatedLikes = session.selectOne("MusicalMapper.getPostLikes", postIdx); // 좋아요 수 조회
+
+        try (SqlSession session = factory.openSession()) {
+            try {
+                // 좋아요 증가 처리
+                int rowsAffected = session.update("MusicalMapper.incrementPostLikes", postIdx);
+
+                if (rowsAffected > 0) {
+                    // 업데이트 성공 시 좋아요 수 조회
+                    updatedLikes = session.selectOne("MusicalMapper.getPostLikes", postIdx);
+                    session.commit(); // 성공 시 트랜잭션 커밋
+                } else {
+                    throw new Exception("Post not found with postIdx: " + postIdx);
+                }
+            } catch (Exception e) {
+                session.rollback(); // 실패 시 트랜잭션 롤백
+                e.printStackTrace();
+                throw new RuntimeException("An error occurred while updating post likes.", e);
+            }
         }
+
         return updatedLikes;
     }
+
+
 
     // 댓글 작성
     public int insertComment(CommentVO comment) {

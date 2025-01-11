@@ -33,12 +33,12 @@
 			</div>
 			<div class="Buttons">
 				<div class="BtnSignUp">
-					<a href="signUp.jsp" class="SignUp">회원가입</a>
+					<a href="signUp.html" class="SignUp">회원가입</a>
 				</div>
 				<div class="BtnLogin">
-					<a href="login.jsp" class="Login">로그인</a>
+					<a href="login.html" class="Login">로그인</a>
 				</div>
-				<a href="MyPage.jsp"><img src="./img/icon_my.png"
+				<a href="MyPage.html"><img src="./img/icon_my.png"
 					class="icon_my" alt="My Icon"></a>
 			</div>
 		</div>
