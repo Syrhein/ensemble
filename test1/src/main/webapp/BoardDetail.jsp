@@ -38,6 +38,9 @@
 				<div class="BtnLogin">
 					<a href="login.html" class="Login">로그인</a>
 				</div>
+	            <div data-layer="btn_logout" class="BtnLogout" style="display: none;">
+		        <div class="Logout">로그아웃</div>
+		    	</div>
 				<a href="MyPage.html"><img src="./img/icon_my.png"
 					class="icon_my" alt="My Icon"></a>
 			</div>
@@ -145,5 +148,7 @@
         }
     }
 	</script>
+	
+	<script src="./js/common.js"></script>
 </body>
 </html>
