@@ -71,8 +71,8 @@
 		<div class="stat-item">
 			<!-- 버튼 코드 -->
 			<button id="addFavoriteButton" class="favorite-button">
-				<img src="./img/icon_heart.png" class="icon_heart" alt="관심 등록">
-			</button>
+				<img id="favoriteIcon" src="./img/icon_heart.png" class="icon_heart" alt="관심 등록">
+</button>
 
 			<h3>관심</h3>
 		</div>
@@ -181,51 +181,68 @@
 
         //관심등록
         document.getElementById("addFavoriteButton").addEventListener("click", function () {
-            const userId = document.getElementById("userId").value;
-            const showIdx = document.getElementById("showIdx").value;
+    const userId = document.getElementById("userId").value;
+    const showIdx = document.getElementById("showIdx").value;
+    const favoriteIcon = document.getElementById("favoriteIcon");
 
-            if (!userId) {
-                alert("로그인이 필요합니다.");
-                window.location.href = "login.html";
-                return;
+    if (!favoriteIcon) {
+        console.error("favoriteIcon 요소를 찾을 수 없습니다.");
+        return;
+    }
+
+    if (!userId) {
+        alert("로그인이 필요합니다.");
+        window.location.href = "login.html";
+        return;
+    }
+
+    fetch("FavoriteServlet", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: `userId=${userId}&showIdx=${showIdx}`
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert("관심 등록 완료!");
+            favoriteIcon.src = "./img/icon_heart_filled.png"; // 채워진 하트 이미지로 변경
+            const button = document.getElementById("addFavoriteButton");
+            button.innerText = "관심 등록됨";
+            button.disabled = true;
+            button.style.cursor = "default";
+        } else {
+            alert(data.error || "관심 등록 실패");
+        }
+    })
+    .catch(error => console.error("Error:", error));
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    const userId = document.getElementById("userId").value;
+    const showIdx = document.getElementById("showIdx").value;
+    const favoriteIcon = document.getElementById("favoriteIcon");
+    const addFavoriteButton = document.getElementById("addFavoriteButton");
+
+    if (!favoriteIcon) {
+        console.error("favoriteIcon 요소를 찾을 수 없습니다.");
+        return;
+    }
+
+    fetch(`CheckFavoriteServlet?userId=${userId}&showIdx=${showIdx}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.isFavorite) {
+                favoriteIcon.src = "./img/icon_heart_filled.png"; // 채워진 하트 이미지
+                addFavoriteButton.innerText = "관심 등록됨";
+                addFavoriteButton.disabled = true;
+                addFavoriteButton.style.cursor = "default";
+            } else {
+                favoriteIcon.src = "./img/icon_heart.png"; // 빈 하트 이미지
             }
+        })
+        .catch(error => console.error("Error checking favorite status:", error));
+});
 
-            fetch("FavoriteServlet", {
-                method: "POST",
-                headers: { "Content-Type": "application/x-www-form-urlencoded" },
-                body: `userId=${userId}&showIdx=${showIdx}`
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    alert("관심 등록 완료!");
-                    const button = document.getElementById("addFavoriteButton");
-                    button.innerText = "관심 등록됨";
-                    button.disabled = true;
-                    button.style.backgroundColor = "gray";
-                } else {
-                    alert(data.error || "관심 등록 실패");
-                }
-            })
-            .catch(error => console.error("Error:", error));
-        });
-
-        document.addEventListener("DOMContentLoaded", function () {
-            const userId = document.getElementById("userId").value;
-            const showIdx = document.getElementById("showIdx").value;
-
-            fetch(`CheckFavoriteServlet?userId=${userId}&showIdx=${showIdx}`)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.isFavorite) {
-                        const button = document.getElementById("addFavoriteButton");
-                        button.innerText = "관심 등록됨";
-                        button.disabled = true;
-                        button.style.backgroundColor = "gray";
-                    }
-                })
-                .catch(error => console.error("Error checking favorite status:", error));
-        });
 
             
             
