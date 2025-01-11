@@ -142,15 +142,18 @@
 		SELECT
 		CMT_IDX AS cmtIdx,
 		POST_IDX AS postIdx,
-		USER_ID AS userId,
+		USER_ID AS
+		userId,
 		CMT_CONTENT AS cmtContent,
 		CREATED_AT AS createdAt,
-		CMT_LIKES AS cmtLikes
+		CMT_LIKES AS
+		cmtLikes
 		FROM TB_COMMENT
 		WHERE POST_IDX = #{postIdx}
-		ORDER BY CREATED_AT DESC
+		ORDER BY CREATED_AT
+		DESC
 	</select>
-	
+
 	<!-- 댓글 좋아요수 -->
 	<update id="incrementCommentLikes" parameterType="int">
 		UPDATE
@@ -205,19 +208,21 @@
 
 
 	<!-- 관심 등록 여부 확인 -->
-    <select id="isFavoriteExists" parameterType="smhrd.model.FavoriteVO" resultType="int">
-        SELECT COUNT(*)
-        FROM TB_FAVORITE
-        WHERE USER_ID = #{userId}
-          AND SHOW_IDX = #{showIdx}
-    </select>
+	<select id="isFavoriteExists"
+		parameterType="smhrd.model.FavoriteVO" resultType="int">
+		SELECT COUNT(*)
+		FROM TB_FAVORITE
+		WHERE USER_ID = #{userId}
+		AND SHOW_IDX = #{showIdx}
+	</select>
 
-    <!-- 관심 등록 -->
-    <insert id="addFavorite" parameterType="smhrd.model.FavoriteVO">
-        INSERT INTO TB_FAVORITE (FAV_IDX, USER_ID, SHOW_IDX, CREATED_AT)
-        VALUES (SEQ_FAV_IDX.NEXTVAL, #{userId}, #{showIdx}, CURRENT_TIMESTAMP)
-    </insert>
-	
+	<!-- 관심 등록 -->
+	<insert id="addFavorite">
+		INSERT INTO TB_FAVORITE ( USER_ID, SHOW_IDX, CREATED_AT)
+		VALUES ( #{userId}, #{showIdx}, CURRENT_TIMESTAMP)
+	</insert>
+
+
 
 
 
@@ -258,7 +263,7 @@
 
 
 
-<!-- 리뷰 추가 -->
+	<!-- 리뷰 추가 -->
 	<insert id="insertReview" parameterType="smhrd.model.ReviewVO">
 		INSERT INTO TB_REVIEW (
 		SHOW_IDX, USER_ID, REVIEW_CONTENT, REVIEW_STAR, CREATED_AT,
