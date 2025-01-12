@@ -85,7 +85,7 @@
 	<div class="review-section">
     <h2>리뷰 작성</h2>
     <form id="reviewForm">
-    <input type="hidden" name="showIdx" value="<!-- 실제 showIdx 값 -->">
+    <input type="hidden" name="showIdx" value="">
     <textarea name="reviewContent" placeholder="리뷰를 입력하세요" required></textarea>
     <label for="reviewStar">평점 (1-5):</label>
     <input type="number" name="reviewStar" min="1" max="5" required>
@@ -247,52 +247,48 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 const userId = data.userId;
 
-                console.log("로그인된 userId:", userId); // 디버깅 로그
-
                 // 리뷰 작성 버튼 클릭 이벤트 추가
                 reviewButton.addEventListener("click", () => {
-                    console.log("리뷰 작성 버튼 클릭됨"); // 디버깅 로그
+                    console.log("리뷰 작성 버튼 클릭됨");
+
                     const formData = new FormData(reviewForm);
-                    formData.append("showIdx", showIdx); // showIdx 추가
-                    formData.append("userId", userId); // userId 추가
+                    formData.append("showIdx", showIdx);
+                    formData.append("userId", userId);
 
                     const dataToSend = new URLSearchParams();
                     for (const [key, value] of formData) {
                         dataToSend.append(key, value);
                     }
 
-                    console.log("전송 데이터:", dataToSend.toString()); // 디버깅 로그
-
                     // 서버로 데이터 전송
-                    fetch("ReviewWriteCon", {
+                    fetch("http://localhost:8081/test1/ReviewWriteCon", {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/x-www-form-urlencoded",
                         },
                         body: dataToSend.toString(),
                     })
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error("서버 응답 상태 오류");
-                        }
-                        return response.text(); // 서버 응답 텍스트 처리
-                    })
-                    .then(result => {
-                        console.log("서버 응답:", result); // 디버깅 로그
-                        if (result.includes("성공")) {
-                            reviewMessage.textContent = "리뷰 작성 성공!";
-                            reviewMessage.style.color = "green";
-                            reviewForm.reset(); // 폼 초기화
-                        } else {
-                            reviewMessage.textContent = `리뷰 작성 실패: ${result}`;
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error("서버 응답 상태 오류");
+                            }
+                            return response.json();
+                        })
+                        .then(result => {
+                            if (result.success) {
+                                reviewMessage.textContent = "리뷰 작성 성공!";
+                                reviewMessage.style.color = "green";
+                                reviewForm.reset();
+                            } else {
+                                reviewMessage.textContent = `리뷰 작성 실패: ${result.error || "알 수 없는 오류"}`;
+                                reviewMessage.style.color = "red";
+                            }
+                        })
+                        .catch(error => {
+                            console.error("리뷰 작성 중 오류 발생:", error);
+                            reviewMessage.textContent = "리뷰 작성 중 오류가 발생했습니다. 다시 시도하세요.";
                             reviewMessage.style.color = "red";
-                        }
-                    })
-                    .catch(error => {
-                        console.error("리뷰 작성 중 오류 발생:", error);
-                        reviewMessage.textContent = "리뷰 작성 중 오류가 발생했습니다. 다시 시도하세요.";
-                        reviewMessage.style.color = "red";
-                    });
+                        });
                 });
             })
             .catch(error => {
@@ -301,6 +297,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 window.location.href = "login.html";
             });
     }
+
 
 
 

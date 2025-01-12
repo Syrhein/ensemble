@@ -4,9 +4,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import java.io.IOException;
 
 import smhrd.model.MusicalDAO;
 import smhrd.model.ReviewVO;
@@ -14,39 +11,42 @@ import smhrd.model.ReviewVO;
 @WebServlet("/ReviewWriteCon")
 public class ReviewWriteCon extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) {
+        response.setContentType("application/json; charset=UTF-8");
         try {
-            HttpSession session = request.getSession();
-            String userId = (String) session.getAttribute("userId"); // 세션에서 userId 가져오기
-
-            if (userId == null) {
-                response.getWriter().write("리뷰 작성 실패: 로그인 정보 없음");
-                return;
-            }
-
+            // 요청 데이터 가져오기
             String showIdx = request.getParameter("showIdx");
+            String userId = request.getParameter("userId");
             String reviewContent = request.getParameter("reviewContent");
             String reviewStar = request.getParameter("reviewStar");
 
+            if (showIdx == null || userId == null || reviewContent == null || reviewStar == null) {
+                response.getWriter().write("{\"success\": false, \"error\": \"유효하지 않은 요청입니다.\"}");
+                return;
+            }
+
+            // ReviewVO 객체 생성 및 데이터 설정
             ReviewVO review = new ReviewVO();
             review.setShowIdx(Integer.parseInt(showIdx));
             review.setUserId(userId);
             review.setReviewContent(reviewContent);
             review.setReviewStar(Integer.parseInt(reviewStar));
 
+            // DAO 호출
             MusicalDAO dao = new MusicalDAO();
             int result = dao.insertReview(review);
 
+            // 결과 처리
             if (result > 0) {
-                response.getWriter().write("리뷰 작성 성공");
+                response.getWriter().write("{\"success\": true}");
             } else {
-                response.getWriter().write("리뷰 작성 실패");
+                response.getWriter().write("{\"success\": false, \"error\": \"리뷰 저장 실패\"}");
             }
         } catch (Exception e) {
             e.printStackTrace();
             try {
-                response.getWriter().write("리뷰 작성 중 오류 발생");
-            } catch (IOException ignored) {}
+                response.getWriter().write("{\"success\": false, \"error\": \"서버 오류 발생\"}");
+            } catch (Exception ignored) {
+            }
         }
     }
 }
-
