@@ -4,33 +4,39 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import java.io.IOException;
 
 import smhrd.model.MusicalDAO;
 import smhrd.model.ReviewVO;
+
 @WebServlet("/ReviewWriteCon")
 public class ReviewWriteCon extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) {
-        // 요청 데이터 가져오기
-        String showIdx = request.getParameter("showIdx");
-        String userId = request.getParameter("userId");
-        String reviewContent = request.getParameter("reviewContent");
-        String reviewStar = request.getParameter("reviewStar"); // String 타입으로 입력받음
-
         try {
-            // ReviewVO 객체 생성 및 데이터 설정
+            HttpSession session = request.getSession();
+            String userId = (String) session.getAttribute("userId"); // 세션에서 userId 가져오기
+
+            if (userId == null) {
+                response.getWriter().write("리뷰 작성 실패: 로그인 정보 없음");
+                return;
+            }
+
+            String showIdx = request.getParameter("showIdx");
+            String reviewContent = request.getParameter("reviewContent");
+            String reviewStar = request.getParameter("reviewStar");
+
             ReviewVO review = new ReviewVO();
-            review.setShowIdx(Integer.parseInt(showIdx)); // String -> int 변환
+            review.setShowIdx(Integer.parseInt(showIdx));
             review.setUserId(userId);
             review.setReviewContent(reviewContent);
-            review.setReviewStar(Integer.parseInt(reviewStar)); // String -> int 변환
+            review.setReviewStar(Integer.parseInt(reviewStar));
 
-            // DAO 호출
             MusicalDAO dao = new MusicalDAO();
-            int result = dao.insertReview(review); // int 반환
-            boolean success = (result > 0); // 삽입 성공 여부 확인
+            int result = dao.insertReview(review);
 
-            // 결과 처리
-            if (success) {
+            if (result > 0) {
                 response.getWriter().write("리뷰 작성 성공");
             } else {
                 response.getWriter().write("리뷰 작성 실패");
@@ -39,8 +45,8 @@ public class ReviewWriteCon extends HttpServlet {
             e.printStackTrace();
             try {
                 response.getWriter().write("리뷰 작성 중 오류 발생");
-            } catch (Exception ignored) {
-            }
+            } catch (IOException ignored) {}
         }
     }
 }
+

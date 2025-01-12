@@ -85,13 +85,13 @@
 	<div class="review-section">
     <h2>리뷰 작성</h2>
     <form id="reviewForm">
-        <input type="hidden" name="showIdx" value="100"> <!-- 실제 showIdx 값 -->
-        <input type="hidden" name="userId" value="testUser"> <!-- 실제 userId 값 -->
-        <textarea name="reviewContent" placeholder="리뷰를 입력하세요" required></textarea>
-        <label for="reviewStar">평점 (1-5):</label>
-        <input type="number" name="reviewStar" min="1" max="5" required>
-        <button id="submitReviewButton" type="button">리뷰 작성</button>
-    </form>
+    <input type="hidden" name="showIdx" value="<!-- 실제 showIdx 값 -->">
+    <textarea name="reviewContent" placeholder="리뷰를 입력하세요" required></textarea>
+    <label for="reviewStar">평점 (1-5):</label>
+    <input type="number" name="reviewStar" min="1" max="5" required>
+    <button id="submitReviewButton" type="button">리뷰 작성</button>
+</form>
+
     <div id="reviewMessage"></div>
 </div>
 
@@ -133,9 +133,9 @@ document.addEventListener('DOMContentLoaded', () => {
         incrementViews(musicalId);
         fetchMusicalDetails(musicalId);
         initializeFavoriteFeature(showIdx, userId);
+        initializeReviewFeature(showIdx, userId); // 리뷰 작성 초기화
         initializePopup();
         initializeNavigation();
-        initializeReviewFeature(showIdx, userId); // 리뷰 작성 초기화
     }
 
     function incrementViews(musicalId) {
@@ -220,7 +220,12 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    function initializeReviewFeature(showIdx, userId) {
+    
+    
+    
+    
+    
+    function initializeReviewFeature(showIdx) {
         const reviewButton = document.getElementById("submitReviewButton");
         const reviewForm = document.getElementById("reviewForm");
         const reviewMessage = document.getElementById("reviewMessage");
@@ -230,40 +235,76 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        reviewButton.addEventListener("click", () => {
-            console.log("리뷰 작성 버튼 클릭됨");
-            const formData = new FormData(reviewForm);
-            const data = new URLSearchParams();
-            for (const [key, value] of formData) {
-                data.append(key, value);
-            }
-
-            fetch("ReviewWriteCon", {
-                method: "POST",
-                headers: { "Content-Type": "application/x-www-form-urlencoded" },
-                body: data.toString(),
-            })
-            .then(response => {
-                if (!response.ok) throw new Error("서버 응답 상태 오류");
-                return response.json();
-            })
-            .then(result => {
-                if (result.success) {
-                    reviewMessage.textContent = "리뷰 작성 성공!";
-                    reviewMessage.style.color = "green";
-                    reviewForm.reset();
-                } else {
-                    reviewMessage.textContent = `리뷰 작성 실패: ${result.error || "알 수 없는 오류"}`;
-                    reviewMessage.style.color = "red";
+        // 로그인 상태 확인 및 userId 가져오기
+        fetch("http://localhost:8081/test1/CheckLoginCon")
+            .then(response => response.json())
+            .then(data => {
+                if (!data.isLoggedIn) {
+                    alert("로그인이 필요합니다.");
+                    window.location.href = "login.html";
+                    return;
                 }
+
+                const userId = data.userId;
+
+                console.log("로그인된 userId:", userId); // 디버깅 로그
+
+                // 리뷰 작성 버튼 클릭 이벤트 추가
+                reviewButton.addEventListener("click", () => {
+                    console.log("리뷰 작성 버튼 클릭됨"); // 디버깅 로그
+                    const formData = new FormData(reviewForm);
+                    formData.append("showIdx", showIdx); // showIdx 추가
+                    formData.append("userId", userId); // userId 추가
+
+                    const dataToSend = new URLSearchParams();
+                    for (const [key, value] of formData) {
+                        dataToSend.append(key, value);
+                    }
+
+                    console.log("전송 데이터:", dataToSend.toString()); // 디버깅 로그
+
+                    // 서버로 데이터 전송
+                    fetch("ReviewWriteCon", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/x-www-form-urlencoded",
+                        },
+                        body: dataToSend.toString(),
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error("서버 응답 상태 오류");
+                        }
+                        return response.text(); // 서버 응답 텍스트 처리
+                    })
+                    .then(result => {
+                        console.log("서버 응답:", result); // 디버깅 로그
+                        if (result.includes("성공")) {
+                            reviewMessage.textContent = "리뷰 작성 성공!";
+                            reviewMessage.style.color = "green";
+                            reviewForm.reset(); // 폼 초기화
+                        } else {
+                            reviewMessage.textContent = `리뷰 작성 실패: ${result}`;
+                            reviewMessage.style.color = "red";
+                        }
+                    })
+                    .catch(error => {
+                        console.error("리뷰 작성 중 오류 발생:", error);
+                        reviewMessage.textContent = "리뷰 작성 중 오류가 발생했습니다. 다시 시도하세요.";
+                        reviewMessage.style.color = "red";
+                    });
+                });
             })
             .catch(error => {
-                console.error("리뷰 작성 중 오류 발생:", error);
-                reviewMessage.textContent = "리뷰 작성 중 오류가 발생했습니다.";
-                reviewMessage.style.color = "red";
+                console.error("로그인 상태 확인 실패:", error);
+                alert("로그인 상태 확인 중 오류가 발생했습니다.");
+                window.location.href = "login.html";
             });
-        });
     }
+
+
+
+    
 
     function initializePopup() {
         const popupOverlay = document.getElementById('popupOverlay');
