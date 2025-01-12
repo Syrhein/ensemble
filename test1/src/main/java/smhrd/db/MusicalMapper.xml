@@ -173,15 +173,18 @@
 	<!-- 뮤지컬 목록 가져오기 -->
 	<select id="getMusicalList" resultType="smhrd.model.MusicalVO">
     SELECT 
-        M.MUSICAL_ID AS musicalId,       -- TB_MUSICAL 테이블에서 가져옴
-        S.SHOW_IDX AS showIdx,           -- TB_SHOW 테이블에서 가져옴
-        M.MUSICAL_POSTER AS musicalPoster, -- TB_MUSICAL 테이블에서 가져옴
-        M.MUSICAL_TITLE AS musicalTitle  -- TB_MUSICAL 테이블에서 가져옴
+        M.MUSICAL_ID AS musicalId,       
+        S.SHOW_IDX AS showIdx,           
+        M.MUSICAL_POSTER AS musicalPoster, 
+        M.MUSICAL_TITLE AS musicalTitle,
+        M.MUSICAL_CREATE AS musicalCreate, -- TB_MUSICAL 테이블의 MUSICAL_CREATE 필드 추가
+        M.MUSICAL_LICENSE AS musicalLicense -- TB_MUSICAL 테이블의 MUSICAL_LICENSE 필드 추가
     FROM 
         TB_MUSICAL M
     JOIN 
         TB_SHOW S ON M.MUSICAL_ID = S.MUSICAL_ID
 </select>
+
 
 
 	<!-- 상세정보 조회수 증가 -->

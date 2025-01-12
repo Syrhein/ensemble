@@ -6,6 +6,7 @@ public class MusicalVO {
     private String musicalTitle;    // MUSICAL_TITLE
     private String musicalPoster;   // MUSICAL_POSTER
     private String musicalCreate;   // MUSICAL_CREATE
+    private String musicalLicense;   // MUSICAL_CREATE
 
     // 기본 생성자
     public MusicalVO() {
@@ -27,7 +28,15 @@ public class MusicalVO {
         return musicalId;
     }
 
-    public String getShowIdx() {
+    public String getMusicalLicense() {
+		return musicalLicense;
+	}
+
+	public void setMusicalLicense(String musicalLicense) {
+		this.musicalLicense = musicalLicense;
+	}
+
+	public String getShowIdx() {
 		return showIdx;
 	}
 

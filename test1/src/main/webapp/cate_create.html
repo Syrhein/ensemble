@@ -65,9 +65,11 @@ document.addEventListener('DOMContentLoaded', () => {
     fetch('http://localhost:8081/test1/MainCon') // 서버 URL
         .then(response => response.json())
         .then(data => {
+        	 console.log(data); 
             // MUSICAL_CREATE='Y' 조건 필터링
             allData = data.filter(item => item.musicalCreate === 'Y');
             filteredData = allData; // 초기에는 전체 데이터를 필터링 데이터로 사용
+            console.log(filteredData); 
             renderPage(); // 첫 페이지 렌더링
         })
         .catch(error => console.error('Error loading data:', error));
