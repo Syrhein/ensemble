@@ -57,16 +57,6 @@ public class MusicalDAO {
         }
     }
 
-    // 관심 등록
-    public boolean addFavorite(FavoriteVO favorite) {
-        SqlSession session = factory.openSession(true);
-        try {
-            int result = session.insert("MusicalMapper.addFavorite", favorite);
-            return result > 0; // 삽입 성공 여부 반환
-        } finally {
-            session.close();
-        }
-    }
 
     // 상위 5개 뮤지컬 정보 가져오기
     public List<MusicalVO> getTopMusicals() {
@@ -80,8 +70,34 @@ public class MusicalDAO {
         return topMusicals;
     }
    
+    // 관심 등록
+    public boolean addFavorite(FavoriteVO favorite) {
+    	SqlSession session = factory.openSession(true);
+    	try {
+    		int result = session.insert("MusicalMapper.addFavorite", favorite);
+    		return result > 0; // 삽입 성공 여부 반환
+    	} finally {
+    		session.close();
+    	}
+    }
     
-    
+    public boolean removeFavorite(FavoriteVO favorite) {
+        boolean result = false;
+        SqlSession session = factory.openSession(true);
+        try  {
+            int rowsAffected = session.delete("removeFavorite", favorite);
+            if (rowsAffected > 0) {
+                result = true;
+                session.commit();
+            } else {
+                session.rollback();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
     
     
     

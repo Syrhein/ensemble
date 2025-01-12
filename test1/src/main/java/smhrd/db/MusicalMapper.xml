@@ -248,6 +248,10 @@
 </insert>
 
 
+<delete id="removeFavorite" parameterType="smhrd.model.FavoriteVO">
+    DELETE FROM TB_FAVORITE
+    WHERE USER_ID = #{userId} AND SHOW_IDX = #{showIdx}
+</delete>
 
 
 
