@@ -1,12 +1,13 @@
 package smhrd.controller;
 
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import smhrd.model.MusicalDAO;
 import smhrd.model.ReviewVO;
-
+@WebServlet("/ReviewWriteCon")
 public class ReviewWriteCon extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) {
         // 요청 데이터 가져오기

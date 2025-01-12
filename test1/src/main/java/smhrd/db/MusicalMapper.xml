@@ -298,14 +298,25 @@
 
 	<!-- 리뷰 추가 -->
 	<insert id="insertReview" parameterType="smhrd.model.ReviewVO">
-		INSERT INTO TB_REVIEW (
-		SHOW_IDX, USER_ID, REVIEW_CONTENT, REVIEW_STAR, CREATED_AT,
-		REVIEW_LIKES
-		) VALUES (
-		#{showIdx}, #{userId}, #{reviewContent},
-		#{reviewStar}, CURRENT_TIMESTAMP, 0
-		)
-	</insert>
+    INSERT INTO TB_REVIEW (
+        SHOW_IDX, USER_ID, REVIEW_CONTENT, REVIEW_STAR, CREATED_AT, REVIEW_LIKES
+    )
+    SELECT 
+        S.SHOW_IDX, 
+        U.USER_ID, 
+        #{reviewContent}, 
+        #{reviewStar}, 
+        CURRENT_TIMESTAMP, 
+        0
+    FROM 
+        TB_SHOW S
+    JOIN 
+        TB_USER U 
+        ON U.USER_ID = #{userId}
+    WHERE 
+        S.SHOW_IDX = #{showIdx}
+</insert>
+
 
 
 
