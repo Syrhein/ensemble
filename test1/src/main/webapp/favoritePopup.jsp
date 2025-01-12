@@ -1,6 +1,7 @@
 <%@page import="smhrd.model.MyPageVO"%>
 <%@page import="java.util.List"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<link rel="stylesheet" href="./css/favoritePopup.css">
 <html>
 <head>
     <title>관심 등록 목록</title>
