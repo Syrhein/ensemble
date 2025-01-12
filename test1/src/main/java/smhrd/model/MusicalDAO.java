@@ -75,4 +75,18 @@ public class MusicalDAO {
             return session.insert("MusicalMapper.insertReview", review);
         }
     }
+    
+    // 관심 등록 목록 가져오기
+    public List<MyPageVO> getFavoriteList(String userId) {
+        SqlSession session = factory.openSession(true); // Auto-commit 설정
+        List<MyPageVO> list = null;
+        try {
+            list = session.selectList("MusicalMapper.getFavoriteList", userId);
+        } finally {
+            session.close();
+        }
+        return list;
+    }
+
+    
 }

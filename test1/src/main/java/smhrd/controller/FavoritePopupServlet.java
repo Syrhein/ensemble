@@ -28,8 +28,6 @@ public class FavoritePopupServlet extends HttpServlet {
             }
         }
 
-        // USER_ID 디버깅 로그
-        System.out.println("USER_ID from session: " + userId);
 
         if (userId == null) {
             // 세션이 없거나 USER_ID가 없는 경우
