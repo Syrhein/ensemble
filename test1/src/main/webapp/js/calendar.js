@@ -7,35 +7,41 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     try {
+        // FullCalendar 초기화
         const calendar = new FullCalendar.Calendar(calendarEl, {
-            plugins: ['dayGrid'],
-            initialView: 'dayGridMonth',
+            plugins: ['dayGrid'], // 월별 보기 플러그인
+            initialView: 'dayGridMonth', // 기본 월간 보기 설정
             events: (fetchInfo, successCallback, failureCallback) => {
-                // 호출 경로를 서버의 절대 경로로 설정
                 fetch('http://localhost:8081/test1/CalendarServlet')
                     .then(response => {
                         if (!response.ok) {
                             throw new Error(`HTTP error! status: ${response.status}`);
                         }
-                        return response.json();
+                        return response.json(); // JSON 데이터 파싱
                     })
                     .then(events => {
-                        // 성공적으로 데이터를 가져온 경우 콜백 호출
+                        // 성공적으로 데이터를 가져온 경우 이벤트 렌더링
                         successCallback(events);
                     })
                     .catch(error => {
                         console.error('캘린더 이벤트 데이터를 가져오는 데 실패했습니다:', error);
-                        failureCallback(error); // 에러 콜백 호출
+                        failureCallback(error);
                     });
             },
-            eventContent: function (info) {
-                const eventEl = document.createElement('div');
-                const img = document.createElement('img');
-                img.src = info.event.extendedProps.posterUrl || './img/default-poster.jpg'; // 기본 이미지 처리
-                img.alt = "포스터 이미지";
-                img.className = 'poster-image';
-                eventEl.appendChild(img);
-                return { domNodes: [eventEl] };
+            eventRender: function (info) {
+                // 기존의 제목 span을 링크로 교체
+                const link = document.createElement('a'); // 링크 요소 생성
+                link.textContent = info.event.title; // 제목 설정
+                link.href = `http://localhost:8081/test1/detail.html?musicalId=${info.event.extendedProps.musicalId}&showIdx=${info.event.extendedProps.showIdx}`; // 상세페이지 URL 설정
+                link.target = '_blank'; // 새 창에서 열기
+                link.className = 'fc-title-link'; // CSS 클래스 추가
+
+                // 기존 span.fc-title을 link로 교체
+                const titleElement = info.el.querySelector('.fc-title'); // 기존 제목 요소
+                if (titleElement) {
+                    titleElement.innerHTML = ''; // 기존 텍스트 제거
+                    titleElement.appendChild(link); // 링크 추가
+                }
             },
         });
 
