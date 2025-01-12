@@ -291,5 +291,19 @@
 	    display: block;
 	}
 	
+	/* 캘린더 */
+	.fc-title-link {
+		font-weight: bold;
+	    color: black; /* 링크 색상 */
+	    text-decoration: none; /* 밑줄 제거 */
+	    font-size: 12px; /* 텍스트 크기 */
+	    text-align: center; /* 텍스트 가운데 정렬 */
+	    cursor: pointer; /* 클릭 가능 표시 */
+	}
+	
+	.fc-title-link:hover {
+	    text-decoration: underline; /* 호버 시 밑줄 표시 */
+	    color: #0056b3; /* 호버 시 색상 변경 */
+	}
 	
 	
