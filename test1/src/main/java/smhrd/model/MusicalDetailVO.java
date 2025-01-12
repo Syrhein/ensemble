@@ -15,6 +15,7 @@ public class MusicalDetailVO {
     private String showPrice;     // 가격
     private String showImg;       // 공연 이미지
     private int showViews;        // 조회수
+    private String userId;  // 유저아이디
 
     // 기본 생성자
     public MusicalDetailVO() {}
@@ -23,7 +24,7 @@ public class MusicalDetailVO {
     public MusicalDetailVO(int showIdx, String musicalId, String musicalTitle, String musicalPoster,
                            Date musicalStDt, Date musicalEdDt, String hallName,
                            String showDate, String showRuntime, String showPrice,
-                           String showImg, int showViews) {
+                           String showImg, int showViews, String userId) {
         this.showIdx = showIdx;
         this.musicalId = musicalId;
         this.musicalTitle = musicalTitle;
@@ -36,14 +37,24 @@ public class MusicalDetailVO {
         this.showPrice = showPrice;
         this.showImg = showImg;
         this.showViews = showViews;
+        this.userId = userId;
     }
 
     // Getter & Setter
+    
     public int getShowIdx() {
         return showIdx;
     }
 
-    public void setShowIdx(int showIdx) {
+    public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
+	public void setShowIdx(int showIdx) {
         this.showIdx = showIdx;
     }
 

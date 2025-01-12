@@ -97,6 +97,7 @@
 	    const urlParams = new URLSearchParams(window.location.search);
 	    const musicalId = urlParams.get("musicalId");
 	    const showIdx = urlParams.get("showIdx");
+	    const userId = urlParams.get("userId");
 
 	    if (!musicalId || !showIdx) {
 	        alert("뮤지컬 정보를 불러올 수 없습니다.");
@@ -105,7 +106,7 @@
 	        return;
 	    }
 
-	    console.log("musicalId:", musicalId, "showIdx:", showIdx);
+	    console.log("musicalId:", musicalId, "showIdx:", showIdx, "userId:",userId);
 
 	    incrementViews(musicalId);
 	    fetchMusicalDetails(musicalId).then(() => {
@@ -150,6 +151,7 @@
 	                document.getElementById("showPrice").innerText = `가격: ${data.showPrice}`;
 	                document.getElementById("showViews").innerText = `조회수: ${data.showViews}`;
 	                document.getElementById("showIdx").value = data.showIdx;
+	                document.getElementById("userId").value = data.userId;
 
 	                document.getElementById('toggleDetailsButton').addEventListener('click', () => {
 	                    const popupContent = document.getElementById('popupContent');
