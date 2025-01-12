@@ -6,6 +6,7 @@
 <title>상세페이지</title>
 <link rel="stylesheet" href="./css/detail.css">
 <script src="./js/common.js"></script>
+<script src="./js/navigation.js"></script>
 </head>
 <body>
 	<!-- 헤더 영역 -->
@@ -398,35 +399,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    function initializeNavigation() {
-        document.querySelector('.BtnLogin').addEventListener('click', () => {
-            window.location.href = 'login.html';
-        });
 
-        document.querySelector('.icon_my').addEventListener('click', () => {
-            window.location.href = 'MyPage.html';
-        });
-
-        document.querySelector('.BtnSignUp').addEventListener('click', () => {
-            window.location.href = 'signUp.html';
-        });
-
-        document.querySelector('.categories .category:nth-child(1)').addEventListener('click', () => {
-            window.location.href = 'cate_create.html';
-        });
-
-        document.querySelector('.categories .category:nth-child(2)').addEventListener('click', () => {
-            window.location.href = 'cate_license.html';
-        });
-
-        document.querySelector('.categories .category:nth-child(3)').addEventListener('click', () => {
-            window.location.href = 'Board.jsp';
-        });
-
-        document.querySelector('.logo').addEventListener('click', () => {
-            window.location.href = 'Main.html';
-        });
-    }
 });
 </script>
 
