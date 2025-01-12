@@ -89,4 +89,22 @@ public class MusicalDAO {
     }
 
     
+    
+    // 리뷰 조회
+    public List<ReviewVO> getReviewsByShowIdx(int showIdx) {
+        try (SqlSession session = SqlSessionManager.getSqlSession().openSession()) {
+            return session.selectList("MusicalMapper.getReviewsByShowIdx", showIdx);
+        }
+    }
+
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
 }

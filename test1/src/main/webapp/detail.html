@@ -94,7 +94,11 @@
 <div id="reviewMessage"></div>
 
 
-
+<!-- 리뷰 조회 테이블  -->
+<div id="reviewSection" class="review-section">
+    <!-- JavaScript로 리뷰 데이터가 추가될 예정 -->
+    <h3>리뷰 조회</h3>
+</div>
 
 
 
@@ -216,8 +220,85 @@ document.addEventListener('DOMContentLoaded', () => {
             })
             .catch(error => console.error("관심 등록/취소 요청 중 에러 발생:", error));
         });
+    }   
+    
+    
+    
+    
+    
+    
+    document.addEventListener("DOMContentLoaded", () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const showIdx = urlParams.get("showIdx");
+
+        if (!showIdx) {
+            alert("공연 정보가 잘못되었습니다.");
+            window.location.href = "Main.html";
+            return;
+        }
+
+        console.log("fetchReviews 호출 준비, showIdx:", showIdx); // 디버깅 로그
+        fetchReviews(showIdx); // 리뷰 목록 불러오기
+    });
+
+    function fetchReviews(showIdx) {
+        console.log("fetchReviews 호출됨, showIdx:", showIdx); // 디버깅 로그
+
+        fetch(`http://localhost:8081/test1/ReviewListCon?showIdx=${showIdx}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("리뷰 데이터를 가져오는 데 실패했습니다.");
+                }
+                return response.json();
+            })
+            .then(reviews => {
+                console.log("서버에서 받은 리뷰 데이터:", reviews); // 디버깅 로그
+                const reviewContainer = document.getElementById("reviewSection");
+                if (!reviewContainer) {
+                    console.error("'reviewSection' 요소가 HTML에 존재하지 않습니다.");
+                    return;
+                }
+
+                reviewContainer.innerHTML = ""; // 기존 리뷰 제거
+
+                if (reviews.length === 0) {
+                    reviewContainer.innerHTML = "<p>아직 작성된 리뷰가 없습니다.</p>";
+                    return;
+                }
+
+                reviews.forEach(review => {
+                    const reviewElement = document.createElement("div");
+                    reviewElement.classList.add("review");
+                    reviewElement.innerHTML = `
+                        <p><strong>${review.userName || "익명"}</strong> (${review.reviewStar || 0}점)</p>
+                        <p>${review.reviewContent || "내용 없음"}</p>
+                        <hr>
+                    `;
+                    reviewContainer.appendChild(reviewElement);
+                });
+            })
+            .catch(error => {
+                console.error("리뷰 데이터를 가져오는 중 오류 발생:", error);
+                const reviewContainer = document.getElementById("reviewSection");
+                if (reviewContainer) {
+                    reviewContainer.innerHTML = "<p>리뷰를 불러오는 중 문제가 발생했습니다. 다시 시도해주세요.</p>";
+                }
+            });
     }
 
+
+
+
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     
@@ -303,13 +384,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     }
 
-
-
-
-
-
-    
-
+ 
     function initializePopup() {
         const popupOverlay = document.getElementById('popupOverlay');
         const popupClose = document.getElementById('popupClose');

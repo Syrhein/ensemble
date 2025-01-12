@@ -19,6 +19,21 @@
 		<result property="showViews" column="showViews" />
 	</resultMap>
 
+<!-- 리뷰 맵퍼 맵 -->
+<resultMap id="ReviewResultMap" type="smhrd.model.ReviewVO">
+    <id property="reviewIdx" column="REVIEW_IDX" />
+    <result property="showIdx" column="SHOW_IDX" />
+    <result property="userId" column="USER_ID" />
+    <result property="userName" column="USER_NAME" /> <!-- 추가 -->
+    <result property="reviewContent" column="REVIEW_CONTENT" />
+    <result property="reviewStar" column="REVIEW_STAR" />
+    <result property="createdAt" column="CREATED_AT" />
+    <result property="reviewLikes" column="REVIEW_LIKES" />
+    <result property="musicalId" column="MUSICAL_ID" /> <!-- 추가 -->
+    <result property="musicalTitle" column="MUSICAL_TITLE" /> <!-- 추가 -->
+</resultMap>
+
+
 	<!-- 회원가입 -->
 	<insert id="join" parameterType="smhrd.model.Member">
 		INSERT INTO TB_USER (USER_ID,
@@ -316,6 +331,36 @@
     WHERE 
         S.SHOW_IDX = #{showIdx}
 </insert>
+
+<!-- 리뷰 조회 -->
+<select id="getReviewsByShowIdx" resultType="smhrd.model.ReviewVO">
+    SELECT 
+        r.REVIEW_IDX AS reviewIdx,
+        r.SHOW_IDX AS showIdx,
+        r.USER_ID AS userId,
+        u.USER_NAME AS userName, -- 추가
+        r.REVIEW_CONTENT AS reviewContent,
+        r.REVIEW_STAR AS reviewStar,
+        r.REVIEW_LIKES AS reviewLikes,
+        r.CREATED_AT AS createdAt,
+        m.MUSICAL_ID AS musicalId, -- 추가
+        m.MUSICAL_TITLE AS musicalTitle -- 추가
+    FROM TB_REVIEW r
+    LEFT JOIN TB_USER u ON r.USER_ID = u.USER_ID
+    LEFT JOIN TB_SHOW s ON r.SHOW_IDX = s.SHOW_IDX
+    LEFT JOIN TB_MUSICAL m ON s.MUSICAL_ID = m.MUSICAL_ID
+    WHERE r.SHOW_IDX = #{showIdx}
+</select>
+
+
+
+
+
+
+
+
+
+
 
 
 <!-- 관심 등록 목록 가져오기 -->
