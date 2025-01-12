@@ -19,14 +19,23 @@ public class ReviewWriteCon extends HttpServlet {
             String reviewContent = request.getParameter("reviewContent");
             String reviewStar = request.getParameter("reviewStar");
 
-            if (showIdx == null || userId == null || reviewContent == null || reviewStar == null) {
-                response.getWriter().write("{\"success\": false, \"error\": \"유효하지 않은 요청입니다.\"}");
+            // showIdx 값 검증
+            if (showIdx == null || showIdx.isEmpty()) {
+                response.getWriter().write("{\"success\": false, \"error\": \"showIdx가 제공되지 않았습니다.\"}");
                 return;
             }
 
-            // ReviewVO 객체 생성 및 데이터 설정
+            int showIdxInt;
+            try {
+                showIdxInt = Integer.parseInt(showIdx);
+            } catch (NumberFormatException e) {
+                response.getWriter().write("{\"success\": false, \"error\": \"showIdx는 유효한 숫자가 아닙니다.\"}");
+                return;
+            }
+
+            // ReviewVO 객체 생성
             ReviewVO review = new ReviewVO();
-            review.setShowIdx(Integer.parseInt(showIdx));
+            review.setShowIdx(showIdxInt);
             review.setUserId(userId);
             review.setReviewContent(reviewContent);
             review.setReviewStar(Integer.parseInt(reviewStar));

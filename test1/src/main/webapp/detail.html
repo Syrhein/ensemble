@@ -82,18 +82,16 @@
 		</div>
 	</div>
 	<!-- 리뷰 시도라도 해봄 -->
-	<div class="review-section">
-    <h2>리뷰 작성</h2>
-    <form id="reviewForm">
-    <input type="hidden" name="showIdx" value="">
+	<!-- 리뷰 작성 폼 -->
+<form id="reviewForm">
+    <!-- showIdx를 hidden input으로 추가 -->
+    <input type="hidden" id="showIdx" name="showIdx" value="">
     <textarea name="reviewContent" placeholder="리뷰를 입력하세요" required></textarea>
     <label for="reviewStar">평점 (1-5):</label>
     <input type="number" name="reviewStar" min="1" max="5" required>
     <button id="submitReviewButton" type="button">리뷰 작성</button>
 </form>
-
-    <div id="reviewMessage"></div>
-</div>
+<div id="reviewMessage"></div>
 
 
 
@@ -224,7 +222,6 @@ document.addEventListener('DOMContentLoaded', () => {
     
     
     
-    
     function initializeReviewFeature(showIdx) {
         const reviewButton = document.getElementById("submitReviewButton");
         const reviewForm = document.getElementById("reviewForm");
@@ -251,14 +248,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 reviewButton.addEventListener("click", () => {
                     console.log("리뷰 작성 버튼 클릭됨");
 
+                    // 폼 데이터 수집
                     const formData = new FormData(reviewForm);
-                    formData.append("showIdx", showIdx);
-                    formData.append("userId", userId);
+
+                    // 이미 추가된 필드가 있다면 제거
+                    if (formData.has("showIdx")) {
+                        formData.delete("showIdx");
+                    }
+                    formData.append("showIdx", showIdx); // URL로 받은 showIdx 추가
+                    formData.append("userId", userId);   // 로그인 상태에서 얻은 userId 추가
 
                     const dataToSend = new URLSearchParams();
                     for (const [key, value] of formData) {
                         dataToSend.append(key, value);
                     }
+
+                    console.log("전송 데이터:", dataToSend.toString()); // 디버깅용 로그
 
                     // 서버로 데이터 전송
                     fetch("http://localhost:8081/test1/ReviewWriteCon", {
@@ -297,6 +302,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 window.location.href = "login.html";
             });
     }
+
+
 
 
 
