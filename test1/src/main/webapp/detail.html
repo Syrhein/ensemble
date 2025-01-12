@@ -158,31 +158,47 @@
 	        const favoriteIcon = document.getElementById("favoriteIcon");
 	        const addFavoriteButton = document.getElementById("addFavoriteButton");
 
+	        // 초기 상태 설정: 등록/취소 결정
 	        fetch(`CheckFavoriteServlet?userId=${userId}&showIdx=${showIdx}`)
 	            .then(response => response.json())
 	            .then(data => {
 	                if (data.isFavorite) {
 	                    favoriteIcon.src = "./img/icon_heart_filled.png";
-	                    addFavoriteButton.disabled = true;
+	                    addFavoriteButton.dataset.action = "remove"; // 취소로 설정
+	                } else {
+	                    favoriteIcon.src = "./img/icon_heart.png";
+	                    addFavoriteButton.dataset.action = "add"; // 등록으로 설정
 	                }
-	            });
+	            })
+	            .catch(error => console.error("초기 관심 상태 확인 중 에러 발생:", error));
 
+	        // 버튼 클릭 이벤트
 	        addFavoriteButton.addEventListener("click", () => {
+	            const action = addFavoriteButton.dataset.action; // 현재 작업 (add 또는 remove)
+
 	            fetch("FavoriteServlet", {
 	                method: "POST",
 	                headers: { "Content-Type": "application/x-www-form-urlencoded" },
-	                body: `userId=${userId}&showIdx=${showIdx}`
+	                body: `userId=${userId}&showIdx=${showIdx}&action=${action}`
 	            })
 	            .then(response => response.json())
 	            .then(data => {
 	                if (data.success) {
-	                    favoriteIcon.src = "./img/icon_heart_filled.png";
-	                    addFavoriteButton.disabled = true;
+	                    if (action === "add") {
+	                        favoriteIcon.src = "./img/icon_heart_filled.png";
+	                        addFavoriteButton.dataset.action = "remove"; // 다음 작업은 취소
+	                    } else if (action === "remove") {
+	                        favoriteIcon.src = "./img/icon_heart.png";
+	                        addFavoriteButton.dataset.action = "add"; // 다음 작업은 등록
+	                    }
+	                } else {
+	                    console.error("작업 실패:", data.error);
 	                }
 	            })
-	            .catch(error => console.error("관심 등록 요청 중 에러 발생:", error));
+	            .catch(error => console.error("관심 등록/취소 요청 중 에러 발생:", error));
 	        });
 	    }
+
 
 	    function initializePopup() {
 	        const popupOverlay = document.getElementById('popupOverlay');

@@ -22,13 +22,14 @@ public class FavoriteServlet extends HttpServlet {
         String userId = request.getParameter("userId");
         String showIdx = request.getParameter("showIdx");
 
-        // userId 또는 showIdx가 없는 경우 오류 처리
+        // 요청 데이터 유효성 검사
         if (userId == null || showIdx == null) {
             response.getWriter().write("{\"success\": false, \"error\": \"유효하지 않은 요청입니다.\"}");
             return;
         }
 
         try {
+            // DAO 초기화
             MusicalDAO dao = new MusicalDAO();
             FavoriteVO favorite = new FavoriteVO(userId, Integer.parseInt(showIdx));
 
@@ -43,6 +44,7 @@ public class FavoriteServlet extends HttpServlet {
                 response.getWriter().write("{\"success\": true, \"added\": " + added + "}");
             }
         } catch (Exception e) {
+            e.printStackTrace();
             response.getWriter().write("{\"success\": false, \"error\": \"서버 처리 중 오류가 발생했습니다.\"}");
         }
     }
