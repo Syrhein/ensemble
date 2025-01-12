@@ -307,7 +307,25 @@
 		)
 	</insert>
 
-
+<!-- 관심 등록 목록 가져오기 -->
+<select id="getFavoriteList" resultType="smhrd.model.MyPageVO">
+    SELECT 
+        M.MUSICAL_TITLE AS musicalTitle,
+        M.MUSICAL_ID AS musicalId,
+        F.SHOW_IDX AS showIdx,
+        F.CREATED_AT AS createdAt
+    FROM 
+        TB_FAVORITE F
+    JOIN 
+        TB_SHOW S ON F.SHOW_IDX = S.SHOW_IDX
+    JOIN 
+        TB_MUSICAL M ON S.MUSICAL_ID = M.MUSICAL_ID
+    WHERE 
+        F.USER_ID = #{userId}
+    ORDER BY 
+        F.CREATED_AT DESC
+</select>
+	
 
 
 </mapper>

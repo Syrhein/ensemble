@@ -63,7 +63,7 @@
         <!-- 위시리스트 영역 -->
         <div class="stats">
             <div class="stat-item">
-                <img src="./img/icon_heart.png" class="icon_heart">
+                <img src="./img/icon_heart.png" class="icon_heart" onclick="openFavoritePopup()">
                 <h3>관심</h3>
             </div>
             <div class="stat-item">
@@ -82,7 +82,18 @@
     
     <script src="./js/calendar.js"></script>
     <script src="./js/common.js"></script>
-
+	
+	<script>
+    function openFavoritePopup() {
+        window.open(
+            'http://localhost:8081/test1/favoritePopup',
+            'favoritePopup',
+            'width=600,height=400,scrollbars=yes'
+        );
+    }
+	</script>
+	
+	
     <script>
     document.addEventListener('DOMContentLoaded', () => {
         const usernameElement = document.querySelector('.username'); // 유저 이름을 표시할 요소
