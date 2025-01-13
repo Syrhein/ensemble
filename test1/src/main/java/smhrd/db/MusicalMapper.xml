@@ -71,17 +71,22 @@
 
 	<!-- 게시글 등록 -->
 	<insert id="insertBoard" parameterType="smhrd.model.BoardVO">
-		INSERT INTO TB_POST (
-		POST_TITLE, POST_CONTENT, CREATED_AT,
-		POST_VIEWS, POST_LIKES, USER_ID,
-		POST_FILE_NAME, POST_FILE_PATH
-		) VALUES (
-		#{postTitle}, #{postContent},
-		SYSDATE,
-		#{postViews}, #{postLikes}, #{userId}, #{postFileName},
-		#{postFilePath}
-		)
-	</insert>
+    INSERT INTO TB_POST (
+        POST_TITLE, POST_CONTENT, CREATED_AT,
+        POST_VIEWS, POST_LIKES, USER_ID,
+        POST_FILE_NAME, POST_FILE_PATH
+    )
+    SELECT
+        #{postTitle}, #{postContent}, SYSDATE,
+        #{postViews}, #{postLikes}, U.USER_ID,
+        #{postFileName}, #{postFilePath}
+    FROM
+        TB_USER U
+    WHERE
+        U.USER_NAME = #{userId}
+        AND ROWNUM = 1
+</insert>
+
 
 
 
