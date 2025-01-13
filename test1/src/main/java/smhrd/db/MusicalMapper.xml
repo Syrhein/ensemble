@@ -364,7 +364,18 @@
 </select>
 
 
-
+    <!-- 내가 작성한 리뷰 목록 가져오기 -->
+    <select id="getReviewList" parameterType="string" resultType="smhrd.model.ReviewVO">
+        SELECT 
+            M.MUSICAL_TITLE AS musicalTitle,
+            R.REVIEW_CONTENT AS reviewContent,
+            TO_CHAR(R.CREATED_AT, 'YYYY-MM-DD HH24:MI:SS') AS createdAt
+        FROM TB_REVIEW R
+        JOIN TB_SHOW S ON R.SHOW_IDX = S.SHOW_IDX
+        JOIN TB_MUSICAL M ON S.MUSICAL_ID = M.MUSICAL_ID
+        WHERE R.USER_ID = #{userId}
+        ORDER BY R.CREATED_AT DESC
+    </select>
 
 
 
