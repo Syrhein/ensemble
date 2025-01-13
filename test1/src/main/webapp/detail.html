@@ -129,7 +129,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 window.location.href = 'login.html';
             }
         })
-        .catch(error => console.error("로그인 상태 확인 실패:", error));
 
     function initializePage(musicalId, showIdx, userId) {
         console.log("Page Initialization 시작");
@@ -138,7 +137,6 @@ document.addEventListener('DOMContentLoaded', () => {
         initializeFavoriteFeature(showIdx, userId);
         initializeReviewFeature(showIdx, userId); // 리뷰 작성 초기화
         initializePopup();
-        initializeNavigation();
     }
 
     function incrementViews(musicalId) {
