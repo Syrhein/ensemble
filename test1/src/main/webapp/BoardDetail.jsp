@@ -13,6 +13,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>게시글 보기</title>
 <link rel="stylesheet" href="./css/BoardDetail.css">
+<script src="./js/navigation.js"></script>
 </head>
 <body>
 	<div class="header">
