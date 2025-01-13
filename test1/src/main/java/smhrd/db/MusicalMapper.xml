@@ -145,6 +145,17 @@
 		FROM TB_POST
 		WHERE POST_IDX = #{postIdx}
 	</select>
+	
+	<!-- 작성한 게시글 목록 가져오기 -->
+    <select id="getPostList" parameterType="string" resultType="smhrd.model.BoardVO">
+    SELECT 
+        POST_IDX AS postIdx, -- 게시글 ID
+        POST_TITLE AS postTitle, -- 게시글 제목
+        TO_CHAR(CREATED_AT, 'YYYY-MM-DD HH24:MI:SS') AS createdAt -- 작성 날짜
+    FROM TB_POST
+    WHERE USER_ID = #{userId}
+    ORDER BY CREATED_AT DESC
+	</select>
 
 
 

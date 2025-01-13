@@ -68,7 +68,7 @@
                 <h3>관심</h3>
             </div>
             <div class="stat-item">
-                <img src="./img/icon_content.png" class="icon_content">
+                <img src="./img/icon_content.png" class="icon_content" onclick="openPostPopup()">
                 <h3>게시글</h3>   
             </div>
             <div class="stat-item">
@@ -89,6 +89,14 @@
         window.open(
             'http://localhost:8081/test1/favoritePopup',
             'favoritePopup',
+            'width=600,height=400,scrollbars=yes'
+        );
+    }
+    
+    function openPostPopup() {
+        window.open(
+            'http://localhost:8081/test1/postPopup',
+            'postPopup',
             'width=600,height=400,scrollbars=yes'
         );
     }
