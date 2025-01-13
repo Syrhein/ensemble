@@ -62,6 +62,19 @@ public class BoardDAO {
 
         return updatedLikes;
     }
+    
+    // 게시글 목록 가져오기
+    public List<BoardVO> getPostList(String userId) {
+        SqlSession session = factory.openSession(true); // Auto-commit 설정
+        List<BoardVO> list = null;
+        try {
+            list = session.selectList("MusicalMapper.getPostList", userId);
+        } finally {
+            session.close();
+        }
+        return list;
+    }
+
 
 
 
