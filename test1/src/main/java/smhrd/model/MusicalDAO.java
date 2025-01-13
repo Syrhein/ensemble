@@ -88,6 +88,22 @@ public class MusicalDAO {
         return list;
     }
     
+    // 리뷰 삭제
+    
+    public boolean deleteReviewById(int reviewId) {
+        SqlSession session = factory.openSession(true); // Auto-commit 설정
+        boolean isDeleted = false;
+        try {
+            int rows = session.delete("MusicalMapper.deleteReviewById", reviewId);
+            isDeleted = rows > 0; // 삭제된 행이 1개 이상인지 확인
+        } finally {
+            session.close(); // 세션 닫기
+        }
+        return isDeleted;
+    }
+
+
+    
     // 관심 등록 목록 가져오기
     public List<MyPageVO> getFavoriteList(String userId) {
         SqlSession session = factory.openSession(true); // Auto-commit 설정

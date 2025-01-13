@@ -378,8 +378,13 @@
     </select>
 
 
+<!--  리뷰 삭제 -->
 
 
+<delete id="deleteReviewById" parameterType="int">
+    DELETE FROM TB_REVIEW
+    WHERE REVIEW_IDX = #{reviewId}
+</delete>
 
 
 
